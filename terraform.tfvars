@@ -9,7 +9,9 @@ region = "us-ashburn-1"
 
 # ---- Instances
 NumInstances="1"
-ssh_public_key_path = "/home/opc/id_github_rsa.pub" //for created instance
-ssh_private_key_path = "/home/opc/.ssh/id_github_rsa"  //for created instances
+ssh_public_key_path = "/home/opc/private_key_oci.pub" //for created instance
+ssh_private_key_path = "/home/opc/private_key_oci.pem"  //for created instances
+api_private_key_path = "/root/.oci/oci_api_key.pem"
+
 
 instance_shape = "VM.Standard2.1"
