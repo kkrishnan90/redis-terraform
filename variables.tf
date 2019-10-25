@@ -18,7 +18,7 @@ variable "compartment_ocid" {
 }
 
 variable "api_private_key_path"  {
-  default="/root/.oci/oci_api_key.pem"
+  default="/home/opc/oci_api_key.pem"
 }
 
 variable "ssh_public_key_path" {
@@ -26,7 +26,7 @@ variable "ssh_public_key_path" {
 }
 
 variable "ssh_private_key_path" {
-  default="/home/opc/oci_api_key.pem"
+  default="/home/opc/private_key_oci.pem"
 }
 
 # Defines the number of instances to deploy
