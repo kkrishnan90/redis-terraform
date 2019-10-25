@@ -15,3 +15,4 @@ api_private_key_path = "/home/opc/oci_api_key.pem"
 
 
 instance_shape = "VM.Standard2.1"
+subnet_id = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaapxrvrqrettfjowbaom475bwqr5xm6l5npmkl7vgoldhlq2uctukq"

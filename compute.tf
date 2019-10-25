@@ -7,6 +7,14 @@ resource "oci_core_instance" "TestInstance" {
   display_name        = "TestInstance${count.index}"
   shape               = "${var.instance_shape}"
   
+  create_vnic_details{
+    subnet_id = "${var.subnet_id}"
+    display_name     = "primaryvnic"
+    assign_public_ip = true
+    hostname_label   = "TestInstance${count.index}"
+  }
+
+
   source_details {
     source_type = "image"
     source_id   = "${var.instance_image_ocid[var.region]}"
