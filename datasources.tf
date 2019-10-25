@@ -2,6 +2,6 @@
 
 data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
-  id = "Ixgl:AP-MUMBAI-1-AD-1"
+  name = "Ixgl:AP-MUMBAI-1-AD-1"
 }
 
