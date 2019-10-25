@@ -6,7 +6,7 @@ resource "oci_core_instance" "TestInstance" {
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TestInstance${count.index}"
   shape               = "${var.instance_shape}"
-
+  
   source_details {
     source_type = "image"
     source_id   = "${var.instance_image_ocid[var.region]}"
