@@ -22,11 +22,11 @@ variable "api_private_key_path"  {
 }
 
 variable "ssh_public_key_path" {
-  default="/home/opc/private_key_oci.pub"
+  default="/home/opc/pub_key.pem"
 }
 
 variable "ssh_private_key_path" {
-  default="/home/opc/private_key_oci.pem"
+  default="/home/opc/private_key_oci"
 }
 
 # Defines the number of instances to deploy
@@ -38,6 +38,11 @@ variable "NumInstances" {
 variable "instance_shape" {
   default = "VM.Standard.E2.1"
 }
+
+variable "ad_ocid" {
+  default="ocid1.image.oc1.ap-mumbai-1.aaaaaaaa4tjx2itqin7msqxo42tmgp6vb66pdoqobxuk2nlxwbvb7ahfnvia"
+}
+
 
 
 variable "instance_image_ocid" {
@@ -58,6 +63,6 @@ variable "BootStrapFile" {
   default = "./userdata/bootstrap"
 }
 
-variable "subnet_id" {
+variable "subnet_ocid" {
   default = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaapxrvrqrettfjowbaom475bwqr5xm6l5npmkl7vgoldhlq2uctukq"
 }

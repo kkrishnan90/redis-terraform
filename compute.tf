@@ -8,7 +8,7 @@ resource "oci_core_instance" "TestInstance" {
   shape               = "${var.instance_shape}"
   
   create_vnic_details{
-    subnet_id = "${var.subnet_id}"
+    subnet_id = "${var.subnet_ocid}"
     display_name     = "primaryvnic"
     assign_public_ip = true
     hostname_label   = "TestInstance${count.index}"
