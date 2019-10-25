@@ -57,3 +57,7 @@ variable "instance_image_ocid" {
 variable "BootStrapFile" {
   default = "./userdata/bootstrap"
 }
+
+variable "subnet_id" {
+  default = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaapxrvrqrettfjowbaom475bwqr5xm6l5npmkl7vgoldhlq2uctukq"
+}
