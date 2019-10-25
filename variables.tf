@@ -54,4 +54,6 @@ variable "instance_image_ocid" {
   }
 }
 
-
+variable "BootStrapFile" {
+  default = "./userdata/bootstrap"
+}
