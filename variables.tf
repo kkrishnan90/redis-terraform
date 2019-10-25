@@ -1,17 +1,33 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "region" {}
+variable "tenancy_ocid" {
+  default="ocid1.tenancy.oc1..aaaaaaaal2fcg74ss6fcyolks6mwr2sb67mzczmvjar4ob4uny7lh5b3k4vq"
+}
+variable "user_ocid" {
+  default="ocid1.user.oc1..aaaaaaaaacfec4cr2px7jc2fi4azb6db33lxmptagsqc7coicr25dujgkmqq"
+}
+variable "fingerprint" {
+  default="60:d9:50:7c:d1:75:c9:5e:28:a5:85:76:d9:b7:e0:c2"
+}
+variable "region" {
+  default="ap-mumbai-1"
+}
 
-variable "compartment_ocid" {}
+variable "compartment_ocid" {
+  default="ocid1.compartment.oc1..aaaaaaaa453zen2zclwt2yvddonuucttsatlgz6ymq73jeicubhifkp6qk7q"
+}
 
-variable "api_private_key_path"  {}
+variable "api_private_key_path"  {
+  default="/root/.oci/oci_api_key.pem"
+}
 
-variable "ssh_public_key_path" {}
+variable "ssh_public_key_path" {
+  default="/home/opc/private_key_oci.pub"
+}
 
-variable "ssh_private_key_path" {}
+variable "ssh_private_key_path" {
+  default="/home/opc/private_key_oci.pem"
+}
 
 # Defines the number of instances to deploy
 variable "NumInstances" {
@@ -23,9 +39,6 @@ variable "instance_shape" {
   default = "VM.Standard.E2.1"
 }
 
-output "Instance_Address" {
-  value = ["${oci_core_instance.RedisInstance.*.public_ip}"]
-}
 
 variable "instance_image_ocid" {
   type = "map"
