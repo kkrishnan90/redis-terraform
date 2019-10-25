@@ -26,7 +26,7 @@ variable "ssh_public_key_path" {
 }
 
 variable "ssh_private_key_path" {
-  default="/home/opc/private_key_oci.pem"
+  default="/home/opc/oci_api_key.pem"
 }
 
 # Defines the number of instances to deploy
