@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-resource "oci_core_instance" "TestInstance" {
+resource "oci_core_instance" "test_instance" {
   count               = "${var.NumInstances}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
@@ -37,7 +37,7 @@ resource "oci_core_instance" "TestInstance" {
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TestInstance.id}"
+  instance_id         = "${oci_core_instance.test_instance.id}"
 }
 
 # Gets the OCID of the first (default) VNIC
@@ -46,15 +46,17 @@ data "oci_core_vnic" "instance_vnic" {
 }
 
 # Create PrivateIP
-resource "oci_core_private_ip" "private_ip" {
-  vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
-  display_name   = "someDisplayName"
-  hostname_label = "somehostnamelabel"
+# resource "oci_core_private_ip" "private_ip" {
+#   vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
+#   display_name   = "someDisplayName"
+#   hostname_label = "somehostnamelabel"
+# }
+# output "private_ips" {
+#   value = ["${data.oci_core_private_ips.private_ip_datasource.private_ips}"]
+# }
+output "vnic_id"{
+  value = "${data.oci_core_vnic.instance_vnic}"
 }
-output "private_ips" {
-  value = ["${data.oci_core_private_ips.private_ip_datasource.private_ips}"]
-}
-
 # resource "oci_core_private_ip" "additional_ip" {
 #   vnic_id="${data.oci_core_vnic.primaryvnic}"
 #   count = "10"
