@@ -5,7 +5,7 @@ data "oci_identity_availability_domain" "ad" {
   ad_number      = 1
 }
 
-data "oci_core_vnic" "primaryvnic" {
-    #Required
-    vnic_id = "${oci_core_vnic.primaryvnic.id}"
-}
+# data "oci_core_vnic" "primaryvnic" {
+#     #Required
+#     vnic_id = "${oci_core_vnic.primaryvnic.id}"
+# }

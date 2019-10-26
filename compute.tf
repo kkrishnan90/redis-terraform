@@ -39,8 +39,8 @@ resource "oci_core_instance" "TestInstance" {
   }
 }
 
-resource "oci_core_private_ip" "additional_ip" {
-  vnic_id="${data.oci_core_vnic.primaryvnic}"
-  count = "10"
-}
+# resource "oci_core_private_ip" "additional_ip" {
+#   vnic_id="${data.oci_core_vnic.primaryvnic}"
+#   count = "10"
+# }
 
