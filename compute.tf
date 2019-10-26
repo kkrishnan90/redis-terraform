@@ -42,9 +42,10 @@ data "oci_core_vnic" "instance_vnic" {
 
 # Create PrivateIP
 resource "oci_core_private_ip" "private_ip" {
+  count = "${var.hap_ip_count}"
   vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
-  display_name   = "someDisplayName"
-  hostname_label = "somehostnamelabel"
+  display_name   = "someDisplayName${count.index}"
+  hostname_label = "somehostnamelabel${count.index}"
 }
 
 # List Private IPs

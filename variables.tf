@@ -63,3 +63,8 @@ variable "private_ip_count"{
 variable "ad_number" {
   
 }
+
+variable "hap_ip_count" {
+  
+}
+
