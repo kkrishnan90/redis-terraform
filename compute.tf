@@ -39,6 +39,21 @@ resource "oci_core_instance" "TestInstance" {
   }
 }
 
+# Gets the OCID of the first (default) VNIC
+data "oci_core_vnic" "instance_vnic" {
+  vnic_id = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
+}
+
+# Create PrivateIP
+resource "oci_core_private_ip" "private_ip" {
+  vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
+  display_name   = "someDisplayName"
+  hostname_label = "somehostnamelabel"
+}
+output "private_ips" {
+  value = ["${data.oci_core_private_ips.private_ip_datasource.private_ips}"]
+}
+
 # resource "oci_core_private_ip" "additional_ip" {
 #   vnic_id="${data.oci_core_vnic.primaryvnic}"
 #   count = "10"
