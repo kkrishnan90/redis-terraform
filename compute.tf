@@ -1,17 +1,16 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 resource "oci_core_instance" "TestInstance" {
-  count               = "${var.NumInstances}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "TestInstance${count.index}"
+  display_name        = "TestInstance"
   shape               = "${var.instance_shape}"
   
   create_vnic_details{
     subnet_id = "${var.subnet_ocid}"
     display_name     = "primaryvnic"
     assign_public_ip = true
-    hostname_label   = "TestInstance${count.index}"
+    hostname_label   = "TestInstance"
   }
 
 
@@ -42,7 +41,7 @@ resource "oci_core_instance" "TestInstance" {
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TestInstance[count.index]}"
+  instance_id         = "${oci_core_instance.TestInstance.id}"
 }
 
 
