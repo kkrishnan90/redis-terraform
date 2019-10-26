@@ -1,7 +1,7 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 resource "oci_core_instance" "TestInstance" {
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.ad_number}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "TestInstance"
   shape               = "${var.instance_shape}"
