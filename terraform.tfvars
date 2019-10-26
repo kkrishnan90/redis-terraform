@@ -9,11 +9,12 @@ region = "ap-mumbai-1"
 
 # ---- Instances
 NumInstances="1"
-ssh_public_key_path = "/home/opc/private_key_oci.pub" //for created instance
-ssh_private_key_path = "/home/opc/pub_key.pem"  //for created instances
+ssh_public_key_path = "/home/opc/pub_key.pem" //for created instance
+ssh_private_key_path = "/home/opc/private_key_oci.pem"  //for created instances
 api_private_key_path = "/home/opc/oci_api_key.pem"
 
 
 instance_shape = "VM.Standard2.1"
 subnet_ocid = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaapxrvrqrettfjowbaom475bwqr5xm6l5npmkl7vgoldhlq2uctukq"
 ad_ocid ="ocid1.image.oc1.ap-mumbai-1.aaaaaaaa4tjx2itqin7msqxo42tmgp6vb66pdoqobxuk2nlxwbvb7ahfnvia"
+private_ip_count = "10"
