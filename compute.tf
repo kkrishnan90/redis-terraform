@@ -39,3 +39,9 @@ resource "oci_core_instance" "TestInstance" {
     create = "60m"
   }
 }
+
+resource "oci_core_private_ip" "additional_ip" {
+  vnic_id="ocid1.vnic.oc1.ap-mumbai-1.abrg6ljrjxpuy62yvk7kbmqb4w2lu2sqx4jnhgbswrgjp6mqfrh3awm5ymqq"
+  
+}
+
