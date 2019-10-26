@@ -4,7 +4,7 @@ resource "oci_core_instance" "TestInstance" {
   count               = "${var.NumInstances}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "TestInstance${count.index}"
+  display_name        = "TestInstance"
   shape               = "${var.instance_shape}"
   
   
