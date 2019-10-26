@@ -1,32 +1,24 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 variable "tenancy_ocid" {
-  default="ocid1.tenancy.oc1..aaaaaaaal2fcg74ss6fcyolks6mwr2sb67mzczmvjar4ob4uny7lh5b3k4vq"
 }
 variable "user_ocid" {
-  default="ocid1.user.oc1..aaaaaaaaacfec4cr2px7jc2fi4azb6db33lxmptagsqc7coicr25dujgkmqq"
 }
 variable "fingerprint" {
-  default="a3:c0:1f:7a:f8:02:de:08:2d:2b:22:42:0e:12:6b:7b"
 }
 variable "region" {
-  default="ap-mumbai-1"
 }
 
 variable "compartment_ocid" {
-  default="ocid1.compartment.oc1..aaaaaaaa453zen2zclwt2yvddonuucttsatlgz6ymq73jeicubhifkp6qk7q"
 }
 
 variable "api_private_key_path"  {
-  default="/home/opc/oci_api_key.pem"
 }
 
 variable "ssh_public_key_path" {
-  default="/home/opc/pub_key.pem"
 }
 
 variable "ssh_private_key_path" {
-  default="/home/opc/private_key_oci"
 }
 
 # Defines the number of instances to deploy
@@ -39,9 +31,6 @@ variable "instance_shape" {
   default = "VM.Standard.E2.1"
 }
 
-variable "ad_ocid" {
-  default="ocid1.image.oc1.ap-mumbai-1.aaaaaaaa4tjx2itqin7msqxo42tmgp6vb66pdoqobxuk2nlxwbvb7ahfnvia"
-}
 
 
 
@@ -49,9 +38,13 @@ variable "instance_image_ocid" {
   type = "map"
 
   default = {
-    // See https://docs.us-phoenix-1.oraclecloud.com/images/
-    // Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-    ap-mumbai-1="ocid1.image.oc1.ap-mumbai-1.aaaaaaaapkhghx7pslvwrarurrztge4f4a3vlfy3kt3jd7vtxz4przfkmfvq"
+    # See https://docs.us-phoenix-1.oraclecloud.com/images/
+    # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+    us-phoenix-1 = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
+
+    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
+    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
+    uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
   }
 }
 
@@ -60,7 +53,6 @@ variable "BootStrapFile" {
 }
 
 variable "subnet_ocid" {
-  default = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaapxrvrqrettfjowbaom475bwqr5xm6l5npmkl7vgoldhlq2uctukq"
 }
 
 variable "private_ip_count"{
