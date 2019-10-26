@@ -3,5 +3,4 @@
 
 data "oci_identity_availability_domain" "ad" {
   compartment_id = "${var.tenancy_ocid}"
-  name="ap-mumbai-1"
 }
