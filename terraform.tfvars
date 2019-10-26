@@ -1,7 +1,7 @@
 # -- Tenant Information
 tenancy_ocid = "ocid1.tenancy.oc1..aaaaaaaal2fcg74ss6fcyolks6mwr2sb67mzczmvjar4ob4uny7lh5b3k4vq"
 user_ocid = "ocid1.user.oc1..aaaaaaaaacfec4cr2px7jc2fi4azb6db33lxmptagsqc7coicr25dujgkmqq"
-fingerprint = "2c:e3:f8:fb:87:81:a4:2c:d2:8d:7a:e4:9b:86:c8:c7"
+fingerprint = "a5:57:7f:bf:bf:46:bc:6d:5a:43:e3:87:2b:9e:7a:61"
 # api_private_key_path = "/home/opc/.oci/oci_api_key.pem" //for linking with oci api/cli
 compartment_ocid = "ocid1.compartment.oc1..aaaaaaaa453zen2zclwt2yvddonuucttsatlgz6ymq73jeicubhifkp6qk7q"
 region = "ap-mumbai-1"
