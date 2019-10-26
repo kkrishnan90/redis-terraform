@@ -14,10 +14,6 @@ resource "oci_core_instance" "TestInstance" {
   }
 
 
-  # Apply the following flag only if you wish to preserve the attached boot volume upon destroying this instance
-  # Setting this and destroying the instance will result in a boot volume that should be managed outside of this config.
-  # When changing this value, make sure to run 'terraform apply' so that it takes effect before the resource is destroyed.
-  #preserve_boot_volume = true
 
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
