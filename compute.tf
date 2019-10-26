@@ -7,13 +7,7 @@ resource "oci_core_instance" "TestInstance" {
   display_name        = "TestInstance${count.index}"
   shape               = "${var.instance_shape}"
   
-  create_vnic_details{
-    subnet_id = "${var.subnet_ocid}"
-    display_name     = "primaryvnic"
-    assign_public_ip = true
-    hostname_label   = "TestInstance${count.index}"
-  }
-
+  
 
   source_details {
     source_type = "image"
@@ -37,6 +31,13 @@ resource "oci_core_instance" "TestInstance" {
   timeouts {
     create = "60m"
   }
+}
+
+# Gets a list of VNIC attachments on the instance
+data "oci_core_vnic_attachments" "instance_vnics" {
+  compartment_id      = "${var.compartment_ocid}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  instance_id         = "${oci_core_instance.TestInstance.id}"
 }
 
 # Gets the OCID of the first (default) VNIC
