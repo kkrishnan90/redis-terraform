@@ -1,13 +1,19 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-resource "oci_core_instance" "test_instance" {
+resource "oci_core_instance" "TestInstance" {
   count               = "${var.NumInstances}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "TestInstance"
+  display_name        = "TestInstance${count.index}"
   shape               = "${var.instance_shape}"
   
-  
+  create_vnic_details{
+    subnet_id = "${var.subnet_ocid}"
+    display_name     = "primaryvnic"
+    assign_public_ip = true
+    hostname_label   = "TestInstance${count.index}"
+  }
+
 
   source_details {
     source_type = "image"
@@ -33,32 +39,17 @@ resource "oci_core_instance" "test_instance" {
   }
 }
 
-# Gets a list of VNIC attachments on the instance
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.test_instance[0]}"
+  instance_id         = "${oci_core_instance.TestInstance[count.index]}"
 }
 
-# Gets the OCID of the first (default) VNIC
-data "oci_core_vnic" "instance_vnic" {
-  vnic_id = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
+
+output "primary_ip_addresses" {
+  value = ["${oci_core_instance.test_instance.public_ip}",
+    "${oci_core_instance.test_instance.private_ip}",
+  ]
 }
 
-# Create PrivateIP
-# resource "oci_core_private_ip" "private_ip" {
-#   vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
-#   display_name   = "someDisplayName"
-#   hostname_label = "somehostnamelabel"
-# }
-# output "private_ips" {
-#   value = ["${data.oci_core_private_ips.private_ip_datasource.private_ips}"]
-# }
-output "vnic_id"{
-  value = "${data.oci_core_vnic.instance_vnic}"
-}
-# resource "oci_core_private_ip" "additional_ip" {
-#   vnic_id="${data.oci_core_vnic.primaryvnic}"
-#   count = "10"
-# }
 
