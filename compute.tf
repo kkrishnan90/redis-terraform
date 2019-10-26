@@ -40,7 +40,7 @@ resource "oci_core_instance" "TestInstance" {
 }
 
 resource "oci_core_private_ip" "additional_ip" {
-  vnic_id="ocid1.vnic.oc1.ap-mumbai-1.abrg6ljrjxpuy62yvk7kbmqb4w2lu2sqx4jnhgbswrgjp6mqfrh3awm5ymqq"
-  
+  vnic_id="${data.oci_core_vnic.primaryvnic}"
+  count = "10"
 }
 
