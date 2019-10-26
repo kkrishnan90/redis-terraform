@@ -37,7 +37,7 @@ resource "oci_core_instance" "test_instance" {
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.test_instance[count.index]}"
+  instance_id         = "${oci_core_instance.test_instance[0]}"
 }
 
 # Gets the OCID of the first (default) VNIC
