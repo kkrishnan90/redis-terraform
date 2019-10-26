@@ -66,3 +66,7 @@ variable "subnet_ocid" {
 variable "private_ip_count"{
   default = "1"
 }
+
+variable "ad_number" {
+  
+}
