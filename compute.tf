@@ -12,7 +12,6 @@ resource "oci_core_instance" "TestInstance" {
     display_name     = "primaryvnic"
     assign_public_ip = true
     hostname_label   = "TestInstance${count.index}"
-    private_ip = "${var.instance_create_vnic_details_private_ip}"
   }
 
 
