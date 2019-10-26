@@ -50,7 +50,7 @@ resource "oci_core_private_ip" "private_ip" {
 
 # List Private IPs
 data "oci_core_private_ips" "private_ip_datasource" {
-  depends_on = ["oci_core_private_ip.private_ip[${count.index}]"]
+  # depends_on = ["oci_core_private_ip.private_ip${count.index}"]
   vnic_id    = "${oci_core_private_ip.private_ip.vnic_id}"
 }
 
