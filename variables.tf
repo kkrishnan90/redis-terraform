@@ -7,7 +7,7 @@ variable "user_ocid" {
   default="ocid1.user.oc1..aaaaaaaaacfec4cr2px7jc2fi4azb6db33lxmptagsqc7coicr25dujgkmqq"
 }
 variable "fingerprint" {
-  default="60:d9:50:7c:d1:75:c9:5e:28:a5:85:76:d9:b7:e0:c2"
+  default="a3:c0:1f:7a:f8:02:de:08:2d:2b:22:42:0e:12:6b:7b"
 }
 variable "region" {
   default="ap-mumbai-1"
