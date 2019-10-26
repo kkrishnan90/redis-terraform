@@ -3,14 +3,14 @@
 resource "oci_core_instance" "TestInstance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "TestInstance"
+  display_name        = "HAP-Instance"
   shape               = "${var.instance_shape}"
   image = "${var.instance_image_ocid[var.region]}"
   create_vnic_details{
     subnet_id = "${var.subnet_ocid}"
     display_name     = "primaryvnic"
     assign_public_ip = true
-    hostname_label   = "TestInstance"
+    hostname_label   = "HAP-Instance-VNiC"
   }
 
 
