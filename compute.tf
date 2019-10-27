@@ -51,9 +51,9 @@ data "oci_core_private_ips" "private_ip_datasource" {
 }
 
 output "private_ips" {
-  value = ["${data.oci_core_private_ips.private_ip_datasource.private_ips}"]
+  value = ["${data.oci_core_private_ips.private_ip_datasource}"]
 }
 
 output "InstancePrivateIPs" {
-  value = ["${lookup(data.oci_core_private_ips.private_ip_datasource, "ip_address")}"]
+  value = ["${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips, "ip_address")}"]
 }
