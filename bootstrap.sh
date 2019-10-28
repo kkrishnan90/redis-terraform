@@ -1,3 +1,8 @@
 #!/bin/bash
-sudo yum update -y
-echo 'This instance was provisioned by Terraform user data bootstrap script' >> /etc/motd
+ 
+cp /etc/motd /etc/motd.bkp
+cat << EOF &gt; /etc/motd
+ 
+I have been modified by cloud-init at $(date)
+ 
+EOF
