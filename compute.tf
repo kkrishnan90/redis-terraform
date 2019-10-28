@@ -15,7 +15,8 @@ resource "oci_core_instance" "TestInstance" {
 
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
-    user_data = "${base64encode(file("bootstrap.sh"))}"
+    # user_data = "${base64encode(file("bootstrap.sh"))}"
+    user_data = "${data.template_file.user_data.rendered}"
   }
   timeouts {
     create = "60m"
@@ -53,7 +54,7 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 #   value = "${oci_core_private_ip.private_ip.*.ip_address}"
 # }
 
-# data "template_file" "user_data" {
-# template = "${base64encode(file("./bootstrap.sh"))}"
-# }
+data "template_file" "user_data" {
+template = "${base64encode(file("bootstrap.sh"))}"
+}
 
