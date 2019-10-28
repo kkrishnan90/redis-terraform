@@ -54,10 +54,10 @@ output "private_ips" {
   value = "${oci_core_private_ip.private_ip.*.ip_address}"
 }
 
-data "template_file" "init" {
-  template = "${file("init.tpl")}"
+data "template_file" "bootstrap" {
+  template = "${file("${path.module}/user_data/bootstrap.tpl")}"
   vars = {
-    consul_address = "${oci_core_private_ip.private_ip.*.ip_address}"
+    ip_addresses = "${oci_core_private_ip.private_ip.*.ip_address}"
   }
 }
 
