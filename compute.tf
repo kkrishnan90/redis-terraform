@@ -77,6 +77,6 @@ output "templateOuput" {
 
 
 data "template_file" "user_data" { 
-  template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{primaryip=${combined_data}}))}"
+  template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{primaryip="${combined_data}"}))}"
 }
 
