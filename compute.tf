@@ -16,7 +16,7 @@ resource "oci_core_instance" "TestInstance" {
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
     # user_data = "${base64encode(file("bootstrap.sh"))}"
-    # user_data = "${data.template_file.user_data.rendered}"
+    user_data = "${data.template_file.user_data.rendered}"
   }
   timeouts {
     create = "60m"
@@ -54,25 +54,22 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 #   value = "${oci_core_private_ip.private_ip.*.ip_address}"
 # }
 
-resource "null_resource" "local-execution" {
-    provisioner "local-exec"{
-    command = <<EOH
-      cp /etc/motd /home/opc/motd.bkp
-      echo "SOME_ADDRESS = ${oci_core_instance.TestInstance.private_ip}" > /home/opc/motd.bkp
-    EOH
-    }
-}
 
 
 output "primary-private-ip" {
   value = "${oci_core_instance.TestInstance.private_ip}"
 }
 
-
-data "template_file" "user_data" {
-template = "${base64encode(file("bootstrap.sh"))}"
-vars = {
-  ip = "129.0.0.1"
+output "templateOuput" {
+  value = "${data.template_file.user_data.rendered}"
 }
+
+
+
+data "template_file" "user_data" { 
+  template = "${templatefile("./userdata/bootstrap.tpl")}"
+  vars = {
+    ip = "129.0.0.1"
+  }
 }
 
