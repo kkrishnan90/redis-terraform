@@ -53,7 +53,7 @@ data "oci_core_private_ips" "private_ip_datasource" {
 
 output "private_ips" {
   # value = "${oci_core_private_ip.private_ip}"
-  value = "${tomap(oci_core_private_ip.private_ip[0])}"
+  value = "${oci_core_private_ip.private_ip[0]}"
   # value = "${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips[0], "ip_address")}"
 }
 
