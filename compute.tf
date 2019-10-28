@@ -16,10 +16,15 @@ resource "oci_core_instance" "TestInstance" {
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
     # user_data = "${base64encode(file("bootstrap.sh"))}"
-    user_data = "${data.template_file.user_data.rendered}"
+    # user_data = "${data.template_file.user_data.rendered}"
   }
   timeouts {
     create = "60m"
+  }
+
+  provisioner "file" {
+    content     = "ociid used: ${self.instance_id}"
+    destination = "/tmp/debug.log"
   }
 }
 
@@ -56,27 +61,27 @@ data "oci_core_private_ips" "private_ip_datasource" {
 
 
 
-output "primary-private-ip" {
-  value = "${oci_core_instance.TestInstance.private_ip}"
-}
+# output "primary-private-ip" {
+#   value = "${oci_core_instance.TestInstance.private_ip}"
+# }
 
-output "secondary-private-ips" {
-  value = "${oci_core_private_ip.private_ip.*.ip_address}"
-}
+# output "secondary-private-ips" {
+#   value = "${oci_core_private_ip.private_ip.*.ip_address}"
+# }
 
-output "combined_data" {
-  value = { primary_ip = "${oci_core_instance.TestInstance.private_ip}",secondary_ips="${oci_core_private_ip.private_ip.*.ip_address}" }
-}
-
-
-
-output "templateOuput" {
-  value = "${data.template_file.user_data.rendered}"
-}
+# output "combined_data" {
+#   value = { primary_ip = "${oci_core_instance.TestInstance.private_ip}",secondary_ips="${oci_core_private_ip.private_ip.*.ip_address}" }
+# }
 
 
 
-data "template_file" "user_data" { 
-  template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{primaryip="${combined_data.value}"}))}"
-}
+# output "templateOuput" {
+#   value = "${data.template_file.user_data.rendered}"
+# }
+
+
+
+# data "template_file" "user_data" { 
+#   template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{primaryip=""}))}"
+# }
 
