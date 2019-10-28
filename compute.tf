@@ -22,9 +22,11 @@ resource "oci_core_instance" "TestInstance" {
     create = "60m"
   }
 
-  provisioner "file" {
-    content     = "ociid used: ${self.instance_id}"
-    destination = "/tmp/debug.log"
+  provisioner "remote-exec" {
+    inline = [
+      "cp /etc/motd /home/opc/motd.bkp",
+      "echo ip=${oci_core_instance.TestInstance.private_ip} > motd.bkp",
+    ]
   }
 }
 
