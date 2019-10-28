@@ -76,7 +76,7 @@ output "templateOuput" {
 
 
 
-data "template_file" "user_data" { 
-  template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{ primary_ip = "${tostring(oci_core_instance.TestInstance.private_ip)}",secondary_ips="${tostring(oci_core_private_ip.private_ip.*.ip_address)}" }))}"
-}
+# data "template_file" "user_data" { 
+#   template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{ primary_ip = "${tostring(oci_core_instance.TestInstance.private_ip)}",secondary_ips="${tostring(oci_core_private_ip.private_ip.*.ip_address)}" }))}"
+# }
 
