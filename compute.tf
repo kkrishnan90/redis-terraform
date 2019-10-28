@@ -15,8 +15,8 @@ resource "oci_core_instance" "TestInstance" {
 
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
-    user_data           = "${base64encode(file("bootstrap.sh"))}"
-    # user_data = "${base64encode(data.template_file.cloud-config.rendered)}"
+    # user_data           = "${base64encode(file("bootstrap.sh"))}"
+    user_data = "${base64encode(data.template_file.cloud-config.rendered)}"
   }
   timeouts {
     create = "60m"
@@ -53,4 +53,16 @@ data "oci_core_private_ips" "private_ip_datasource" {
 output "private_ips" {
   value = "${oci_core_private_ip.private_ip.*.ip_address}"
 }
+
+data "template_file" "cloud-config" {
+  vars {
+    ip_address = "${oci_core_private_ip.private_ip.*.ip_address}"
+  }
+  template = <<YAML
+  #cloud-config
+  runcmd:
+  - echo 'This instance was provisioned by Terraform. ${ip_address}' >> /etc/motd
+  YAML
+}
+
 
