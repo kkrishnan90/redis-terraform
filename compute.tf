@@ -77,6 +77,6 @@ output "templateOuput" {
 
 
 data "template_file" "user_data" { 
-  template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{primaryip="${oci_core_instance.TestInstance.private_ip}"}))}"
+  template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{primaryip=${combined_data}}))}"
 }
 
