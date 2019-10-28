@@ -1,3 +1,4 @@
 #!/bin/bash
 sudo yum update -y
-echo "Instance is configured through terraform" >> /home/opc/oci-terraform.txt
+touch file1.txt
+echo "Testing terraform" > file1.txt
