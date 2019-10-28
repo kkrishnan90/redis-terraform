@@ -55,13 +55,6 @@ resource "oci_core_private_ip" "private_ip" {
   vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
-  
-}
-
-# List Private IPs
-data "oci_core_private_ips" "private_ip_datasource" {
-  # depends_on = ["oci_core_private_ip.private_ip${count.index}"]
-  vnic_id    = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
   provisioner "remote-exec" {    
     inline = [
       "cp /etc/motd /home/opc/motd.bkp",
@@ -75,6 +68,13 @@ data "oci_core_private_ips" "private_ip_datasource" {
     password = ""
     private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
+}
+
+# List Private IPs
+data "oci_core_private_ips" "private_ip_datasource" {
+  # depends_on = ["oci_core_private_ip.private_ip${count.index}"]
+  vnic_id    = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
+
 }
 
 
