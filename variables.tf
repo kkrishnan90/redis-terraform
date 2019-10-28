@@ -51,7 +51,7 @@ variable "instance_image_ocid" {
 }
 
 variable "BootStrapFile" {
-  default = "./userdata/bootstrap"
+  default = "./userdata/bootstrap.sh"
 }
 
 variable "subnet_ocid" {
