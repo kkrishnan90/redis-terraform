@@ -95,7 +95,7 @@ data "oci_core_private_ips" "private_ip_datasource" {
 # }
 
 output "coreip" {
-  value = "${oci_core_private_ip.private_ip}"
+  value = "${lookup(oci_core_private_ip.private_ip[0], "ip_address")}"
 }
 
 
