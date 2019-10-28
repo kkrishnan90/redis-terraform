@@ -55,7 +55,7 @@ output "private_ips" {
 }
 
 data "template_file" "init" {
-  template = "${file("router-init.sh.tpl")}"
+  template = "${file("router-init.sh")}"
 
   vars = {
     some_address = "${oci_core_private_ip.private_ip.*.ip_address}"
