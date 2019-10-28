@@ -42,9 +42,6 @@ resource "oci_core_private_ip" "private_ip" {
   vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
-  dynamic {
-      ip = "${oci_core_private_ip.private_ip[0]}"
-  }
 }
 
 # List Private IPs
@@ -56,7 +53,7 @@ data "oci_core_private_ips" "private_ip_datasource" {
 
 output "private_ips" {
   # value = "${oci_core_private_ip.private_ip}"
-  value = "${oci_core_private_ip.private_ip.ip}"
+  value = "${oci_core_private_ip.private_ip.*.ip_address}"
   # value = "${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips[0], "ip_address")}"
 }
 
