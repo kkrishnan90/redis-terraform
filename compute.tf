@@ -65,7 +65,7 @@ provisioner "remote-exec" {
       "sudo echo TYPE=Ethernet >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
       "sudo echo IPADDR=${self.ip_address} >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
       "sudo echo NETMASK=255.255.255.0 >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
-      "sudo ifup ens3:${count.index+1}"
+      # "sudo ifup ens3:${count.index+1}"
       # "for ip in ${oci_core_private_ip.private_ip.*.ip_address} do echo ip > motd.bkp done"
     ]
   }
