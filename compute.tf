@@ -58,7 +58,7 @@ resource "oci_core_private_ip" "private_ip" {
 provisioner "remote-exec" {    
     inline = [
       "echo ${self.ip_address} ${count.index} >> motd.bkp",
-      "sudo ip addr add ${self.ip_address}/24 dev ens3 label ens3:${count.index}"
+      "sudo ip addr add ${self.ip_address}/24 dev ens3 label ens3:${count.index+1}"
       # "for ip in ${oci_core_private_ip.private_ip.*.ip_address} do echo ip > motd.bkp done"
     ]
   }
