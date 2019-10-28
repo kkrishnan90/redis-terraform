@@ -1,4 +1,3 @@
 #!/bin/bash
 sudo yum update -y
-touch file1.txt
-echo "Testing terraform" > file1.txt
+echo 'This instance was provisioned by Terraform user data bootstrap script' >> /etc/motd
