@@ -58,7 +58,14 @@ resource "oci_core_private_ip" "private_ip" {
 provisioner "remote-exec" {    
     inline = [
       "echo ${self.ip_address} ${count.index} >> motd.bkp",
-      "sudo ip addr add ${self.ip_address}/24 dev ens3 label ens3:${count.index+1}"
+      # "sudo ip addr add ${self.ip_address}/24 dev ens3 label ens3:${count.index+1}",
+      "echo DEVICE=ens3:${count.index+1} >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
+      "echo BOOTPROTO = static >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
+      "echo ONBOOT=yes >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
+      "echo TYPE=Ethernet >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
+      "echo IPADDR=${self.ip_address} >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
+      "echo NETMASK=255.255.255.0 >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
+      "ifup ens3:${count.index+1}"
       # "for ip in ${oci_core_private_ip.private_ip.*.ip_address} do echo ip > motd.bkp done"
     ]
   }
