@@ -59,7 +59,7 @@ provisioner "remote-exec" {
     inline = [
       "echo ${self.ip_address} ${count.index} >> motd.bkp",
       # "sudo ip addr add ${self.ip_address}/24 dev ens3 label ens3:${count.index+1}",
-      "sudo echo DEVICE=ens3:${count.index+1} >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
+      "sudo echo DEVICE=${tostring("ens3:${count.index+1}")} >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
       "sudo echo BOOTPROTO = static >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
       "sudo echo ONBOOT=yes >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
       "sudo echo TYPE=Ethernet >> /etc/sysconfig/network-scripts/ifcfg-ens3:${count.index+1}",
