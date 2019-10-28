@@ -56,5 +56,8 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 
 data "template_file" "user_data" {
 template = "${base64encode(file("bootstrap.sh"))}"
+vars {
+  ip = "${oci_core_instance.TestInstance.private_ip}"
+}
 }
 
