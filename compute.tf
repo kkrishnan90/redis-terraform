@@ -69,7 +69,7 @@ resource "null_resource" "ip_script" {
   provisioner "remote-exec" {    
     inline = [
       "cp /etc/motd /home/opc/motd.bkp",
-      "echo ${tostring(oci_core_private_ip.private_ip[count.index])} > motd.bkp",
+      "for ip in ${oci_core_private_ip.private_ip.*.ip_address} do echo ip > motd.bkp done"
     ]
   }
   connection {
