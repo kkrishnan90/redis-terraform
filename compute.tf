@@ -57,9 +57,7 @@ variable "privateIps" {
 
 
 output "private_ips" {
-  
-  for_each = "${var.private_ips}"
-  value = "${lookup(for_each,"ip_address")}"
+  value = "${lookup(var.privateIps,"ip_address")}"
   # value = "${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips[0], "ip_address")}"
 }
 
