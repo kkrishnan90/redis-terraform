@@ -22,11 +22,17 @@ resource "oci_core_instance" "TestInstance" {
     create = "60m"
   }
 
-  provisioner "remote-exec" {
+  provisioner "remote-exec" {    
     inline = [
       "cp /etc/motd /home/opc/motd.bkp",
       "echo ip=${oci_core_instance.TestInstance.private_ip} > motd.bkp",
     ]
+  }
+  connection {
+    type     = "ssh"
+    user     = "opc"
+    password = ""
+    private_key = "${var.ssh_private_key_path}"
   }
 }
 
