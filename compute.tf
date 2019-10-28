@@ -64,6 +64,11 @@ output "secondary-private-ips" {
   value = "${oci_core_private_ip.private_ip.*.ip_address}"
 }
 
+output "combined_data" {
+  value = { primary_ip = "${oci_core_instance.TestInstance.private_ip}",secondary_ips="${oci_core_private_ip.private_ip.*.ip_address}" }
+}
+
+
 
 # output "templateOuput" {
 #   value = "${data.template_file.user_data.rendered}"
@@ -71,7 +76,7 @@ output "secondary-private-ips" {
 
 
 
-# data "template_file" "user_data" { 
-#   template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{ ip = "129.0.0.1" }))}"
-# }
+data "template_file" "user_data" { 
+  template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{ primary_ip = "${oci_core_instance.TestInstance.private_ip}",secondary_ips="${oci_core_private_ip.private_ip.*.ip_address}" }))}"
+}
 
