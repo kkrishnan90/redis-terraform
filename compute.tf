@@ -15,8 +15,7 @@ resource "oci_core_instance" "TestInstance" {
 
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
-    # user_data           = "${base64encode(file("bootstrap.sh"))}"
-    user_data = "${base64encode(data.template_file.bootstrap)}"
+    user_data = "${data.template_file.user_data.rendered}"
   }
   timeouts {
     create = "60m"
@@ -54,11 +53,7 @@ output "private_ips" {
   value = "${oci_core_private_ip.private_ip.*.ip_address}"
 }
 
-data "template_file" "bootstrap" {
-  template = "${file("${path.module}/user_data/bootstrap.tpl")}"
-  vars = {
-    ip_addresses = "${oci_core_private_ip.private_ip.*.ip_address}"
-  }
+data "template_file" "user_data" {
+template = "${file("./bootstrap.sh")}"
 }
-
 
