@@ -70,9 +70,9 @@ output "combined_data" {
 
 
 
-# output "templateOuput" {
-#   value = "${data.template_file.user_data.rendered}"
-# }
+output "templateOuput" {
+  value = "${data.template_file.user_data.rendered}"
+}
 
 
 
