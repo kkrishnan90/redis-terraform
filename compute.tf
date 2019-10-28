@@ -57,7 +57,6 @@ resource "oci_core_private_ip" "private_ip" {
   hostname_label = "somehostnamelabel${count.index}"
 provisioner "remote-exec" {    
     inline = [
-      "cp /etc/motd /home/opc/motd.bkp",
       "echo ${self.ip_address} ${count.index} >> motd.bkp",
       # "for ip in ${oci_core_private_ip.private_ip.*.ip_address} do echo ip > motd.bkp done"
     ]
