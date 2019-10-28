@@ -13,11 +13,10 @@ resource "oci_core_instance" "TestInstance" {
     hostname_label   = "HAP-Instance-VNiC"
   }
 
-
-
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
-    user_data           = "${base64encode(file(var.BootStrapFile))}"
+    # user_data           = "${base64encode(file(var.BootStrapFile))}"
+    user_data = "${data.template_file.init.rendered}"
   }
   timeouts {
     create = "60m"
@@ -52,12 +51,13 @@ data "oci_core_private_ips" "private_ip_datasource" {
 
 
 output "private_ips" {
-  # value = "${oci_core_private_ip.private_ip}"
   value = "${oci_core_private_ip.private_ip.*.ip_address}"
-  # value = "${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips[0], "ip_address")}"
 }
 
-output "InstancePrivateIPs" {
-  value = "${length(oci_core_private_ip.private_ip[0])}"
-}
+data "template_file" "init" {
+  template = "${file("router-init.sh.tpl")}"
 
+  vars = {
+    some_address = "${oci_core_private_ip.private_ip.*.ip_address}"
+  }
+}
