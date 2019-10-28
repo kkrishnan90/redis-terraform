@@ -56,9 +56,10 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 
 resource "null_resource" "local-execution" {
     provisioner "local-exec"{
-      command = <<EOH
-echo "SOME_ADDRESS = ${oci_core_instance.TestInstance.private_ip}" > /home/opc/motd.bkp
-EOH
+    command = <<EOH
+      cp /etc/motd /home/opc/motd.bkp
+      echo "SOME_ADDRESS = ${oci_core_instance.TestInstance.private_ip}" > /home/opc/motd.bkp
+    EOH
     }
 }
 
