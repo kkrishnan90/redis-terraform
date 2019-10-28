@@ -61,7 +61,7 @@ output "primary-private-ip" {
 
 data "template_file" "user_data" {
 template = "${base64encode(file("bootstrap.sh"))}"
-vars {
+vars = {
   ip = "${oci_core_instance.TestInstance.private_ip}"
 }
 }
