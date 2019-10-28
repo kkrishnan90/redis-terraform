@@ -30,6 +30,7 @@ resource "oci_core_instance" "TestInstance" {
   }
   connection {
     type     = "ssh"
+    host = "${oci_core_instance.TestInstance.private_ip}"
     user     = "opc"
     password = ""
     private_key = "${var.ssh_private_key_path}"
