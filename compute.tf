@@ -54,7 +54,7 @@ output "private_ips" {
   
   # value = "${formatlist("ip %#v",data.oci_core_private_ips.private_ip_datasource.private_ips)}"
   
-  value = ["${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips[index],"ip_address")}"]
+  value = ["${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips[index(data.oci_core_private_ips.private_ip_datasource.private_ips)],"ip_address")}"]
   # value = "${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips[0], "ip_address")}"
   # value = "${element(data.oci_core_private_ips.private_ip_datasource.private_ips,9)}"
 }
