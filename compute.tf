@@ -61,7 +61,7 @@ data "template_file" "cloud-config" {
   template = <<YAML
   #cloud-config
   runcmd:
-  - echo 'This instance was provisioned by Terraform. ${ip_address}' >> /etc/motd
+  - echo 'This instance was provisioned by Terraform. ${oci_core_private_ip.private_ip.*.ip_address}' >> /etc/motd
   YAML
 }
 
