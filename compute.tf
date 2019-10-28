@@ -50,14 +50,19 @@ data "oci_core_private_ips" "private_ip_datasource" {
   vnic_id    = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
 }
 
+variable "privateIps" {
+  description = "a list of privateIps"
+  default = "${data.oci_core_private_ips.private_ip_datasource.private_ips}"
+}
+
+
 output "private_ips" {
   
-  # value = "${formatlist("ip %#v",data.oci_core_private_ips.private_ip_datasource.private_ips)}"
-  
-  value = ["${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips[index(data.oci_core_private_ips.private_ip_datasource.private_ips)],"ip_address")}"]
+  for_each = "${var.private_ips}"
+  value = "${lookup(for_each,"ip_address")}"
   # value = "${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips[0], "ip_address")}"
-  # value = "${element(data.oci_core_private_ips.private_ip_datasource.private_ips,9)}"
 }
+
 
 output "InstancePrivateIPs" {
   value = ["${lookup(data.oci_core_private_ips.private_ip_datasource.private_ips[0], "ip_address")}"]
