@@ -33,7 +33,7 @@ resource "oci_core_instance" "TestInstance" {
     host = "${oci_core_instance.TestInstance.private_ip}"
     user     = "opc"
     password = ""
-    private_key = "${var.ssh_private_key_path}"
+    private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
 }
 
