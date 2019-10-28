@@ -94,9 +94,9 @@ data "oci_core_private_ips" "private_ip_datasource" {
 #   value = "${oci_core_instance.TestInstance.private_ip}"
 # }
 
-# output "secondary-private-ips" {
-#   value = "${oci_core_private_ip.private_ip.*.ip_address}"
-# }
+output "secondary-private-ips" {
+  value = "${oci_core_private_ip.private_ip.*.ip_address}"
+}
 
 # output "combined_data" {
 #   value = { primary_ip = "${oci_core_instance.TestInstance.private_ip}",secondary_ips="${oci_core_private_ip.private_ip.*.ip_address}" }
