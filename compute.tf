@@ -15,7 +15,7 @@ resource "oci_core_instance" "TestInstance" {
 
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
-    user_data = "${data.template_file.user_data.render}"
+    user_data = "${data.template_file.user_data.rendered}"
   }
   timeouts {
     create = "60m"
