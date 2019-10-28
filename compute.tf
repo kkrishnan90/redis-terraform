@@ -67,6 +67,6 @@ output "templateOuput" {
 
 
 data "template_file" "user_data" { 
-  template = "${templatefile("./userdata/bootstrap.tpl",{ ip = "129.0.0.1" })}"
+  template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{ ip = "129.0.0.1" }))}"
 }
 
