@@ -59,7 +59,7 @@ provisioner "remote-exec" {
     inline = [
       "echo ${self.ip_address} ${count.index} >> motd.bkp",
       # "sudo ip addr add ${self.ip_address}/24 dev ens3 label ens3:${count.index+1}",
-      "cp ${file("./ipscript.sh")} /home/opc",
+      "cp ${file("./ipscript.sh")} /home/opc/",
       "sudo chmod +x ipscript.sh",
       "sudo bash ipscript.sh ${self.ip_address} ${count.index}"
       # "sudo ifup ens3:${count.index+1}"
