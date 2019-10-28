@@ -16,7 +16,7 @@ resource "oci_core_instance" "TestInstance" {
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
     # user_data = "${base64encode(file("bootstrap.sh"))}"
-    # user_data = "${data.template_file.user_data.rendered}"
+    user_data = "${data.template_file.user_data.rendered}"
   }
   timeouts {
     create = "60m"
@@ -70,13 +70,13 @@ output "combined_data" {
 
 
 
-# output "templateOuput" {
-#   value = "${data.template_file.user_data.rendered}"
-# }
+output "templateOuput" {
+  value = "${data.template_file.user_data.rendered}"
+}
 
 
 
-# data "template_file" "user_data" { 
-#   template = "${base64encode(templatefile("./userdata/bootstrap.tpl",{ primary_ip = "${tostring(oci_core_instance.TestInstance.private_ip)}",secondary_ips="${tostring(oci_core_private_ip.private_ip.*.ip_address)}" }))}"
-# }
+data "template_file" "user_data" { 
+  template = "${base64encode(templatefile("./userdata/bootstrap.tpl", { primary_ip = "${oci_core_instance.TestInstance.private_ip}",secondary_ips="${oci_core_private_ip.private_ip.*.ip_address}" }))}"
+}
 
