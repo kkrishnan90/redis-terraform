@@ -15,7 +15,7 @@ resource "oci_core_instance" "TestInstance" {
 
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
-    user_data           = "${base64encode(file("./user_data/bootstrap.sh"))}"
+    user_data           = "${base64encode(file(bootstrap.sh))}"
     # user_data = "${base64encode(data.template_file.cloud-config.rendered)}"
   }
   timeouts {
