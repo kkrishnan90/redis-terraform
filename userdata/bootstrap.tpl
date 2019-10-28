@@ -1,3 +1,3 @@
 #cloud-config
 runcmd:
-- echo '${ip_addresses}' > /tmp/motd
+- echo 'checking working command bootstrap' > /tmp/motd
