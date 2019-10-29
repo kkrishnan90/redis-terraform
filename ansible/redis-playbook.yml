@@ -16,6 +16,7 @@
       state: directory
   - name: copy ens3 files
     copy:
+      become_user: root
       remote_src: no
       src: "{{ source_path }}"
       dest: "{{ destination_path }}"
