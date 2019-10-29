@@ -88,7 +88,7 @@ data "oci_core_private_ips" "private_ip_datasource" {
 
 resource "null_resource" "ansible" {
   provisioner "local-exec"{
-    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip} ip_count=${length(oci_core_private_ip.private_ip.*.ip_address)}"
+    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
   }
 }
 

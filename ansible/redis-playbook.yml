@@ -3,7 +3,6 @@
   remote_user: opc
   vars:
     base_dir: /home/opc
-    ip_counts: "{{ ip_count }}"
     playbook_user: opc
     source_path: /home/opc/terraform/privateips/
     destination_path: /etc/sysconfig/network-scripts/
