@@ -7,10 +7,8 @@
     playbook_user: opc
 
   tasks:
-  - name: copy files to server
-    copy:
-      remote_src: true
-      src: /home/opc/terraform/ansible/extra-ips.sh
-      dest: /home/opc
-      mode: u+x
-      force: no
+  - name: create base directory 
+    become: true
+    file:
+      path: "{{ base_dir }}/ansible"
+      state: directory
