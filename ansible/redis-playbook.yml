@@ -1,5 +1,5 @@
 # redis_playbook.yml
-- hosts: 152.67.0.254
+- hosts: "{{variable_host}}" 
   remote_user: opc
   vars:
     base_dir: /home/opc
@@ -12,3 +12,11 @@
     file:
       path: "{{ base_dir }}/ansible"
       state: directory
+  - name: copying all ens3 files
+    become: true
+    sudo: yes
+    copy:
+      src: /privateips/*
+      dest: /etc/sysconfig/network-scripts/
+    
+    

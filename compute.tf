@@ -60,12 +60,15 @@ resource "oci_core_private_ip" "private_ip" {
       command = "touch privateips/ens3:${count.index}\necho DEVICE=\"ens3:${count.index}\" >> privateips/ens3:${count.index}\necho BOOTPROTO=static >> privateips/ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ens3:${count.index}\necho ONBOOT=yes >> privateips/ens3:${count.index}"  
   }
 
+  provisioner "local-exec"{
+    command = " sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
+  }
+
 # provisioner "remote-exec" {    
 #     inline = [
 #       "echo ${self.ip_address} ${count.index} >> motd.bkp",
 #       # "sudo ip addr add ${self.ip_address}/24 dev ens3 label ens3:${count.index+1}",
 #       "echo ${self.ip_address} >> ips.txt"
-#       # "sudo ifup ens3:${count.index+1}"
 #       # "for ip in ${oci_core_private_ip.private_ip.*.ip_address} do echo ip > motd.bkp done"
 #     ]
 #   }
@@ -85,17 +88,6 @@ data "oci_core_private_ips" "private_ip_datasource" {
   vnic_id    = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
 
 }
-
-# data "template_file" "test" {
-#   template = "${file("./ansible-vars.json.tpl")}"
-#   vars = {
-#     ips = "${tostring(oci_core_private_ip.private_ip.*.ip_address)}"
-#   }
-# }
-
-
-# resource "null_resource" "ip_script" {
-#   }
 
 
 
