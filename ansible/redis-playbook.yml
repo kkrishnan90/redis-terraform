@@ -34,4 +34,4 @@
     register: dir_files
   - name: Display all variables/facts known for a host
     debug:
-      var: dir_files.files
+      var: dir_files
