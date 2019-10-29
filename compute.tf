@@ -86,11 +86,11 @@ data "oci_core_private_ips" "private_ip_datasource" {
 
 }
 
-resource "null_resource" "ansible" {
-  provisioner "local-exec"{
-    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
-  }
-}
+# resource "null_resource" "ansible" {
+#   provisioner "local-exec"{
+#     command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
+#   }
+# }
 
 output "testipifcfg" {
   value = "touch privateips/ifcfg-ens3:1\necho DEVICE=\"ens3:1\" >> privateips/ens3:1\necho BOOTPROTO=static >> privateips/ens3:1\necho IPADDR=102.34.34.34 >> privateips/ens3:1\necho NETMASK=255.255.255.0 >> privateips/ens3:1\necho ONBOOT=yes >> privateips/ens3:1"
