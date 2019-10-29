@@ -93,7 +93,7 @@ resource "null_resource" "ansible" {
 }
 
 output "testipifcfg" {
-  value = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ens3:${count.index}\necho BOOTPROTO=static >> privateips/ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ens3:${count.index}\necho ONBOOT=yes >> privateips/ens3:${count.index}"
+  value = "touch privateips/ifcfg-ens3:1\necho DEVICE=\"ens3:1\" >> privateips/ens3:1\necho BOOTPROTO=static >> privateips/ens3:1\necho IPADDR=102.34.34.34 >> privateips/ens3:1\necho NETMASK=255.255.255.0 >> privateips/ens3:1\necho ONBOOT=yes >> privateips/ens3:1"
 }
 
 
