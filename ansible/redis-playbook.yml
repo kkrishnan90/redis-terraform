@@ -32,11 +32,11 @@
       paths: "{{ destination_path }}"
       recurse: yes
       use_regex: true
-      pattern: ['.*3:']
+      pattern: ['.ens3:']
     register: dir_files
   - name: Display all variables/facts known for a host
     debug:
-      var: dir_files.files
+      var: dir_files.files[0].path
   # - name: Start all ifup using the above matched configs
   #   sudo: true
   #   command: ifup dir_files.
