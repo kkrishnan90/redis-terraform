@@ -58,12 +58,12 @@ resource "oci_core_private_ip" "private_ip" {
 
   provisioner "local-exec" {
       command = << EOT 
-      touch privateips/ens3:${count.index}\n
-      echo DEVICE=\"ens3:${count.index}\" >> privateips/ens3:${count.index}\n
-      echo BOOTPROTO=static >> privateips/ens3:${count.index}\n
-      echo IPADDR=${self.ip_address} >> privateips/ens3:${count.index}\n
-      echo NETMASK=255.255.255.0 >> privateips/ens3:${count.index}\n
-      echo ONBOOT=yes >> privateips/ens3:${count.index}\n
+      touch privateips/ens3:${count.index}
+      echo DEVICE=\"ens3:${count.index}\" >> privateips/ens3:${count.index}
+      echo BOOTPROTO=static >> privateips/ens3:${count.index}
+      echo IPADDR=${self.ip_address} >> privateips/ens3:${count.index}
+      echo NETMASK=255.255.255.0 >> privateips/ens3:${count.index}
+      echo ONBOOT=yes >> privateips/ens3:${count.index}
       EOT
     
   }
