@@ -84,8 +84,8 @@ data "oci_core_private_ips" "private_ip_datasource" {
 
 data "template_file" "test" {
   template = "${file("./ansible-vars.json.tpl")}"
-  vars ={
-    ips = "${oci_core_private_ip.private_ip.*.ip_address}"
+  vars = {
+    ips = "${oci_core_instance.TestInstance.private_ip}"
   }
 }
 
