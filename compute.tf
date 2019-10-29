@@ -55,24 +55,23 @@ resource "oci_core_private_ip" "private_ip" {
   vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
-provisioner "remote-exec" {    
-    inline = [
-      "echo ${self.ip_address} ${count.index} >> motd.bkp",
-      # "sudo ip addr add ${self.ip_address}/24 dev ens3 label ens3:${count.index+1}",
-      "cp ${file("./ipscript.sh")} /home/opc/",
-      "sudo chmod +x ipscript.sh",
-      "sudo bash ipscript.sh ${self.ip_address} ${count.index}"
-      # "sudo ifup ens3:${count.index+1}"
-      # "for ip in ${oci_core_private_ip.private_ip.*.ip_address} do echo ip > motd.bkp done"
-    ]
-  }
-  connection {
-    type     = "ssh"
-    host = "${oci_core_instance.TestInstance.private_ip}"
-    user     = "opc"
-    password = ""
-    private_key = "${file("/home/opc/private_key_oci.pem")}"
-  }
+
+# provisioner "remote-exec" {    
+#     inline = [
+#       "echo ${self.ip_address} ${count.index} >> motd.bkp",
+#       # "sudo ip addr add ${self.ip_address}/24 dev ens3 label ens3:${count.index+1}",
+#       "echo ${self.ip_address} >> ips.txt"
+#       # "sudo ifup ens3:${count.index+1}"
+#       # "for ip in ${oci_core_private_ip.private_ip.*.ip_address} do echo ip > motd.bkp done"
+#     ]
+#   }
+#   connection {
+#     type     = "ssh"
+#     host = "${oci_core_instance.TestInstance.private_ip}"
+#     user     = "opc"
+#     password = ""
+#     private_key = "${file("/home/opc/private_key_oci.pem")}"
+#   }
 
 }
 
@@ -82,6 +81,14 @@ data "oci_core_private_ips" "private_ip_datasource" {
   vnic_id    = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
 
 }
+
+data "template_file" "test" {
+  template = "${file("./ansible-vars.json.tpl")}"
+  vars ={
+    ips = "${oci_core_private_ip.private_ip.*.ip_address}"
+  }
+}
+
 
 # resource "null_resource" "ip_script" {
 #   }

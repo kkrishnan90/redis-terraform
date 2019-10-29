@@ -20,7 +20,6 @@ do
   echo "TYPE="Ethernet"" >> /etc/sysconfig/network-scripts/ifcfg-ens3:$i
   echo "IPADDR=$PRIV_IP" >> /etc/sysconfig/network-scripts/ifcfg-ens3:$i
   echo "NETMASK=255.255.255.0" >> /etc/sysconfig/network-scripts/ifcfg-ens3:$i
-  echo "GATEWAY=10.0.32.1" >> /etc/sysconfig/network-scripts/ifcfg-ens3:$i
  
   ifup ens3:$i
  
