@@ -7,6 +7,10 @@
     playbook_user: opc
 
   tasks:
-  - name: Update repos
-    shell: sudo yum update -y
-    run_once: true
+  - name: copy files to server
+    copy:
+      remote_src: true
+      src: /home/opc/ansible/extra-ips.sh
+      dest: /home/opc
+      mode: u+x
+      force: no
