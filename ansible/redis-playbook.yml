@@ -15,7 +15,6 @@
       path: "{{ base_dir }}/ansible"
       state: directory
   - name: copy ens3 files
-    become_user: root
     sudo: true
     copy: 
       remote_src: no
