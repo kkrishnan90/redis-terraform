@@ -86,12 +86,12 @@ data "oci_core_private_ips" "private_ip_datasource" {
 
 }
 
-data "template_file" "test" {
-  template = "${file("./ansible-vars.json.tpl")}"
-  vars = {
-    ips = "${tostring(oci_core_private_ip.private_ip.*.ip_address)}"
-  }
-}
+# data "template_file" "test" {
+#   template = "${file("./ansible-vars.json.tpl")}"
+#   vars = {
+#     ips = "${tostring(oci_core_private_ip.private_ip.*.ip_address)}"
+#   }
+# }
 
 
 # resource "null_resource" "ip_script" {
