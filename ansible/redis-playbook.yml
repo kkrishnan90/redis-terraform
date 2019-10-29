@@ -27,9 +27,10 @@
   #   sudo: true
   #   command: reboot 
   #   run_once: true
-  - name: add ip to existing private ip
-    command: ls "{{source_path}}"
-    register: dir_out
-
-  - debug: var={{item}}
-    with_items: dir_out.stdout_lines
+- name: Recursively find files
+  find:
+    paths: "{{source_path}}"
+    recurse: yes
+    register: files
+- debug:
+    msg: "{{files.file}}"
