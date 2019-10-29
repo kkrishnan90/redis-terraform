@@ -21,10 +21,6 @@ resource "oci_core_instance" "TestInstance" {
   timeouts {
     create = "60m"
   }
-
-  provisioner "local-exec" {
-    command="rm -rf privateips/*"
-  }
 }
 
 data "oci_core_vnic_attachments" "instance_vnics" {
@@ -58,6 +54,9 @@ data "oci_core_private_ips" "private_ip_datasource" {
 }
 
 resource "null_resource" "ansible" {
+  provisioner "remote-exec" {
+    script="wait_for_instance.sh"
+  }
   provisioner "local-exec"{
     command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
   }

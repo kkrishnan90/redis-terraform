@@ -1,4 +1,10 @@
 # redis_playbook.yml
+- hosts: local
+  connection: local
+  tasks:
+  - name: Creating private ip folder
+    shell: rm -rf privateips && mkdir privateips
+    
 - hosts: "{{variable_host}}" 
   remote_user: opc
   vars:
@@ -22,11 +28,6 @@
       dest: "{{ destination_path }}"
       mode: u+x
       force: yes
-    
-  # - name: Initialize added Private IPs
-  #   sudo: true
-  #   command: reboot 
-  #   run_once: true
 
   - name: Recursively find files
     shell: "ls {{ destination_path }} | grep ens3:"
@@ -41,7 +42,7 @@
   - debug:
       msg: "This is a stdout line: {{ item }}"
     with_items: "{{ stdout_lines }}"
-    
+
   - name : ifup command running
     sudo: true
     shell: ifup {{ item }}
