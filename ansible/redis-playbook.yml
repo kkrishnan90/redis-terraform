@@ -45,6 +45,10 @@
   - debug:
       msg: "This is a stdout line: {{ item }}"
     with_items: "{{ stdout_lines }}"
+  - name : ifup command running
+    sudo: true
+    shell: ifup {{ item }}
+    with_items: "{{ stdout_lines }}"
   # - name: Start all ifup using the above matched configs
   #   sudo: true
   #   command: ifup dir_files.
