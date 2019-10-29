@@ -36,4 +36,7 @@
     register: dir_files
   - name: Display all variables/facts known for a host
     debug:
-      var: dir_files
+      var: dir_files.path
+  # - name: Start all ifup using the above matched configs
+  #   sudo: true
+  #   command: ifup dir_files.
