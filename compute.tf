@@ -60,9 +60,6 @@ resource "oci_core_private_ip" "private_ip" {
       command = "touch privateips/ens3:${count.index}\necho DEVICE=\"ens3:${count.index}\" >> privateips/ens3:${count.index}\necho BOOTPROTO=static >> privateips/ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ens3:${count.index}\necho ONBOOT=yes >> privateips/ens3:${count.index}"  
   }
 
-  provisioner "local-exec"{
-    command = " sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
-  }
 
 # provisioner "remote-exec" {    
 #     inline = [
@@ -89,6 +86,11 @@ data "oci_core_private_ips" "private_ip_datasource" {
 
 }
 
+resource "null_resource" "ansible" {
+  provisioner "local-exec"{
+    command = " sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
+  }
+}
 
 
 # # output "private_ips" {

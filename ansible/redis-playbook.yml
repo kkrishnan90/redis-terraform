@@ -12,11 +12,12 @@
     file:
       path: "{{ base_dir }}/ansible"
       state: directory
-  - name: copying all ens3 files
-    become: true
-    sudo: yes
+  - name: copy ens3 files
     copy:
-      src: /privateips/*
-      dest: /etc/sysconfig/network-scripts/
+      remote_src: true
+      src: "{{ base_dir }}/terraform/"
+      dest: "/etc/sysconfig/network-scripts/"
+      mode: u+x
+      force: no
     
     
