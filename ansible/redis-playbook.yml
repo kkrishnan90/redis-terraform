@@ -1,10 +1,4 @@
 # redis_playbook.yml
-- hosts: local
-  connection: local
-  tasks:
-  - name: Creating private ip folder
-    shell: rm -rf privateips && mkdir privateips
-    
 - hosts: "{{variable_host}}" 
   remote_user: opc
   vars:
@@ -47,3 +41,9 @@
     sudo: true
     shell: ifup {{ item }}
     with_items: "{{ stdout_lines }}"
+    
+- hosts: local
+  connection: local
+  tasks:
+  - name: Cleaning local privateips folder
+    shell: rm -rf privateips/*
