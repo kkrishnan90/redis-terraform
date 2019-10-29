@@ -28,15 +28,17 @@
   #   command: reboot 
   #   run_once: true
   - name: Recursively find files
-    find:
-      paths: "{{ destination_path }}"
-      recurse: yes
-      use_regex: true
-      pattern: ['.ens3:']
-    register: dir_files
+    command: ls {{ destination_path }} | grep ens3
+    register: files
+    # find:
+    #   paths: "{{ destination_path }}"
+    #   recurse: yes
+    #   use_regex: true
+    #   pattern: ['.ens3:']
+    # register: dir_files
   - name: Display all variables/facts known for a host
     debug:
-      var: {{ item.path | basename }}
+      var: files
   # - name: Start all ifup using the above matched configs
   #   sudo: true
   #   command: ifup dir_files.
