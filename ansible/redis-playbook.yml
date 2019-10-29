@@ -27,15 +27,11 @@
   #   sudo: true
   #   command: reboot 
   #   run_once: true
+
   - name: Recursively find files
     shell: "ls {{ destination_path }} | grep ens3:"
     register: files
-    # find:
-    #   paths: "{{ destination_path }}"
-    #   recurse: yes
-    #   use_regex: true
-    #   pattern: ['.ens3:']
-    # register: dir_files
+
   - name: Display all variables/facts known for a host
     debug:
       var: files.stdout_lines
@@ -45,10 +41,8 @@
   - debug:
       msg: "This is a stdout line: {{ item }}"
     with_items: "{{ stdout_lines }}"
+    
   - name : ifup command running
     sudo: true
     shell: ifup {{ item }}
     with_items: "{{ stdout_lines }}"
-  # - name: Start all ifup using the above matched configs
-  #   sudo: true
-  #   command: ifup dir_files.
