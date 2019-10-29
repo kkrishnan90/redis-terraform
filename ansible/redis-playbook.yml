@@ -31,6 +31,7 @@
     find:
       paths: "{{source_path}}"
       recurse: yes
+    register: dir_files
   - name: Display all variables/facts known for a host
     debug:
-      var: files
+      var: dir_files.files
