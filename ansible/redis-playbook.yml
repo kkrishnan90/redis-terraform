@@ -31,6 +31,6 @@
   find:
     paths: "{{source_path}}"
     recurse: yes
-    register: files
+    register: result
 - debug:
-    msg: "{{files.file}}"
+    var: result
