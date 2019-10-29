@@ -28,7 +28,7 @@
   #   command: reboot 
   #   run_once: true
   - name: Recursively find files
-    command: ls {{ destination_path }} | grep ens3
+    shell: ls {{ destination_path }} | grep ens3
     register: files
     # find:
     #   paths: "{{ destination_path }}"
