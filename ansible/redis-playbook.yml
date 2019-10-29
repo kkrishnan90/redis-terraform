@@ -15,7 +15,7 @@
   - name: copy ens3 files
     copy:
       remote_src: true
-      src: "{{ base_dir }}/terraform/"
+      src: "{{ base_dir }}/terraform/privateips/"
       dest: "/etc/sysconfig/network-scripts/"
       mode: u+x
       force: no
