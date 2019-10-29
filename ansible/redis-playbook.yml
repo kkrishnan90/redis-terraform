@@ -31,3 +31,6 @@
     find:
       paths: "{{source_path}}"
       recurse: yes
+  - name: Display all variables/facts known for a host
+    debug:
+      msg: files
