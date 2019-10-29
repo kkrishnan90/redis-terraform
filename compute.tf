@@ -56,6 +56,18 @@ resource "oci_core_private_ip" "private_ip" {
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
 
+  provisioner "local-exec" {
+    inline = [
+      "mkdir privateips",
+      "touch privateips/ens3:${count.index}",
+      "echo DEVICE=\"ens3:${count.index}\" >> privateips/ens3:${count.index}",
+      "echo BOOTPROTO=static >> privateips/ens3:${count.index}",
+      "echo IPADDR=${self.ip_address} >> privateips/ens3:${count.index}",
+      "echo NETMASK=255.255.255.0 >> privateips/ens3:${count.index}",
+      "echo ONBOOT=yes >> privateips/ens3:${count.index}"
+    ]
+  }
+
 # provisioner "remote-exec" {    
 #     inline = [
 #       "echo ${self.ip_address} ${count.index} >> motd.bkp",
