@@ -33,4 +33,4 @@
       recurse: yes
   - name: Display all variables/facts known for a host
     debug:
-      msg: "{{stdout_lines}}"
+      var: files
