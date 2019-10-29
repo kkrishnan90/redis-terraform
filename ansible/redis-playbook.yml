@@ -32,7 +32,7 @@
   tasks:
   - name: Recursively find files
     find:
-      paths: "{{source_path}}"
+      paths: "/home/opc/terraform/privateips/"
       recurse: yes
     register: dir_files
   - name: Display all variables/facts known for a host
