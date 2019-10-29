@@ -14,7 +14,7 @@ do
  
   ####Provide the correct device name(ens3) and gateway IP below.
  
-  echo "DEVICE="ens3:$i"" >> /etc/sysconfig/network-scripts/ifcfg-ens3:$i
+  echo "DEVICE=\"ens3:$i\"" >> /etc/sysconfig/network-scripts/ifcfg-ens3:$i
   echo "BOOTPROTO=static" >> /etc/sysconfig/network-scripts/ifcfg-ens3:$i
   echo "ONBOOT=yes" >> /etc/sysconfig/network-scripts/ifcfg-ens3:$i
   echo "TYPE="Ethernet"" >> /etc/sysconfig/network-scripts/ifcfg-ens3:$i
