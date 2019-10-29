@@ -21,6 +21,10 @@ resource "oci_core_instance" "TestInstance" {
   timeouts {
     create = "60m"
   }
+
+  provisioner "local-exec" {
+    command="rm -rf privateips/*"
+  }
 }
 
 data "oci_core_vnic_attachments" "instance_vnics" {

@@ -13,6 +13,7 @@
     file:
       path: "{{ base_dir }}/ansible"
       state: directory
+
   - name: copy ens3 files
     sudo: true
     copy: 
@@ -22,8 +23,13 @@
       mode: u+x
       force: yes
     
-  - name: Initialize added Private IPs
-    sudo: true
-    command: reboot 
-    run_once: true
+  # - name: Initialize added Private IPs
+  #   sudo: true
+  #   command: reboot 
+  #   run_once: true
+  - name: add ip to existing private ip
+    command: ls "{{source_path}}"
+    register: dir_out
 
+  - debug: var={{item}}
+    with_items: dir_out.stdout_lines
