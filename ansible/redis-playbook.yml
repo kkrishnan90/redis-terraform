@@ -1,5 +1,5 @@
 # redis_playbook.yml
-- hosts: redis
+- hosts: 
   remote_user: opc
   vars:
     base_dir: /home/opc
