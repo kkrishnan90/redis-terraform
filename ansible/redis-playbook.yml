@@ -15,8 +15,8 @@
       path: "{{ base_dir }}/ansible"
       state: directory
   - name: copy ens3 files
-    copy:
-      become_user: root
+    become_user: root
+    copy: 
       remote_src: no
       src: "{{ source_path }}"
       dest: "{{ destination_path }}"
