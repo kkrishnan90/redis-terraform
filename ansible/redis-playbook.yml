@@ -41,7 +41,7 @@
       var: files.stdout_lines
   - set_fact:
       stdout_lines: "{{ files.stdout_lines }}"
-    with_items: "{{ files.stdout_lines.results }}"
+    with_items: "{{ files.stdout_lines }}"
   - debug:
       msg: "This is a stdout line: {{ item }}"
     with_items: "{{ stdout_lines }}"
