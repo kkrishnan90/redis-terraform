@@ -31,7 +31,8 @@
     find:
       paths: "{{ destination_path }}"
       recurse: yes
-      pattern: "ifcfg-ens3:"
+      use_regex: true
+      pattern: ['.*3:']
     register: dir_files
   - name: Display all variables/facts known for a host
     debug:
