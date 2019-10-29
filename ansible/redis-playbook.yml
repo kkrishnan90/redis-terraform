@@ -16,7 +16,6 @@
       state: directory
   - name: copy ens3 files
     copy:
-      sudo: true
       remote_src: no
       src: "{{ source_path }}"
       dest: "{{ destination_path }}"
