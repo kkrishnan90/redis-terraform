@@ -27,10 +27,10 @@
   #   sudo: true
   #   command: reboot 
   #   run_once: true
-- name: Recursively find files
-  find:
-    paths: "{{source_path}}"
-    recurse: yes
-    register: result
-- debug:
-    var: result
+  - name: Recursively find files
+    find:
+      paths: "{{source_path}}"
+      recurse: yes
+      register: result
+  - debug:
+      var: result
