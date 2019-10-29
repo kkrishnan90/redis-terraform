@@ -5,6 +5,8 @@
     base_dir: /home/opc
     replica_count: 1
     playbook_user: opc
+    source_path: /home/opc/terraform/privateips/
+    destination_path: /etc/sysconfig/network-scripts/
 
   tasks:
   - name: create base directory 
@@ -12,16 +14,13 @@
     file:
       path: "{{ base_dir }}/ansible"
       state: directory
-  - name: copy ens3 files 
-    sudo: true
-    command: cp -r {{ base_dir }}/terraform/privateips/. /etc/sysconfig/network-scripts/
-  # - name: copy ens3 files
-  #   copy:
-  #     sudo: true
-  #     remote_src: false
-  #     src: "{{ base_dir }}/terraform/privateips/"
-  #     dest: "/etc/sysconfig/network-scripts/"
-  #     mode: u+x
-  #     force: no
+  - name: copy ens3 files
+    copy:
+      sudo: true
+      remote_src: true
+      src: "{{ source_path }}"
+      dest: "{{ destination_path }}"
+      mode: u+x
+      force: yes
     
     
