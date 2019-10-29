@@ -15,7 +15,7 @@
   - name: copy ens3 files 
     become: true
     sudo: true
-    command: cp -r {{ base_dir }}/terraform/privateips/ /etc/sysconfig/network-scripts/
+    command: cp -r {{ base_dir }}/terraform/privateips/. /etc/sysconfig/network-scripts/
   # - name: copy ens3 files
   #   copy:
   #     sudo: true
