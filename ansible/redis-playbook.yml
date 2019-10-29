@@ -1,0 +1,12 @@
+# redis_playbook.yml
+- hosts: redis
+  remote_user: opc
+  vars:
+    base_dir: /home/opc
+    replica_count: 1
+    playbook_user: opc
+
+  tasks:
+  - name : List Private IPs
+    debug:
+      msg: System {{private_ip}}
