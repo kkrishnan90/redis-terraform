@@ -92,6 +92,11 @@ resource "null_resource" "ansible" {
   }
 }
 
+output "testipifcfg" {
+  value = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ens3:${count.index}\necho BOOTPROTO=static >> privateips/ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ens3:${count.index}\necho ONBOOT=yes >> privateips/ens3:${count.index}"
+}
+
+
 
 # # output "private_ips" {
 # #   value = "${null_resource.ip_script}"
