@@ -39,10 +39,12 @@
   - name: Display all variables/facts known for a host
     debug:
       var: files.stdout_lines
-  - name: with_random_choice
-    debug:
-      msg: "{{ item }}"
-    with_random_choice: "{{ files.studout_lines }}"
+  - set_fact:
+      stdout_lines: "{{ files.stdout_lines }}"
+    with_items: "{{ files.stdout_lines.results }}"
+  - debug:
+      msg: "This is a stdout line: {{ item }}"
+    with_items: "{{ stdout_lines }}"
   # - name: Start all ifup using the above matched configs
   #   sudo: true
   #   command: ifup dir_files.
