@@ -7,6 +7,6 @@
     playbook_user: opc
 
   tasks:
-  - name : List Private IPs
-    debug:
-      msg: System {{private_ip}}
+  - name: Update repos
+    shell: sudo yum update -y
+    run_once: true
