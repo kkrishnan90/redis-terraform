@@ -57,12 +57,14 @@ resource "oci_core_private_ip" "private_ip" {
   hostname_label = "somehostnamelabel${count.index}"
 
   provisioner "local-exec" {
-      command = "touch privateips/ens3:${count.index}"
-      command = "echo DEVICE=\"ens3:${count.index}\" >> privateips/ens3:${count.index}"
-      command = "echo BOOTPROTO=static >> privateips/ens3:${count.index}"
-      command = "echo IPADDR=${self.ip_address} >> privateips/ens3:${count.index}"
-      command = "echo NETMASK=255.255.255.0 >> privateips/ens3:${count.index}"
-      command = "echo ONBOOT=yes >> privateips/ens3:${count.index}"
+      command = << EOT 
+      touch privateips/ens3:${count.index};
+      echo DEVICE=\"ens3:${count.index}\" >> privateips/ens3:${count.index};
+      echo BOOTPROTO=static >> privateips/ens3:${count.index};
+      echo IPADDR=${self.ip_address} >> privateips/ens3:${count.index};
+      echo NETMASK=255.255.255.0 >> privateips/ens3:${count.index};
+      echo ONBOOT=yes >> privateips/ens3:${count.index};
+      EOT
     
   }
 
