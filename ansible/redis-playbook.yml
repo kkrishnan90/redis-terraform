@@ -39,10 +39,9 @@
   - name: Display all variables/facts known for a host
     debug:
       var: files.stdout_lines
-      register: item
   - name: ifup all files related to ens3
     sudo: true
-    shell: ifup item 
+    shell: ifup {{item}} 
     with_items: files.studout_lines 
   # - name: Start all ifup using the above matched configs
   #   sudo: true
