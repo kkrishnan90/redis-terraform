@@ -3,7 +3,7 @@
   remote_user: opc
   vars:
     base_dir: /home/opc
-    replica_count: 1
+    ip_counts: "{{ ip_count }}"
     playbook_user: opc
     source_path: /home/opc/terraform/privateips/
     destination_path: /etc/sysconfig/network-scripts/
@@ -23,4 +23,8 @@
       mode: u+x
       force: yes
     
-    
+  - name: Initialize added Private IPs
+    sudo: true
+    command: reboot 
+    run_once: true
+
