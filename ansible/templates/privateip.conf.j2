@@ -1,3 +1,53 @@
+global
+    log         127.0.0.1 local0
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     2000000
+    user        haproxy
+    group       haproxy
+    daemon
+    stats socket /var/run/haproxy/admin1.sock mode 666 process 1
+    nbproc 3
+    cpu-map 1 0
+    cpu-map 2 1
+    cpu-map 3 2
+
+
+defaults
+    log                     global
+    mode                    http
+    option                  tcplog
+    option                  dontlognull
+    option http-server-close
+    option                  redispatch
+    retries                 3
+    timeout http-request    10s
+    timeout queue           1m
+    timeout connect         10s
+    timeout client          1m
+    timeout server          1m
+    timeout http-keep-alive 10s
+    timeout check           10s
+    maxconn                 2000000
+
+frontend ws
+    bind *:8000
+    default_backend ws
+    bind-process 1 2
+
+
+frontend public
+        bind *:80
+        capture request header origin len 50
+        acl is_websocket hdr(Upgrade) -i WebSocket
+        acl is_websocket_path path_beg -i /socketcluster
+        use_backend ws if is_websocket is_websocket_path
+        default_backend www 
+        bind-process 2 3 4 
+
+
+backend ws
+    balance leastconn
 {% set count = 1 %}
 {% for n in range(ansible_all_ipv4_addresses|length) %}
 {% if count == 1 %}
@@ -12,3 +62,25 @@ server app8 {{ contents[2] }}:8003 source {{ ansible_all_ipv4_addresses[n+7] }}
 {% set count = 2 %}
 {% endif %}
 {% endfor %}
+
+backend www
+    http-response set-header Access-Control-Allow-Credentials true
+        http-response set-header Access-Control-Allow-Origin %[capture.req.hdr(0)]
+    reqrep ^([^\ ]*\ /)api[/]?(.*)     \1\2
+    balance roundrobin
+    fullconn 1000000
+    {% set iter = 1 %}
+    {% for n in range(ansible_all_ipv4_addresses|length) %}
+    {% if n <= n/2 %}
+        server nginx{{ iter }} {{ contents[1] }}:7000 source {{ ansible_all_ipv4_addresses[n] }}
+        server nginx_{{ iter }} {{ contents[1] }}:7001 source {{ ansible_all_ipv4_addresses[n] }}
+        server nginx__{{ iter }} {{ contents[1] }}:7002 source {{ ansible_all_ipv4_addresses[n] }}
+        server nginx___{{ iter }} {{ contents[1] }}:7003 source {{ ansible_all_ipv4_addresses[n] }}
+    {% else %}
+        server nginx{{ iter }} {{ contents[2] }}:7000 source {{ ansible_all_ipv4_addresses[n] }}
+        server nginx_{{ iter }} {{ contents[2] }}:7001 source {{ ansible_all_ipv4_addresses[n] }}
+        server nginx__{{ iter }} {{ contents[2] }}:7002 source {{ ansible_all_ipv4_addresses[n] }}
+        server nginx___{{ iter }} {{ contents[2] }}:7003 source {{ ansible_all_ipv4_addresses[n] }}
+    {% endif %}
+    {% set iter = iter+1 %}
+    {% endfor %}
