@@ -1,3 +1,3 @@
 {% for ip in ansible_all_ipv4_addresses %}
-{{ ansible_all_ipv4_addresses[loop.index] }}
+{{ ansible_all_ipv4_addresses[loop.index-1] }}
 {% endfor %}
