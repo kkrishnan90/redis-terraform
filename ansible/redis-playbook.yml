@@ -40,7 +40,7 @@
   - name: Template Loop example
     template:
         src: templates/privateip.conf.j2
-        dest: "/home/opc/privateip.txt"
+        dest: "/home/opc/haproxy.cfg"
   - debug: 
       msg : "the value of app-servers.conf is {{ item }}"
     with_items: "{{ contents }}"
