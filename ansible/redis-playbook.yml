@@ -57,7 +57,7 @@
   # - name: Cleaning local privateips folder
   #   shell: rm -rf privateips/*
   - name: Delete lines of app-server
-    replace:
+    lineinfile:
       path: /home/opc/terraform/ansible/app-servers.conf
       regexp: '((.*?)\n){2}' # Matches [servers] and next two line
       state: absent         # Replace both lines with [servers]
