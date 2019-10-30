@@ -1,12 +1,13 @@
 {% set count = 1 %}
-{% set inner_count = 1 %}
 {% for n in range(ansible_all_ipv4_addresses|length) %}
-{% for m in range(contents|length) %}
-{% if count == 1 and m < range(ansible_all_ipv4_addresses|length)%}
-{{contents[m]}}
-{{contents[m+1]}}
-{% set inner_count = 2 %}
+{% if count == 1 %}
+server app1 {{ contents[1] }}:8000 source {{ ansible_all_ipv4_addresses[n] }}
+server app2 {{ contents[1] }}:8001 source {{ ansible_all_ipv4_addresses[n+1] }}
+server app3 {{ contents[1] }}:8002 source {{ ansible_all_ipv4_addresses[n+2] }}
+server app4 {{ contents[1] }}:8003 source {{ ansible_all_ipv4_addresses[n+3] }}
+server app5 {{ contents[2] }}:8000 source {{ ansible_all_ipv4_addresses[n+4] }}
+server app6 {{ contents[2] }}:8001 source {{ ansible_all_ipv4_addresses[n+5] }}
+server app7 {{ contents[2] }}:8002 source {{ ansible_all_ipv4_addresses[n+6] }}
+server app8 {{ contents[2] }}:8003 source {{ ansible_all_ipv4_addresses[n+7] }}
 {% endif %}
-{% endfor %}
-{% set count = 2 %}
 {% endfor %}
