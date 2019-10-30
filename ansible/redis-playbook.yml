@@ -51,7 +51,7 @@
   # - debug: var=ansible_all_ipv4_addresses
   # - debug: var=ansible_default_ipv4.address
     
-- hosts: local
+- hosts: 127.0.0.1
   connection: local
   tasks:
   # - name: Cleaning local privateips folder
