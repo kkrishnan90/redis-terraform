@@ -8,49 +8,49 @@
     destination_path: /etc/sysconfig/network-scripts/
 
   tasks:
-  - name: create base directory 
-    become: true
-    file:
-      path: "{{ base_dir }}/ansible"
-      state: directory
+  # - name: create base directory 
+  #   become: true
+  #   file:
+  #     path: "{{ base_dir }}/ansible"
+  #     state: directory
 
-  - name: copy ens3 files
-    sudo: true
-    copy: 
-      remote_src: no
-      src: "{{ source_path }}"
-      dest: "{{ destination_path }}"
-      mode: u+x
-      force: yes
+  # - name: copy ens3 files
+  #   sudo: true
+  #   copy: 
+  #     remote_src: no
+  #     src: "{{ source_path }}"
+  #     dest: "{{ destination_path }}"
+  #     mode: u+x
+  #     force: yes
 
-  - name: Recursively find files
-    shell: "ls {{ destination_path }} | grep ens3:"
-    register: files
+  # - name: Recursively find files
+  #   shell: "ls {{ destination_path }} | grep ens3:"
+  #   register: files
 
-  - name: Display all variables/facts known for a host
-    debug:
-      var: files.stdout_lines
-  - set_fact:
-      stdout_lines: "{{ files.stdout_lines }}"
-    with_items: "{{ files.stdout_lines }}"
-  - debug:
-      msg: "This is a stdout line: {{ item }}"
-    with_items: "{{ stdout_lines }}"
+  # - name: Display all variables/facts known for a host
+  #   debug:
+  #     var: files.stdout_lines
+  # - set_fact:
+  #     stdout_lines: "{{ files.stdout_lines }}"
+  #   with_items: "{{ files.stdout_lines }}"
+  # - debug:
+  #     msg: "This is a stdout line: {{ item }}"
+  #   with_items: "{{ stdout_lines }}"
   
   - name: Template Loop example
     template:
         src: templates/privateip.conf.j2
         dest: "/home/opc/privateip.txt"
 
-  - name : ifup command running
-    sudo: true
-    shell: ifup {{ item }}
-    with_items: "{{ stdout_lines }}"
-  - debug: var=ansible_all_ipv4_addresses
-  - debug: var=ansible_default_ipv4.address
+  # - name : ifup command running
+  #   sudo: true
+  #   shell: ifup {{ item }}
+  #   with_items: "{{ stdout_lines }}"
+  # - debug: var=ansible_all_ipv4_addresses
+  # - debug: var=ansible_default_ipv4.address
     
-- hosts: local
-  connection: local
-  tasks:
-  - name: Cleaning local privateips folder
-    shell: rm -rf privateips/*
+# - hosts: local
+#   connection: local
+#   tasks:
+#   - name: Cleaning local privateips folder
+#     shell: rm -rf privateips/*
