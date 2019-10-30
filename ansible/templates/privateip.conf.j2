@@ -1,3 +1,13 @@
 {% for ip in ansible_all_ipv4_addresses %}
-{{ ip }}
+server app1 10.0.40.27:8000 source {{ ip }}
+server app2 10.0.40.27:8001 source {{ ip }}
+server app3 10.0.40.27:8002 source {{ ip }}
+server app4 10.0.40.27:8003 source {{ ip }}
+server app5 10.0.40.28:8000 source {{ ip }}
+server app6 10.0.40.28:8001 source {{ ip }}
+server app7 10.0.40.28:8002 source {{ ip }}
+server app8 10.0.40.28:8003 source {{ ip }}
+server app7 10.0.40.28:8002 source {{ ip }}
+server app8 10.0.40.28:8000 source {{ ip }}
+
 {% endfor %}
