@@ -49,9 +49,9 @@ frontend public
 backend ws
     balance leastconn
     {% set count = 1 %}
-    {% for n in range(ansible_all_ipv4_addresses|length) %}
-    {% if count == 1 %}
-server app1 {{ contents[1] }}:8000 source {{ ansible_all_ipv4_addresses[n] }}
+    {%+ for n in range(ansible_all_ipv4_addresses|length) %}
+    {%+ if count == 1 %}
+    server app1 {{ contents[1] }}:8000 source {{ ansible_all_ipv4_addresses[n] }}
     server app2 {{ contents[1] }}:8001 source {{ ansible_all_ipv4_addresses[n+1] }}
     server app3 {{ contents[1] }}:8002 source {{ ansible_all_ipv4_addresses[n+2] }}
     server app4 {{ contents[1] }}:8003 source {{ ansible_all_ipv4_addresses[n+3] }}
@@ -70,8 +70,8 @@ backend www
     balance roundrobin
     fullconn 1000000
     {% set iter = 1 %}
-    {%- for n in range(ansible_all_ipv4_addresses|length) %}
-    {% if n < 5 %}
+    {%+ for n in range(ansible_all_ipv4_addresses|length) %}
+    {%+ if n < 5 %}
     server nginx{{ iter }} {{ contents[1] }}:7000 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx_{{ iter }} {{ contents[1] }}:7001 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx__{{ iter }} {{ contents[1] }}:7002 source {{ ansible_all_ipv4_addresses[n] }}
