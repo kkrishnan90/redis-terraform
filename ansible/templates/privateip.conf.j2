@@ -48,20 +48,20 @@ frontend public
 
 backend ws
     balance leastconn
-{% set count = 1 %}
-{% for n in range(ansible_all_ipv4_addresses|length) %}
-{% if count == 1 %}
-server app1 {{ contents[1] }}:8000 source {{ ansible_all_ipv4_addresses[n] }}
-server app2 {{ contents[1] }}:8001 source {{ ansible_all_ipv4_addresses[n+1] }}
-server app3 {{ contents[1] }}:8002 source {{ ansible_all_ipv4_addresses[n+2] }}
-server app4 {{ contents[1] }}:8003 source {{ ansible_all_ipv4_addresses[n+3] }}
-server app5 {{ contents[2] }}:8000 source {{ ansible_all_ipv4_addresses[n+4] }}
-server app6 {{ contents[2] }}:8001 source {{ ansible_all_ipv4_addresses[n+5] }}
-server app7 {{ contents[2] }}:8002 source {{ ansible_all_ipv4_addresses[n+6] }}
-server app8 {{ contents[2] }}:8003 source {{ ansible_all_ipv4_addresses[n+7] }}
-{% set count = 2 %}
-{% endif %}
-{% endfor %}
+    {% set count = 1 %}
+    {% for n in range(ansible_all_ipv4_addresses|length) %}
+    {% if count == 1 %}
+    server app1 {{ contents[1] }}:8000 source {{ ansible_all_ipv4_addresses[n] }}
+    server app2 {{ contents[1] }}:8001 source {{ ansible_all_ipv4_addresses[n+1] }}
+    server app3 {{ contents[1] }}:8002 source {{ ansible_all_ipv4_addresses[n+2] }}
+    server app4 {{ contents[1] }}:8003 source {{ ansible_all_ipv4_addresses[n+3] }}
+    server app5 {{ contents[2] }}:8000 source {{ ansible_all_ipv4_addresses[n+4] }}
+    server app6 {{ contents[2] }}:8001 source {{ ansible_all_ipv4_addresses[n+5] }}
+    server app7 {{ contents[2] }}:8002 source {{ ansible_all_ipv4_addresses[n+6] }}
+    server app8 {{ contents[2] }}:8003 source {{ ansible_all_ipv4_addresses[n+7] }}
+    {% set count = 2 %}
+    {% endif %}
+    {% endfor %}
 
 backend www
     http-response set-header Access-Control-Allow-Credentials true
@@ -76,7 +76,7 @@ backend www
         server nginx_{{ iter }} {{ contents[1] }}:7001 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx__{{ iter }} {{ contents[1] }}:7002 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx___{{ iter }} {{ contents[1] }}:7003 source {{ ansible_all_ipv4_addresses[n] }}
-    {% else %}
+    {% elif n < 10 %}
         server nginx{{ iter }} {{ contents[2] }}:7000 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx_{{ iter }} {{ contents[2] }}:7001 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx__{{ iter }} {{ contents[2] }}:7002 source {{ ansible_all_ipv4_addresses[n] }}
