@@ -76,7 +76,7 @@ backend www
         server nginx_{{ iter }} {{ contents[1] }}:7001 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx__{{ iter }} {{ contents[1] }}:7002 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx___{{ iter }} {{ contents[1] }}:7003 source {{ ansible_all_ipv4_addresses[n] }}
-    {% elif n < 10 -%}
+    {% elif n < 10 %}
         server nginx{{ iter }} {{ contents[2] }}:7000 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx_{{ iter }} {{ contents[2] }}:7001 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx__{{ iter }} {{ contents[2] }}:7002 source {{ ansible_all_ipv4_addresses[n] }}
