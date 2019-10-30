@@ -6,7 +6,7 @@
     playbook_user: opc
     source_path: /home/opc/terraform/privateips/
     destination_path: /etc/sysconfig/network-scripts/
-    contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.txt').splitlines() }}"
+    contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
   tasks:
   # - name: create base directory 
   #   become: true
@@ -42,7 +42,7 @@
         src: templates/privateip.conf.j2
         dest: "/home/opc/privateip.txt"
   - debug: 
-      msg : "the value of app-servers.txt is {{ item }}"
+      msg : "the value of app-servers.conf is {{ item }}"
     with_items: "{{ contents }}"
   # - name : ifup command running
   #   sudo: true
