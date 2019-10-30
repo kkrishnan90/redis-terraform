@@ -1,1 +1,3 @@
-{{ files.stdout_lines }}
+{% for ip in ansible_all_ipv4_addresses %}
+{{ ip }}
+{% endfor %}
