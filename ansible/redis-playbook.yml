@@ -6,7 +6,7 @@
     playbook_user: opc
     source_path: /home/opc/terraform/privateips/
     destination_path: /etc/sysconfig/network-scripts/
-    contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.txt') }}"
+    contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.txt').splitlines() }}"
   tasks:
   # - name: create base directory 
   #   become: true
@@ -43,7 +43,7 @@
         dest: "/home/opc/privateip.txt"
   - debug: 
      msg : "the value of app-servers.txt is {{ item }}"
-     with_lines: cat /home/opc/terraform/ansible/app-servers.txt
+     with_items: "{{ contents }}"
   # - name : ifup command running
   #   sudo: true
   #   shell: ifup {{ item }}
