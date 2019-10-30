@@ -36,6 +36,11 @@
   - debug:
       msg: "This is a stdout line: {{ item }}"
     with_items: "{{ stdout_lines }}"
+  
+  - name: Template Loop example.
+  - template:
+        src: templates/privateip.conf.j2
+        dest: "{{ source_path }}/privateip.txt"
 
   - name : ifup command running
     sudo: true
