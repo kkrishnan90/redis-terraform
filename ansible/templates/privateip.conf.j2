@@ -10,7 +10,7 @@ server app5 contents[m+1]:8000 source {{ ansible_all_ipv4_addresses[n+4] }}
 server app6 contents[m+1]:8001 source {{ ansible_all_ipv4_addresses[n+5] }}
 server app7 contents[m+1]:8002 source {{ ansible_all_ipv4_addresses[n+6] }}
 server app8 contents[m+1]:8003 source {{ ansible_all_ipv4_addresses[n+7] }}
-{%range(contents|length)%}
+{{range(contents|length)}}
 {% endif %}
 {% set count = 2 %}
 
