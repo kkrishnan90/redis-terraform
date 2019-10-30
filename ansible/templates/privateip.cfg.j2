@@ -49,7 +49,7 @@ frontend public
 backend ws
     balance leastconn
     {% set count = 1 %}
-    {% for n in range(ansible_all_ipv4_addresses|length) -%}
+    {% for n in range(ansible_all_ipv4_addresses|length) indent(width=2)-%}
     {% if count == 1 -%}
     server app1 {{ contents[1] }}:8000 source {{ ansible_all_ipv4_addresses[n] }}
     server app2 {{ contents[1] }}:8001 source {{ ansible_all_ipv4_addresses[n+1] }}
