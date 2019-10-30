@@ -71,7 +71,7 @@ backend www
     fullconn 1000000
     {% set iter = 1 %}
     {% for n in range(ansible_all_ipv4_addresses|length) %}
-    {% if n <= {{ ansible_all_ipv4_addresses|length }}/2 %}
+    {% if n <= 5 %}
         server nginx{{ iter }} {{ contents[1] }}:7000 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx_{{ iter }} {{ contents[1] }}:7001 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx__{{ iter }} {{ contents[1] }}:7002 source {{ ansible_all_ipv4_addresses[n] }}
