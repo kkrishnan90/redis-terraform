@@ -61,7 +61,7 @@ backend ws
     server app8 {{ contents[2] }}:8003 source {{ ansible_all_ipv4_addresses[n+7] }}
     {% set count = 2 -%}
     {% endif -%}
-    {% endfor -%}
+    {% endfor %}
 
 backend www
     http-response set-header Access-Control-Allow-Credentials true
@@ -81,6 +81,6 @@ backend www
         server nginx_{{ iter }} {{ contents[2] }}:7001 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx__{{ iter }} {{ contents[2] }}:7002 source {{ ansible_all_ipv4_addresses[n] }}
         server nginx___{{ iter }} {{ contents[2] }}:7003 source {{ ansible_all_ipv4_addresses[n] }}
-    {% endif -%}
+    {% endif %}
     {% set iter = iter+1 -%}
     {% endfor -%}
