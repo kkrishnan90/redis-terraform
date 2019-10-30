@@ -34,7 +34,6 @@
       stdout_lines: "{{ files.stdout_lines }}"
     with_items: "{{ files.stdout_lines }}"
   - debug:
-      var: stdout_lines
       msg: "This is a stdout line: {{ item }}"
     with_items: "{{ stdout_lines }}"
   
