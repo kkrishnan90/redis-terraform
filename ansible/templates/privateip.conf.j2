@@ -9,8 +9,6 @@ server app5 10.0.40.28:8000 source {{ ansible_all_ipv4_addresses[n+4] }}
 server app6 10.0.40.28:8001 source {{ ansible_all_ipv4_addresses[n+5] }}
 server app7 10.0.40.28:8002 source {{ ansible_all_ipv4_addresses[n+6] }}
 server app8 10.0.40.28:8003 source {{ ansible_all_ipv4_addresses[n+7] }}
-server app7 10.0.40.28:8002 source {{ ansible_all_ipv4_addresses[n+8] }}
-server app8 10.0.40.28:8000 source {{ ansible_all_ipv4_addresses[n+9] }}
 {% endif %}
 {% set count = 2 %}
 {% endfor %}
