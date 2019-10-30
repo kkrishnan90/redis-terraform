@@ -41,7 +41,9 @@
     template:
         src: templates/privateip.conf.j2
         dest: "/home/opc/privateip.txt"
-  - debug: msg="the value of app-servers.txt is {{ contents }}"
+  - debug: 
+     msg : "the value of app-servers.txt is {{ item }}"
+     with_items: "{{ contents }}"
   # - name : ifup command running
   #   sudo: true
   #   shell: ifup {{ item }}
