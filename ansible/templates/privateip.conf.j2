@@ -1,13 +1,16 @@
 {% for ip in ansible_all_ipv4_addresses %}
-server app1 10.0.40.27:8000 source {{ ip }}
-server app2 10.0.40.27:8001 source {{ ip }}
-server app3 10.0.40.27:8002 source {{ ip }}
-server app4 10.0.40.27:8003 source {{ ip }}
-server app5 10.0.40.28:8000 source {{ ip }}
-server app6 10.0.40.28:8001 source {{ ip }}
-server app7 10.0.40.28:8002 source {{ ip }}
-server app8 10.0.40.28:8003 source {{ ip }}
-server app7 10.0.40.28:8002 source {{ ip }}
-server app8 10.0.40.28:8000 source {{ ip }}
-
+{% set stop = false %}
+{% if !stop %}
+server app1 10.0.40.27:8000 source {{ ansible_all_ipv4_addresses[loop.index] }}
+server app2 10.0.40.27:8001 source {{ ansible_all_ipv4_addresses[loop.index+1] }}
+server app3 10.0.40.27:8002 source {{ ansible_all_ipv4_addresses[loop.index+2] }}
+server app4 10.0.40.27:8003 source {{ ansible_all_ipv4_addresses[loop.index+3] }}
+server app5 10.0.40.28:8000 source {{ ansible_all_ipv4_addresses[loop.index+4] }}
+server app6 10.0.40.28:8001 source {{ ansible_all_ipv4_addresses[loop.index+5] }}
+server app7 10.0.40.28:8002 source {{ ansible_all_ipv4_addresses[loop.index+6] }}
+server app8 10.0.40.28:8003 source {{ ansible_all_ipv4_addresses[loop.index+7] }}
+server app7 10.0.40.28:8002 source {{ ansible_all_ipv4_addresses[loop.index+8] }}
+server app8 10.0.40.28:8000 source {{ ansible_all_ipv4_addresses[loop.index+9] }}
+{% set stop = true %}
+{% endif %}
 {% endfor %}
