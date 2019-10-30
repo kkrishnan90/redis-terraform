@@ -44,12 +44,6 @@
   - debug: 
       msg : "the value of app-servers.conf is {{ item }}"
     with_items: "{{ contents }}"
-
-  - name: Delete lines of app-server
-    replace:
-      path: /home/opc/terraform/ansible/app-servers.conf
-      regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [asg] and next line
-      replace: '[servers]'          # Replace both lines with [asg]
   # - name : ifup command running
   #   sudo: true
   #   shell: ifup {{ item }}
@@ -57,8 +51,13 @@
   # - debug: var=ansible_all_ipv4_addresses
   # - debug: var=ansible_default_ipv4.address
     
-# - hosts: local
-#   connection: local
-#   tasks:
-#   - name: Cleaning local privateips folder
-#     shell: rm -rf privateips/*
+- hosts: local
+  connection: local
+  tasks:
+  # - name: Cleaning local privateips folder
+  #   shell: rm -rf privateips/*
+  - name: Delete lines of app-server
+    replace:
+      path: /home/opc/terraform/ansible/app-servers.conf
+      regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [servers] and next two line
+      replace: '[servers]'          # Replace both lines with [servers]
