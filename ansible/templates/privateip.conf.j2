@@ -1,5 +1,7 @@
 {% set count = 1 %}
 {% for n in range(ansible_all_ipv4_addresses|length) %}
+{% if count == 1 %}
 {{ count }}
+{% endif %}
 {% set count = 2 %}
 {% endfor %}
