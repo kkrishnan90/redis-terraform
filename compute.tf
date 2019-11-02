@@ -43,7 +43,8 @@ output "vnic_ids" {
   #   # for val in "${length(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments)}":
   #   #  "${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0]}" => "${lookup(element(data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0], instance), "vnic_id")}"
   # }
-  value =  "${lookup(data.oci_core_vnic_attachments.instance_vnics[0],"vnic_attachments")}"
+  let a = "${data.oci_core_vnic_attachments.instance_vnics}"
+  value =  "${a}"
 }
 
 
