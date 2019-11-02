@@ -27,7 +27,7 @@ resource "oci_core_instance" "TestInstance" {
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TestInstance.id}"
+  instance_id         = "${oci_core_instance.TestInstance[count.index].id}"
 }
 
 
@@ -60,7 +60,7 @@ resource "null_resource" "ansible" {
   }
   connection {
     type     = "ssh"
-    host = "${oci_core_instance.TestInstance.private_ip}"
+    host = "${oci_core_instance.TestInstance[count.index].private_ip}"
     user     = "opc"
     password = ""
     private_key = "${file("/home/opc/private_key_oci.pem")}"
