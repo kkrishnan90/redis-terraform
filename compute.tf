@@ -34,7 +34,7 @@ locals {
 }
 
 output "locals-output" {
-  value =  "${formatlist("%s",local.name.*)}"
+  value =  "${formatlist("%s",local.name[0])}"
 }
 
 # resource "oci_core_private_ip" "private_ip" {
