@@ -35,11 +35,13 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 
 # Gets the OCID of the first (default) VNIC
 data "oci_core_vnic" "instance_vnic" {
-  vnic_id = "${lookup(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[0],"vnic_id")}"
+  depends_on          = ["oci_core_instance.TestInstance"]
+  vnic_id = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
 }
 
 # Create PrivateIP
 resource "oci_core_private_ip" "private_ip" {
+  depends_on          = ["oci_core_instance.TestInstance"]
   count = "${var.hap_ip_count}"
   vnic_id        = "${lookup(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[0],"vnic_id")}"
   display_name   = "someDisplayName${count.index}"
@@ -52,7 +54,7 @@ resource "oci_core_private_ip" "private_ip" {
 
 # List Private IPs
 data "oci_core_private_ips" "private_ip_datasource" {
-  vnic_id    = "${lookup(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[0],"vnic_id")}"
+  vnic_id    = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
 }
 output "instance" {
   value = "${oci_core_instance.TestInstance.*.private_ip}"
