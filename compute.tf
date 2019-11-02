@@ -33,11 +33,11 @@ locals {
   # name="${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0]}"
   name = "${oci_core_instance.TestInstance[*].id}"
   vnics = "${length(local.name)}"
-  init_count = "${var.NumInstances}"
+  init_count = "${oci_core_instance.TestInstance.count.index}"
 }
 
 output "locals-output" {
-  value =  "${oci_core_instance.TestInstance.count.index}"
+  value =  "${local.init_count}"
   
 }
 
