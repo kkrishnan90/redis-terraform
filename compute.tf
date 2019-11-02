@@ -42,7 +42,7 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 output "vnic_ids" {
   value = {
     for vnic in data.oci_core_vnic_attachments.instance_vnics:
-     vnic.vnic_id => vnic.vnic_id
+     vnic => vnic
   }
 }
 
