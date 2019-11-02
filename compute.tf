@@ -34,7 +34,8 @@ locals {
 }
 
 output "locals-output" {
-  value = "${lookup(local.name[*],"vnic_id")}"
+  depends_on = "${var.NumInstances}"
+  value = "${lookup(local.name[count.index],"vnic_id")}"
 }
 
 # resource "oci_core_private_ip" "private_ip" {
