@@ -30,7 +30,7 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 }
 
 output "vnic_data" {
-  value = "${data.oci_core_vnic_attachments.instance_vnics}"
+  value = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
 }
 
 
