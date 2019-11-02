@@ -30,12 +30,13 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 }
 
 locals {
-  name="${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0]}"
+  # name="${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0]}"
+  name = "${oci_core_instance.TestInstance.*.id[count.index]}"
   vnics = "${length(local.name)}"
 }
 
 output "locals-output" {
-  value =  "${local.vnics}"
+  value =  "${local.name}"
 }
 
 # resource "oci_core_private_ip" "private_ip" {
