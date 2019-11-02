@@ -45,7 +45,7 @@ resource "oci_core_private_ip" "private_ip" {
 
   count = "${var.hap_ip_count}"
   depends_on=["oci_core_instance.TestInstance"]
-  vnic_id        = "${element(local.name,count.index)}"
+  vnic_id        = "${element(local.name[*].vnic_id,count.index)}"
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
 
