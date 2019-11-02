@@ -35,7 +35,7 @@ locals {
 
 output "locals-output" {
   value = {
-    three = "${local.name[*].vnic_id}"
+    three = "${local.name}"
   }
 }
 
