@@ -34,7 +34,7 @@ locals {
 }
 
 output "locals-output" {
-  value = "${lookup(local.name,"vnic_id")}"
+  value = "${lookup(local.name[0],"vnic_id")}"
 }
 
 # resource "oci_core_private_ip" "private_ip" {
