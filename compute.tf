@@ -37,6 +37,7 @@ output "locals-output" {
   value = {
     one = "${local.name[0]}"
     two = "${local.name[1]}"
+    three = "${local.name[*]}"
   }
 }
 
