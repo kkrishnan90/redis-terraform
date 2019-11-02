@@ -34,7 +34,7 @@ locals {
 }
 
 output "locals-output" {
-  value =  "${tostring(local.name[*].vnic_id)}"
+  value =  "${local.name[*].vnic_id}"
 }
 
 # resource "oci_core_private_ip" "private_ip" {
