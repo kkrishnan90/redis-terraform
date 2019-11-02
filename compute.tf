@@ -26,7 +26,6 @@ resource "oci_core_instance" "TestInstance" {
 
 data "oci_core_vnic_attachments" "instance_vnics" {
   count = "${var.NumInstances}"
-  depends_on = ["oci_core_instance.TestInstance"]
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
