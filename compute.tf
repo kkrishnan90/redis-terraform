@@ -27,7 +27,7 @@ resource "oci_core_instance" "TestInstance" {
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TestInstance[count.index].id}"
+  instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
 }
 
 
@@ -60,13 +60,13 @@ resource "null_resource" "ansible" {
   }
   connection {
     type     = "ssh"
-    host = "${oci_core_instance.TestInstance[count.index].private_ip}"
+    host = "${oci_core_instance.TestInstance.*.private_ip[count.index]}"
     user     = "opc"
     password = ""
     private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
   provisioner "local-exec"{
-    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
+    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.*.public_ip[count.index]}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.public_ip[count.index]}"
   }
 }
 
