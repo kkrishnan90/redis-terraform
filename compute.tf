@@ -60,7 +60,7 @@ resource "null_resource" "ansible" {
   }
   connection {
     type     = "ssh"
-    host = "${oci_core_instance.TestInstance[count.index].private_ip}"
+    host = "${oci_core_instance.TestInstance.private_ip}"
     user     = "opc"
     password = ""
     private_key = "${file("/home/opc/private_key_oci.pem")}"
