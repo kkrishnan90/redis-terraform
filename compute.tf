@@ -35,11 +35,11 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 data "oci_core_vnic" "instance_vnic" {
   count = "${var.NumInstances}"
   # vnic_id = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[count.index],"vnic_id")}"
-  vnic_id = "${data.oci_core_vnic.instance_vnic.*.id[count.index]}"
+  # vnic_id = "${data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments}"
 }
 
 output "vnic_ids" {
-  value = "${data.oci_core_vnic.instance_vnic}"
+  value = "${data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments}"
 }
 
 
