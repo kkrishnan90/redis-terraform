@@ -38,11 +38,12 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 # }
 
 output "vnic_ids" {
-  value = {
-    ${element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[1],0)}
-    # for val in "${length(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments)}":
-    #  "${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0]}" => "${lookup(element(data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0], instance), "vnic_id")}"
-  }
+  # value = {
+   
+  #   # for val in "${length(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments)}":
+  #   #  "${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0]}" => "${lookup(element(data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0], instance), "vnic_id")}"
+  # }
+  value =  "${element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[1],0)}"
 }
 
 
