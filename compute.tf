@@ -25,7 +25,7 @@ resource "oci_core_instance" "TestInstance" {
 }
 
 locals {
-  name="${oci_core_instance.TestInstance.[*].private_ip}"
+  name="${oci_core_instance.TestInstance.private_ip}"
 }
 
 output "locals-output" {
