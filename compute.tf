@@ -33,15 +33,15 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 locals {
   name="${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0]}"
   # name = "${oci_core_instance.TestInstance[*].id}"
-  vnics = {
-    one = "${element(local.name.*.vnic_id, 0)}"
-    two = "${element(local.name.*.vnic_id, 1)}"
-  }
-  init_count = "${length(oci_core_instance.TestInstance)}"
+  # vnics = {
+  #   one = "${element(local.name.*.vnic_id, 0)}"
+  #   two = "${element(local.name.*.vnic_id, 1)}"
+  # }
+  # init_count = "${length(oci_core_instance.TestInstance)}"
 }
 
 output "locals-output" {
-  value =  "${local.vnics}"
+  value =  "${local.name}"
   
 }
 
