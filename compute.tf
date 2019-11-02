@@ -35,7 +35,7 @@ locals {
 
 output "locals-output" {
   value =  {
-    actual = "${local.name[*]}"
+    actual = "${local.name[*].vnic_id}"
     # formatted = "${formatlist("%s",local.name)}"
   }
 }
