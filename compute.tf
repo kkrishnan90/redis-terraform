@@ -54,7 +54,7 @@ output "vnic_ids" {
 resource "oci_core_private_ip" "private_ip" {
   count = "${var.hap_ip_count}"
   depends_on=["oci_core_instance.TestInstance"]
-  vnic_id        = ${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id}
+  vnic_id        = "${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id}"
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
 
