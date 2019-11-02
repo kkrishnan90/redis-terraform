@@ -30,7 +30,7 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 }
 
 locals {
-  name="${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments}"
+  name="${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0]}"
 }
 
 output "locals-output" {
