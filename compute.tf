@@ -32,7 +32,7 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 }
 
 output "vnic_data" {
-  value = "${data.oci_core_vnic_attachments.instance_vnics}"
+  value = "${data.oci_core_vnic_attachments.instance_vnics[count.index].vnic_attachments[0]}"
 }
 
 
