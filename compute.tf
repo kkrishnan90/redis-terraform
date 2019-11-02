@@ -38,7 +38,7 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 # }
 
 output "vnic_ids" {
-  value =  "${zipmap(data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].id, data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id)}"
+  value =  "${values(zipmap(data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].id, data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id))}"
 }
 
 
@@ -51,17 +51,17 @@ output "vnic_ids" {
 
 
 # Create PrivateIP
-resource "oci_core_private_ip" "private_ip" {
-  count = "${var.hap_ip_count}"
-  depends_on=["oci_core_instance.TestInstance"]
-  vnic_id        = "${values(zipmap(data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].id, data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id))[*]}"
-  display_name   = "someDisplayName${count.index}"
-  hostname_label = "somehostnamelabel${count.index}"
+# resource "oci_core_private_ip" "private_ip" {
+#   count = "${var.hap_ip_count}"
+#   depends_on=["oci_core_instance.TestInstance"]
+#   vnic_id        = "${values(zipmap(data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].id, data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id))[*]}"
+#   display_name   = "someDisplayName${count.index}"
+#   hostname_label = "somehostnamelabel${count.index}"
 
-  # provisioner "local-exec" {
-  #     command = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ifcfg-ens3:${count.index}\necho BOOTPROTO=static >> privateips/ifcfg-ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ifcfg-ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ifcfg-ens3:${count.index}\necho ONBOOT=yes >> privateips/ifcfg-ens3:${count.index}"  
-  # }
-}
+#   # provisioner "local-exec" {
+#   #     command = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ifcfg-ens3:${count.index}\necho BOOTPROTO=static >> privateips/ifcfg-ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ifcfg-ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ifcfg-ens3:${count.index}\necho ONBOOT=yes >> privateips/ifcfg-ens3:${count.index}"  
+#   # }
+# }
 
 # # List Private IPs
 # data "oci_core_private_ips" "private_ip_datasource" {
