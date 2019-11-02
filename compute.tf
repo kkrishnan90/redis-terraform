@@ -36,21 +36,22 @@ locals {
 }
 
 output "locals-output" {
-  value =  "${local.name}"
+  value =  "${for n in length(local.name) : n => local.name[*].vnic_id[n]}"
+  
 }
 
-resource "oci_core_private_ip" "private_ip" {
+# resource "oci_core_private_ip" "private_ip" {
 
-  count = "${var.hap_ip_count}"
-  depends_on=["oci_core_instance.TestInstance"]
-  vnic_id        = "${count.index} < ${length(local.name) ? ${local.name.*.vnic_id[count.index]} : ${null}"
-  display_name   = "someDisplayName${count.index}"
-  hostname_label = "somehostnamelabel${count.index}"
+#   count = "${var.hap_ip_count}"
+#   depends_on=["oci_core_instance.TestInstance"]
+#   vnic_id        = "${for n in length(local.name) : n => local.name[*].vnic_id[n]}"
+#   display_name   = "someDisplayName${count.index}"
+#   hostname_label = "somehostnamelabel${count.index}"
 
-  # provisioner "local-exec" {
-  #     command = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ifcfg-ens3:${count.index}\necho BOOTPROTO=static >> privateips/ifcfg-ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ifcfg-ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ifcfg-ens3:${count.index}\necho ONBOOT=yes >> privateips/ifcfg-ens3:${count.index}"  
-  # }
-}
+#   # provisioner "local-exec" {
+#   #     command = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ifcfg-ens3:${count.index}\necho BOOTPROTO=static >> privateips/ifcfg-ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ifcfg-ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ifcfg-ens3:${count.index}\necho ONBOOT=yes >> privateips/ifcfg-ens3:${count.index}"  
+#   # }
+# }
 
 
 
