@@ -34,7 +34,10 @@ locals {
 }
 
 output "locals-output" {
-  value = "${local.name}"
+  value = {
+    one = "${local.name[0]}"
+    two = "${local.name[1]}"
+  }
 }
 
 # resource "oci_core_private_ip" "private_ip" {
