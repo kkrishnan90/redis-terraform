@@ -27,7 +27,7 @@ resource "oci_core_instance" "TestInstance" {
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${element(oci_core_instance.TestInstance.*.id, count.index)}"
+  instance_id         = "${oci_core_instance.TestInstance.id}"
 }
 
 
@@ -66,7 +66,7 @@ resource "null_resource" "ansible" {
     private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
   provisioner "local-exec"{
-    command = "sudo ansible-playbook -i ${element(oci_core_instance.TestInstance.*.public_ip, count.index)}, ansible/redis-playbook.yml --extra-vars variable_host=${element(oci_core_instance.TestInstance.*.public_ip, count.index)}"
+    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
   }
 }
 
