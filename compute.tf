@@ -36,7 +36,7 @@ locals {
 output "locals-output" {
   value =  {
     actual = "${local.name[*]}"
-    formatted = "${formatlist("%s",local.name)}"
+    # formatted = "${formatlist("%s",local.name)}"
   }
 }
 
