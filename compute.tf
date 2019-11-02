@@ -16,8 +16,6 @@ resource "oci_core_instance" "TestInstance" {
 
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
-    # user_data = "${base64encode(file("bootstrap.sh"))}"
-    # user_data = "${data.template_file.user_data.rendered}"
   }
   timeouts {
     create = "60m"
@@ -25,7 +23,7 @@ resource "oci_core_instance" "TestInstance" {
 }
 
 locals {
-  name="${oci_core_instance.TestInstance.private_ip}"
+  name="${oci_core_instance.TestInstance[*].private_ip}"
 }
 
 output "locals-output" {
