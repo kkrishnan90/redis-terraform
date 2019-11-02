@@ -37,7 +37,7 @@ locals {
   #   two = "${element(local.name[*].vnic_id, 1)}"
   # }
   check = ["Krishna", "Sweatha", "Latha", "Kumar"]
-  test = "${for s in local.check: upper(s)}"
+  test = [for s in local.check: upper(s)]
   init_count = "${length(oci_core_instance.TestInstance)}"
 }
 
