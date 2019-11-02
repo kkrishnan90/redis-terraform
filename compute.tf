@@ -37,7 +37,7 @@ locals {
 }
 
 output "locals-output" {
-  value =  "${local.init_count}"
+  value =  "${length(oci_core_instance.TestInstance)}"
   
 }
 
