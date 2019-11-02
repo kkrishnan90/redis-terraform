@@ -34,7 +34,7 @@ locals {
 }
 
 output "locals-output" {
-  depends_on = "${var.NumInstances}"
+  count = "${var.NumInstances}"
   value = "${lookup(local.name[count.index],"vnic_id")}"
 }
 
