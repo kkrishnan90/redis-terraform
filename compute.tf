@@ -27,7 +27,7 @@ resource "oci_core_instance" "TestInstance" {
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
+  instance_id         = "${oci_core_instance.TestInstance[count.index].id}"
 }
 
 output "vnic_data" {
