@@ -53,7 +53,10 @@ output "vnic_ids" {
 # Create PrivateIP
 resource "oci_core_private_ip" "private_ip" {
   count = "${var.hap_ip_count}"
-  vnic_id        ="${lookup(element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[0],0),"vnic_id")}"
+  vnic_id        = {
+    for c in var.NumInstances:
+    "${lookup(element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[c],0),"vnic_id")}"
+  }
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
 
