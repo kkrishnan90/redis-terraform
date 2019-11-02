@@ -34,7 +34,7 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 
 output "vnic_data" {
   depends_on = ["oci_core_instance.TestInstance"]
-  value = "${data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[count.index]}"
+  value = "${data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments}"
 }
 
 
