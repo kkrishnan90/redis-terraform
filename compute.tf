@@ -32,12 +32,10 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 }
 
 # Gets the OCID of the first (default) VNIC
-# data "oci_core_vnic" "instance_vnic" {
-  # count = "${var.NumInstances}"
-  # vnic_id = "${element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments, count.index)}"
-#   # vnic_id = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[count.index],"vnic_id")}"
-#   # vnic_id = "${data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments}"
-# }
+data "oci_core_vnic" "instance_vnic" {
+  count = "${var.NumInstances}"
+  vnic_id = "${lookup(element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[count.index],0),"vnic_id")}"
+}
 
 output "vnic_ids" {
   value = "${lookup(element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[1],0),"vnic_id")}"
