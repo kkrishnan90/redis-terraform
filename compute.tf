@@ -35,7 +35,7 @@ locals {
 
 output "locals-output" {
   value = {
-    three = "${formatlist(local.name)}"
+    three = "${formatlist(local.name[*])}"
   }
 }
 
