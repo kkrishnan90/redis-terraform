@@ -2,6 +2,7 @@
 
 resource "oci_core_instance" "TestInstance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  count = "${var.NumInstances}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "HAP-Instance"
   shape               = "${var.instance_shape}"
@@ -26,7 +27,7 @@ resource "oci_core_instance" "TestInstance" {
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TestInstance.id}"
+  instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
 }
 
 output "vnic_data" {
