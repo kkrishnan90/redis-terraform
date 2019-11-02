@@ -54,7 +54,7 @@ resource "oci_core_private_ip" "private_ip" {
 
 # List Private IPs
 data "oci_core_private_ips" "private_ip_datasource" {
-  vnic_id    = "${lookup(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[0],"vnic_id")}"
+  vnic_id    = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
 }
 output "instance" {
   value = "${oci_core_instance.TestInstance.*.private_ip}"
