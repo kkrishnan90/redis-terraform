@@ -36,7 +36,7 @@ locals {
 }
 
 output "locals-output" {
-  value =  "${for n in length(local.name) : n => local.name[*].vnic_id[n]}"
+  value =  "{for n in length(local.name) : n => local.name[*].vnic_id[n]}"
   
 }
 
