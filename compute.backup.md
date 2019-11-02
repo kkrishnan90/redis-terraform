@@ -24,23 +24,23 @@ resource "oci_core_instance" "TestInstance" {
   }
 }
 
-data "oci_core_vnic_attachments" "instance_vnics" {
-  count = "${var.NumInstances}"
-  compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
-}
-
-# Gets the OCID of the first (default) VNIC
-# data "oci_core_vnic" "instance_vnic" {
+# data "oci_core_vnic_attachments" "instance_vnics" {
 #   count = "${var.NumInstances}"
-#   vnic_id = "${lookup(element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[count.index],0),"vnic_id")}"
+#   compartment_id      = "${var.compartment_ocid}"
+#   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+#   instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
 # }
 
-output "vnic_ids" {
-  # value =  "${values(zipmap(data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].id, data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id))}"
-  value = "${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id}"
-}
+# # Gets the OCID of the first (default) VNIC
+# # data "oci_core_vnic" "instance_vnic" {
+# #   count = "${var.NumInstances}"
+# #   vnic_id = "${lookup(element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[count.index],0),"vnic_id")}"
+# # }
+
+# output "vnic_ids" {
+#   # value =  "${values(zipmap(data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].id, data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id))}"
+#   value = "${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id}"
+# }
 
 
 # output "vnic_ids" {
@@ -50,22 +50,22 @@ output "vnic_ids" {
 #   }
 # }
 locals {
-  vnic_ids="${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id}"
+  vnic_ids="${}"
 }
 
 # Create PrivateIP
-resource "oci_core_private_ip" "private_ip" {
+# resource "oci_core_private_ip" "private_ip" {
 
-  count = "${var.hap_ip_count}"
-  depends_on=["oci_core_instance.TestInstance"]
-  vnic_id        = "${local.vnic_ids[*]}"
-  display_name   = "someDisplayName${count.index}"
-  hostname_label = "somehostnamelabel${count.index}"
+#   count = "${var.hap_ip_count}"
+#   depends_on=["oci_core_instance.TestInstance"]
+#   vnic_id        = "${local.vnic_ids[*]}"
+#   display_name   = "someDisplayName${count.index}"
+#   hostname_label = "somehostnamelabel${count.index}"
 
-  # provisioner "local-exec" {
-  #     command = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ifcfg-ens3:${count.index}\necho BOOTPROTO=static >> privateips/ifcfg-ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ifcfg-ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ifcfg-ens3:${count.index}\necho ONBOOT=yes >> privateips/ifcfg-ens3:${count.index}"  
-  # }
-}
+#   # provisioner "local-exec" {
+#   #     command = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ifcfg-ens3:${count.index}\necho BOOTPROTO=static >> privateips/ifcfg-ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ifcfg-ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ifcfg-ens3:${count.index}\necho ONBOOT=yes >> privateips/ifcfg-ens3:${count.index}"  
+#   # }
+# }
 
 # # List Private IPs
 # data "oci_core_private_ips" "private_ip_datasource" {
