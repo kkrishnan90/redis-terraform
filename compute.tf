@@ -32,10 +32,12 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 locals {
   name="${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0]}"
   # name = "${oci_core_instance.TestInstance[*].id}"
-  vnics = {
-    one = "${element(local.name[*].vnic_id, 0)}"
-    two = "${element(local.name[*].vnic_id, 1)}"
-  }
+  # vnics = {
+  #   one = "${element(local.name[*].vnic_id, 0)}"
+  #   two = "${element(local.name[*].vnic_id, 1)}"
+  # }
+  check = ["Krishna", "Sweatha", "Latha", "Kumar"]
+  test = "${for s in local.check: upper(s)}"
   init_count = "${length(oci_core_instance.TestInstance)}"
 }
 
