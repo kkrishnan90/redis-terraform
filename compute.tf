@@ -1,9 +1,10 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
 resource "oci_core_instance" "TestInstance" {
+  count = "${var.NumInstances}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "HAP-Instance"
+  display_name        = "HAP-Instance-${count.index}"
   shape               = "${var.instance_shape}"
   image = "${var.instance_image_ocid[var.region]}"
   create_vnic_details{
