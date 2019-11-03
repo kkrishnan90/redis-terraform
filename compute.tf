@@ -6,7 +6,10 @@ resource "oci_core_instance" "TestInstance" {
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "HAP-Instance-${count.index}"
   shape               = "${var.instance_shape}"
-  image = "ocid1.image.oc1.ca-toronto-1.aaaaaaaa7gb5qhlijlfon7mfoxkapsi2zvqtgrle3idy254wp3h3ddds3opa"
+  source_details {
+  source_type = "image"
+  source_id = "ocid1.image.oc1.ca-toronto-1.aaaaaaaa7gb5qhlijlfon7mfoxkapsi2zvqtgrle3idy254wp3h3ddds3opa"
+  }
   create_vnic_details{
     subnet_id = "${var.subnet_ocid}"
     display_name     = "primaryvnic"
