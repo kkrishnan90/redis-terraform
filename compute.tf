@@ -52,7 +52,12 @@ output "vnics" {
 #   vnic_id = each.value
 # }
 
-for s in  "${data.oci_core_vnic.instance_vnic[*].vnic_id}":
+
+locals {
+  vnic_ids = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
+}
+
+for s in  "${local.vnic_ids}":
 resource "oci_core_private_ip" "private_ip" {
   # count = "${var.hap_ip_count}"
   depends_on=["oci_core_instance.TestInstance"]
