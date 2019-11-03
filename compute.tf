@@ -39,7 +39,7 @@ data "oci_core_vnic" "instance_vnic" {
 #   vnic_ids = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
 # }
 output "vnics" {
-  value = "${element(data.oci_core_vnic.instance_vnic, 1)}"
+  value = "${lookup(element(data.oci_core_vnic.instance_vnic, 1),"vnic_id")}"
 }
 
 # resource "null_resource" "json_output" {
