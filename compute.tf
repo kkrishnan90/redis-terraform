@@ -29,6 +29,7 @@ data "oci_core_instance" "test_instance" {
 
 data "oci_core_private_ips" "test_private_ips_by_subnet" {
     count = "${var.NumInstances}"
+    ip_address = "${oci_core_instance.TestInstance.*.private_ip[count.index]}"
     subnet_id = "${oci_core_instance.TestInstance.*.subnet_id[count.index]}"
 }
 
