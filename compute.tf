@@ -33,15 +33,6 @@ data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
 data "oci_core_vnic" "instance_vnic" {
   count = "${var.NumInstances}"
   vnic_id = "${lookup(element(data.oci_core_vnic_attachments.get_vnicid_by_instance_id.*.vnic_attachments[count.index],0),"vnic_id")}"
-  dynamic "oci_core_private_ip" {
-    for_each = "${data.oci_core_vnic.instance_vnic}"
-    content {
-        count = "${var.hap_ip_count}"
-        vnic_id        = "${data.oci_core_vnic.instance_vnic[0].vnic_id}"
-        display_name   = "someDisplayName${count.index}"
-        hostname_label = "somehostnamelabel${count.index}"
-    }
-  }
 }
 
 # locals {
@@ -51,13 +42,19 @@ output "vnics" {
   value = "${data.oci_core_vnic.instance_vnic}"
 }
 
-# resource "oci_core_private_ip" "private_ip" {
-#   count = "${var.hap_ip_count}"
-#   depends_on=["oci_core_instance.TestInstance"]
-#   vnic_id        = "${data.oci_core_vnic.instance_vnic[0].vnic_id}"
-#   display_name   = "someDisplayName${count.index}"
-#   hostname_label = "somehostnamelabel${count.index}"
-# }
+resource "oci_core_private_ip" "private_ip" {
+  count = "${var.hap_ip_count}"
+  depends_on=["oci_core_instance.TestInstance"]
+  # vnic_id        = "${data.oci_core_vnic.instance_vnic[0].vnic_id}"
+  display_name   = "someDisplayName${count.index}"
+  hostname_label = "somehostnamelabel${count.index}"
+  dynamic "vnic_id" {
+    for_each = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
+    content {
+      vnic_id = each.value
+    }
+  }
+}
 
 
 
