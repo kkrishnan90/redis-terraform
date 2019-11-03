@@ -20,9 +20,11 @@ resource "oci_core_instance" "TestInstance" {
   timeouts {
     create = "60m"
   }  
+
+
 }
 
-data "oci_core_vnic_attachments" "instance_vnics" {
+data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
   count = "${var.NumInstances}"
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
@@ -32,17 +34,22 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 # # Gets the OCID of the first (default) VNIC
 data "oci_core_vnic" "instance_vnic" {
   count = "${var.NumInstances}"
-  vnic_id = "${lookup(element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[count.index],0),"vnic_id")}"
+  vnic_id = "${lookup(element(data.oci_core_vnic_attachments.get_vnicid_by_instance_id.*.vnic_attachments[count.index],0),"vnic_id")}"
+}
+
+output "vnics" {
+  value = "${data.oci_core_vnic.instance_vnic}"
 }
 
 
-locals {
- privateIps = "${oci_core_instance.TestInstance.*.private_ip}"  
-}
 
-output "iplist" {
-  value = "${local.privateIps}"
-}
+# locals {
+#  privateIps = "${oci_core_instance.TestInstance.*.private_ip}"  
+# }
+
+# output "iplist" {
+#   value = "${local.privateIps}"
+# }
 
 
 
