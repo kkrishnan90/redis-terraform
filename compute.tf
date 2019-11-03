@@ -42,6 +42,13 @@ output "vnics" {
   value = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
 }
 
+resource "null_resource" "json_output" {
+  provisioner "local-exec" {
+    command = "touch privateips/vnic_ids.json\necho ${data.oci_core_vnic.instance_vnic[*].vnic_id}"
+  }
+}
+
+
 # resource "oci_core_private_ip" "private_ip" {
 #   # count = "${var.hap_ip_count}"
 #   depends_on=["oci_core_instance.TestInstance"]
@@ -53,18 +60,18 @@ output "vnics" {
 # }
 
 
-locals {
-  vnic_ids = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
-}
+# locals {
+#   vnic_ids = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
+# }
 
-for s in  "${local.vnic_ids}":
-resource "oci_core_private_ip" "private_ip" {
-  # count = "${var.hap_ip_count}"
-  depends_on=["oci_core_instance.TestInstance"]
-  vnic_id        = "${s}"
-  display_name   = "someDisplayName"
-  hostname_label = "somehostnamelabel"
-}
+# for s in  "${local.vnic_ids}":
+# resource "oci_core_private_ip" "private_ip" {
+#   # count = "${var.hap_ip_count}"
+#   depends_on=["oci_core_instance.TestInstance"]
+#   vnic_id        = "${s}"
+#   display_name   = "someDisplayName"
+#   hostname_label = "somehostnamelabel"
+# }
 
 
 # locals {
