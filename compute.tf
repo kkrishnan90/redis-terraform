@@ -20,39 +20,24 @@ resource "oci_core_instance" "TestInstance" {
   timeouts {
     create = "60m"
   }  
+}
 
 data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
   count = "${var.NumInstances}"
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TestInstance.*.id[*]}"
+  instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
 }
+
+# # Gets the OCID of the first (default) VNIC
 data "oci_core_vnic" "instance_vnic" {
   count = "${var.NumInstances}"
-  vnic_id = "${lookup(element(data.oci_core_vnic_attachments.get_vnicid_by_instance_id.*.vnic_attachments[*],0),"vnic_id")}"
+  vnic_id = "${lookup(element(data.oci_core_vnic_attachments.get_vnicid_by_instance_id.*.vnic_attachments[count.index],0),"vnic_id")}"
 }
 
 output "vnics" {
   value = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
 }
-}
-
-# data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
-#   count = "${var.NumInstances}"
-#   compartment_id      = "${var.compartment_ocid}"
-#   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-#   instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
-# }
-
-# # # Gets the OCID of the first (default) VNIC
-# data "oci_core_vnic" "instance_vnic" {
-#   count = "${var.NumInstances}"
-#   vnic_id = "${lookup(element(data.oci_core_vnic_attachments.get_vnicid_by_instance_id.*.vnic_attachments[count.index],0),"vnic_id")}"
-# }
-
-# output "vnics" {
-#   value = "${data.oci_core_vnic.instance_vnic[0].vnic_id}"
-# }
 
 # resource "oci_core_private_ip" "private_ip" {
 #   count = "${var.hap_ip_count}"
