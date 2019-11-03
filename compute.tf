@@ -33,10 +33,17 @@ data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
 data "oci_core_vnic" "instance_vnic" {
   count = "${var.NumInstances}"
   vnic_id = "${lookup(element(data.oci_core_vnic_attachments.get_vnicid_by_instance_id.*.vnic_attachments[count.index],0),"vnic_id")}"
+  # dynamic "oci_core_private_ip" {
+  #   for_each = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
+
+  # }
 }
 
+# locals {
+#   vnic_ids = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
+# }
 output "vnics" {
-  value = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
+  value = "${data.oci_core_vnic.instance_vnic.vnic_id}"
 }
 
 # resource "oci_core_private_ip" "private_ip" {
