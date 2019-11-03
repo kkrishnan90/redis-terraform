@@ -24,12 +24,16 @@ resource "oci_core_instance" "TestInstance" {
 
 data "oci_core_instance" "test_instance" {
   count = "${var.NumInstances}"
-    #Required
-    instance_id = "${oci_core_instance.TestInstance.*.id[count.index]}"
+  instance_id = "${oci_core_instance.TestInstance.*.id[count.index]}"
+}
+
+data "oci_core_private_ips" "test_private_ips_by_subnet" {
+    count = "${var.NumInstances}"
+    subnet_id = "${oci_core_instance.TestInstance.*.subnet_id[count.index]}"
 }
 
 output "instance-output" {
-  value = "${data.oci_core_instance.test_instance}"
+  value = "${data.oci_core_private_ips.test_private_ips_by_subnet}"
 }
 
 
