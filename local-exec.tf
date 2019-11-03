@@ -35,7 +35,7 @@
 # #                         indent(
 # #                             4,"%s:\n redis_version: %s\n private_ip: %s \n master: %s \n redis_port: %s \n cluster_port: %s"
 # #                             ),
-                        
+
 # #                         oci_core_instance.RedisInstance.*.public_ip,
 # #                         var.redis_version,
 # #                         oci_core_instance.RedisInstance.*.private_ip,
