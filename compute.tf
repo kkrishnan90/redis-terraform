@@ -19,29 +19,55 @@ resource "oci_core_instance" "TestInstance" {
   }
   timeouts {
     create = "60m"
-  }
+  }  
 }
 
-data "oci_core_instance" "test_instance" {
+data "oci_core_vnic_attachments" "instance_vnics" {
   count = "${var.NumInstances}"
-  instance_id = "${oci_core_instance.TestInstance.*.id[count.index]}"
+  compartment_id      = "${var.compartment_ocid}"
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
 }
 
-data "oci_core_private_ips" "test_private_ips_by_subnet" {
-    count = "${var.NumInstances}"
-    ip_address = "${oci_core_instance.TestInstance.*.private_ip[count.index]}"
-    subnet_id = "${oci_core_instance.TestInstance.*.subnet_id[count.index]}"
-}
-
-output "instance-output" {
-  value = "${data.oci_core_private_ips.test_private_ips_by_subnet}"
+# # Gets the OCID of the first (default) VNIC
+data "oci_core_vnic" "instance_vnic" {
+  count = "${var.NumInstances}"
+  vnic_id = "${lookup(element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[count.index],0),"vnic_id")}"
 }
 
 
+locals {
+ privateIps = "${oci_core_instance.TestInstance.*.private_ip}"  
+}
+
+output "iplist" {
+  value = "${local.privateIps}"
+}
+
+
+
+
+
+
+# output "vnic_ids" {
+#   # value =  "${values(zipmap(data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].id, data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id))}"
+#   value = "${data.oci_core_vnic_attachments.instance_vnics[*].vnic_attachments[0].vnic_id}"
+# }
+
+
+# output "vnic_ids" {
+#   value = {
+#     for vnic in data.oci_core_vnic_attachments.instance_vnics:
+#      vnic.id => vnic.id
+#   }
+# }
+
+# Create PrivateIP
 # resource "oci_core_private_ip" "private_ip" {
+
 #   count = "${var.hap_ip_count}"
 #   depends_on=["oci_core_instance.TestInstance"]
-#   vnic_id        = "${element(local.name[*].vnic_id,count.index)}"
+#   vnic_id        = "${local.vnic_ids[*]}"
 #   display_name   = "someDisplayName${count.index}"
 #   hostname_label = "somehostnamelabel${count.index}"
 
@@ -50,10 +76,49 @@ output "instance-output" {
 #   # }
 # }
 
+# # List Private IPs
+# data "oci_core_private_ips" "private_ip_datasource" {
+#   vnic_id    = "${lookup(data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0],"vnic_id")}"
+
+# }
+
+# resource "null_resource" "ansible" {
+#   provisioner "remote-exec" {
+#     script="wait_for_instance.sh"
+#   }
+#   connection {
+#     type     = "ssh"
+#     host = "${oci_core_instance.TestInstance.private_ip}"
+#     user     = "opc"
+#     password = ""
+#     private_key = "${file("/home/opc/private_key_oci.pem")}"
+#   }
+#   provisioner "local-exec"{
+#     command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
+#   }
+# }
+
+# # output "private_ips" {
+# #   value = "${null_resource.ip_script}"
+# # }
 
 
 
+# output "primary-private-ip" {
+#   value = "${oci_core_instance.TestInstance.private_ip}"
+# }
+
+# output "coreip" {
+#   value = "${lookup(oci_core_private_ip.private_ip[3], "ip_address")}"
+# }
 
 
+# output "secondary-private-ips" {
+#   value = "${oci_core_private_ip.private_ip.*.ip_address}"
+# }
+
+# output "combined_data" {
+#   value = { primary_ip = "${oci_core_instance.TestInstance.private_ip}",secondary_ips="${oci_core_private_ip.private_ip.*.ip_address}" }
+# }
 
 
