@@ -22,27 +22,16 @@ resource "oci_core_instance" "TestInstance" {
   }
 }
 
-data "oci_core_vnic_attachments" "instance_vnics" {
+data "oci_core_instance" "test_instance" {
   count = "${var.NumInstances}"
-  compartment_id      = "${var.compartment_ocid}"
-  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
+    #Required
+    instance_id = "${oci_core_instance.TestInstance.*.id[count.index]}"
 }
 
-# Gets the OCID of the first (default) VNIC
-data "oci_core_vnic" "instance_vnic" {
-  # count = "${var.NumInstances}"
-  vnic_id = "${lookup(element(data.oci_core_vnic_attachments.instance_vnics.*.vnic_attachments[count.index],0),"vnic_id")}"
+output "instance-output" {
+  value = "${data.oci_core_instance.test_instance}"
 }
 
-locals {
- vnics = "${data.oci_core_vnic.instance_vnic.vnic_id}"
-}
-
-output "locals-output" {
-  value =  "${local.vnics}"
-  
-}
 
 # resource "oci_core_private_ip" "private_ip" {
 #   count = "${var.hap_ip_count}"
