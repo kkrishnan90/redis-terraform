@@ -9,7 +9,7 @@ region = "ap-mumbai-1"
 
 
 # ---- Instances
-NumInstances="2"
+NumInstances="3"
 ssh_public_key_path = "/home/opc/pub_key.pem" //for created instance
 ssh_private_key_path = "/home/opc/private_key_oci.pem"  //for created instances
 api_private_key_path = "/home/opc/oci_api_key.pem"
