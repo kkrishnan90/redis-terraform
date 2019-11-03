@@ -38,7 +38,7 @@ data "oci_core_vnic" "instance_vnic" {
 }
 
 output "vnics" {
-  value = "${data.oci_core_vnic.instance_vnic}"
+  value = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
 }
 
 
