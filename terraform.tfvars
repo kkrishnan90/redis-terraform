@@ -4,11 +4,12 @@ user_ocid = "ocid1.user.oc1..aaaaaaaaacfec4cr2px7jc2fi4azb6db33lxmptagsqc7coicr2
 fingerprint = "b2:e5:26:92:1d:09:94:36:4a:e5:d0:3e:eb:d5:42:a7"
 # api_private_key_path = "/home/opc/.oci/oci_api_key.pem" //for linking with oci api/cli
 compartment_ocid = "ocid1.compartment.oc1..aaaaaaaa453zen2zclwt2yvddonuucttsatlgz6ymq73jeicubhifkp6qk7q"
-region = "ca-toronto-1"
+# region = "ca-toronto-1"
+region = "ap-mumbai-1"
 
 
 # ---- Instances
-NumInstances="3"
+NumInstances="2"
 ssh_public_key_path = "/home/opc/pub_key.pem" //for created instance
 ssh_private_key_path = "/home/opc/private_key_oci.pem"  //for created instances
 api_private_key_path = "/home/opc/oci_api_key.pem"
