@@ -42,15 +42,15 @@ output "vnics" {
   value = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
 }
 
-resource "oci_core_private_ip" "private_ip" {
-  # count = "${var.hap_ip_count}"
-  depends_on=["oci_core_instance.TestInstance"]
-  # vnic_id        = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
-  display_name   = "someDisplayName"
-  hostname_label = "somehostnamelabel"
-  for_each = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
-  vnic_id = each.value
-}
+# resource "oci_core_private_ip" "private_ip" {
+#   # count = "${var.hap_ip_count}"
+#   depends_on=["oci_core_instance.TestInstance"]
+#   # vnic_id        = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
+#   display_name   = "someDisplayName"
+#   hostname_label = "somehostnamelabel"
+#   for_each = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
+#   vnic_id = each.value
+# }
 
 for s in  "${data.oci_core_vnic.instance_vnic[*].vnic_id}":
 resource "oci_core_private_ip" "private_ip" {
