@@ -49,14 +49,14 @@ output "vnics" {
 # }
 
 
-# resource "oci_core_private_ip" "private_ip" {
-#   count = "${var.hap_ip_count * var.NumInstances}"
-#   depends_on=["oci_core_instance.TestInstance"]
-#   vnic_id        = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
-#   # vnic_id = "${lookup(element(data.oci_core_vnic_attachments.get_vnicid_by_instance_id.*.vnic_attachments[count.index],0),"vnic_id")}"
-#   display_name   = "someDisplayName"
-#   hostname_label = "somehostnamelabel"
-# }
+resource "oci_core_private_ip" "private_ip" {
+  count = "${var.hap_ip_count * var.NumInstances}"
+  depends_on=["oci_core_instance.TestInstance"]
+  vnic_id        = "${lookup(element(data.oci_core_vnic.instance_vnic, count.index % var.NumInstances),"vnic_id")}"
+  # vnic_id = "${lookup(element(data.oci_core_vnic_attachments.get_vnicid_by_instance_id.*.vnic_attachments[count.index],0),"vnic_id")}"
+  display_name   = "someDisplayName"
+  hostname_label = "somehostnamelabel"
+}
 
 
 # locals {
