@@ -49,12 +49,12 @@ resource "oci_core_private_ip" "private_ip" {
   display_name   = "someDisplayName"
   hostname_label = "somehostnamelabel"
   for_each = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
-  
-  dynamic "vnic_id" {
-    content {
-      vnic_id = each.value
-    }
-  }
+   vnic_id = each.value
+  # dynamic "vnic_id" {
+  #   content {
+     
+  #   }
+  # }
 }
 
 
