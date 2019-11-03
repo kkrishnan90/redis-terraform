@@ -36,7 +36,7 @@ data "oci_core_vnic" "instance_vnic" {
 }
 
 locals {
- vnics = "${lookup(data.oci_core_vnic.instance_vnic[0],"vnic_id")}"
+ vnics = "${data.oci_core_vnic.instance_vnic.vnic_id}"
 }
 
 output "locals-output" {
