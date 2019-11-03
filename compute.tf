@@ -43,7 +43,7 @@ data "oci_core_vnic" "instance_vnic" {
 #   vnic_ids = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
 # }
 output "vnics" {
-  value = "${data.oci_core_vnic.instance_vnic.vnic_id}"
+  value = "${data.oci_core_vnic.instance_vnic}"
 }
 
 # resource "oci_core_private_ip" "private_ip" {
