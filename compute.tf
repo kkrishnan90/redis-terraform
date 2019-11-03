@@ -48,12 +48,13 @@ resource "oci_core_private_ip" "private_ip" {
   # vnic_id        = "${data.oci_core_vnic.instance_vnic[0].vnic_id}"
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
-  dynamic "vnic_id" {
-    for_each = { one= ${data.oci_core_vnic.instance_vnic[0].vnic_id}, two = ${data.oci_core_vnic.instance_vnic[1].vnic_id}}
-    content {
-      vnic_id = each.value
-    }
-  }
+  for_each = { one= ${data.oci_core_vnic.instance_vnic[0].vnic_id}, two = ${data.oci_core_vnic.instance_vnic[1].vnic_id}}
+  vnic_id = each.value
+  # dynamic "vnic_id" {
+  #   content {
+      
+  #   }
+  # }
 }
 
 
