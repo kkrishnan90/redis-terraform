@@ -49,7 +49,7 @@ resource "oci_core_private_ip" "private_ip" {
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
   dynamic "vnic_id" {
-    for_each = "${data.oci_core_vnic.instance_vnic[*].vnic_id}"
+    for_each = { one= ${data.oci_core_vnic.instance_vnic[0].vnic_id}, two = ${data.oci_core_vnic.instance_vnic[1].vnic_id}}
     content {
       vnic_id = each.value
     }
