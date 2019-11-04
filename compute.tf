@@ -47,18 +47,19 @@ resource "oci_core_private_ip" "private_ip" {
 }
 
 resource "null_resource" "ansible" {
+  count = "${var.NumInstances}"
   provisioner "remote-exec" {
     script = "wait_for_instance.sh"
   }
   connection {
     type        = "ssh"
-    host        = "${oci_core_instance.TestInstance.private_ip}"
+    host        = "${oci_core_instance.TestInstance.*.private_ip[count.index]}"
     user        = "opc"
     password    = ""
     private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
   provisioner "local-exec" {
-    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.public_ip}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.public_ip}"
+    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.*.private_ip[count.index]}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.private_ip[count.index]}"
   }
 }
 
