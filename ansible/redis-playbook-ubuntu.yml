@@ -38,32 +38,11 @@
   - name: Restart network interfaces
     sudo: yes
     command: ifup -a
-
-  # - name: Recursively find files #Task for Oracle Linux
-  #   shell: "ip a | grep ens3: | sed \"1 d\""
-  #   register: files
-
-  # - name: Display all variables/facts known for a host #Task for Oracle Linux
-  #   debug:
-  #     var: files
-  # - set_fact:
-  #     stdout_lines: "{{ files.stdout_lines }}"
-  #   with_items: "{{ files.stdout_lines }}"
-  # - debug:
-  #     msg: "This is a stdout line: {{ item }}"
-  #   with_items: "{{ stdout_lines }}"
   
-  # - name : ifup command running  
-  #   sudo: true
-  #   shell: ifup {{ item }}
-  #   with_items: "{{ stdout_lines }}"
-  # - debug: var=ansible_all_ipv4_addresses
-  # - debug: var=ansible_default_ipv4.address
-  
-  # - name: Template Loop example
-  #   template:
-  #       src: templates/privateip.cfg.j2
-  #       dest: "/home/opc/haproxy.cfg"
-  # - debug: 
-  #     msg : "the value of app-servers.conf is {{ item }}"
-  #   with_items: "{{ contents }}"
+  - name: Template Loop example
+    template:
+        src: templates/privateip.cfg.j2
+        dest: "{{destination_path}}haproxy.cfg"
+  - debug: 
+      msg : "the value of app-servers.conf is {{ item }}"
+    with_items: "{{ contents }}"
