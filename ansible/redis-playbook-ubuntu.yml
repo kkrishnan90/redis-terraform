@@ -8,7 +8,11 @@
     destination_path: /etc/network/ #For Ubuntu 18.04
     # contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
   tasks:
-  - name: create base directory 
+  - name: Installing python3
+    sudo: true
+    shell: apt-get install python3
+
+  - name: creating base directory 
     become: true
     file:
       path: "{{ base_dir }}/ansible"
