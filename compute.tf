@@ -41,10 +41,12 @@ resource "oci_core_private_ip" "private_ip" {
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
 
+  #For Ubuntu 18.04
   provisioner "local-exec" {
     command = "bash add-vnic-ips.sh ${count.index} ${self.ip_address}"
   }
 
+  # For OEL Linux
   # provisioner "local-exec" {
   #   command = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ifcfg-ens3:${count.index}\necho BOOTPROTO=static >> privateips/ifcfg-ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ifcfg-ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ifcfg-ens3:${count.index}\necho ONBOOT=yes >> privateips/ifcfg-ens3:${count.index}"
   # }
