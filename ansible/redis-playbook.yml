@@ -5,7 +5,7 @@
     base_dir: /home/opc
     playbook_user: opc
     source_path: /home/opc/terraform/privateips/
-    destination_path: /etc/sysconfig/network-scripts/
+    destination_path: /etc/sysconfig/network-scripts/ #For Oracle Linux
     contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
   tasks:
   - name: create base directory 
@@ -14,7 +14,7 @@
       path: "{{ base_dir }}/ansible"
       state: directory
 
-  - name: copy ens3 files
+  - name: copy ens3 files #Task for Oracle Linux 
     sudo: true
     copy: 
       remote_src: no
@@ -23,11 +23,11 @@
       mode: u+x
       force: yes
 
-  - name: Recursively find files
+  - name: Recursively find files #Task for Oracle Linux
     shell: "ls {{ destination_path }} | grep ens3:"
     register: files
 
-  - name: Display all variables/facts known for a host
+  - name: Display all variables/facts known for a host #Task for Oracle Linux
     debug:
       var: files.stdout_lines
   - set_fact:
@@ -37,6 +37,13 @@
       msg: "This is a stdout line: {{ item }}"
     with_items: "{{ stdout_lines }}"
   
+  - name : ifup command running  #Show only all ipv4 private ips in Ubuntu: ip -4 addr show ens3 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+    sudo: true
+    shell: ifup {{ item }}
+    with_items: "{{ stdout_lines }}"
+  - debug: var=ansible_all_ipv4_addresses
+  - debug: var=ansible_default_ipv4.address
+  
   - name: Template Loop example
     template:
         src: templates/privateip.cfg.j2
@@ -44,20 +51,15 @@
   - debug: 
       msg : "the value of app-servers.conf is {{ item }}"
     with_items: "{{ contents }}"
-  - name : ifup command running
-    sudo: true
-    shell: ifup {{ item }}
-    with_items: "{{ stdout_lines }}"
-  - debug: var=ansible_all_ipv4_addresses
-  - debug: var=ansible_default_ipv4.address
+
     
-- hosts: 127.0.0.1
-  connection: local
-  tasks:
-  # - name: Cleaning local privateips folder
-  #   shell: rm -rf privateips/*
-  - name: Delete lines of app-server
-    replace:
-      path: /home/opc/terraform/ansible/app-servers.conf
-      regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [servers] and next two line
-      replace: '[servers]'          # Replace both lines with [servers]
+# - hosts: 127.0.0.1
+#   connection: local
+#   tasks:
+#   # - name: Cleaning local privateips folder
+#   #   shell: rm -rf privateips/*
+#   - name: Delete lines of app-server
+#     replace:
+#       path: /home/opc/terraform/ansible/app-servers.conf
+#       regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [servers] and next two line
+#       replace: '[servers]'          # Replace both lines with [servers]

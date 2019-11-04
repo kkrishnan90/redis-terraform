@@ -42,8 +42,12 @@ resource "oci_core_private_ip" "private_ip" {
   hostname_label = "somehostnamelabel${count.index}"
 
   provisioner "local-exec" {
-    command = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ifcfg-ens3:${count.index}\necho BOOTPROTO=static >> privateips/ifcfg-ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ifcfg-ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ifcfg-ens3:${count.index}\necho ONBOOT=yes >> privateips/ifcfg-ens3:${count.index}"
+    command = "add-vnic-ips.sh ${count.index} ${self.ip_address}"
   }
+
+  # provisioner "local-exec" {
+  #   command = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ifcfg-ens3:${count.index}\necho BOOTPROTO=static >> privateips/ifcfg-ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ifcfg-ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ifcfg-ens3:${count.index}\necho ONBOOT=yes >> privateips/ifcfg-ens3:${count.index}"
+  # }
 }
 
 resource "null_resource" "ansible" {
@@ -59,7 +63,10 @@ resource "null_resource" "ansible" {
     private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
   provisioner "local-exec" {
-    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.*.private_ip[count.index]}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.private_ip[count.index]}"
+    #For Oracle Linux
+    # command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.*.private_ip[count.index]}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.private_ip[count.index]}"
+    #For Ubuntu 18.04
+    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.*.private_ip[count.index]}, ansible/redis-playbook-ubuntu.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.private_ip[count.index]}"
   }
 }
 
