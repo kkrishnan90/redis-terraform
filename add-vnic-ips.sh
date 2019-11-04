@@ -1,7 +1,7 @@
 #! /bin/bash
-cat <<\EOT >$1
+cat >> $1 << EOT
 auto ens3:$2
 iface ens3:$2 inet static
-	address $3
-	netmask 255.255.255.0
+        address $3
+        netmask 255.255.255.0
 EOT
