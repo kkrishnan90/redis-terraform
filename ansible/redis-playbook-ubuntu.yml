@@ -4,7 +4,7 @@
   vars:
     base_dir: /home/ubuntu
     playbook_user: ubuntu
-    source_path: /home/ubuntu/terraform/privateips
+    source_path: /home/opc/terraform/privateips
     destination_path: /etc/network/ #For Ubuntu 18.04
     # contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
   tasks:
