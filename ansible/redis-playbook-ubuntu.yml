@@ -15,7 +15,6 @@
       state: directory
 
   - name: copy ens3 files #Task for Oracle Linux 
-    sudo: true
     copy: 
       remote_src: no
       src: "{{ source_path }}{{variable_host}}"
@@ -23,13 +22,13 @@
       mode: u+x
       force: yes
 
-  - name: Recursively find files #Task for Oracle Linux
-    shell: "ip a | grep ens3: | sed \"1 d\""
-    register: files
+  # - name: Recursively find files #Task for Oracle Linux
+  #   shell: "ip a | grep ens3: | sed \"1 d\""
+  #   register: files
 
-  - name: Display all variables/facts known for a host #Task for Oracle Linux
-    debug:
-      var: files
+  # - name: Display all variables/facts known for a host #Task for Oracle Linux
+  #   debug:
+  #     var: files
   # - set_fact:
   #     stdout_lines: "{{ files.stdout_lines }}"
   #   with_items: "{{ files.stdout_lines }}"
@@ -37,7 +36,7 @@
   #     msg: "This is a stdout line: {{ item }}"
   #   with_items: "{{ stdout_lines }}"
   
-  # - name : ifup command running  #Show only all ipv4 private ips in Ubuntu: ip -4 addr show ens3 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+  # - name : ifup command running  
   #   sudo: true
   #   shell: ifup {{ item }}
   #   with_items: "{{ stdout_lines }}"
