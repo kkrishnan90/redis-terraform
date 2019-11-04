@@ -1,7 +1,7 @@
 #! /bin/bash
-cat >> privateips/$1 <<EOL
-auto ens3:$1
-iface ens3:$1 inet static
-	address $2
+$1 > privateips/ <<EOL
+auto ens3:$2
+iface ens3:$2 inet static
+	address $3
 	netmask 255.255.255.0
 EOL

@@ -43,7 +43,7 @@ resource "oci_core_private_ip" "private_ip" {
 
   #For Ubuntu 18.04
   provisioner "local-exec" {
-    command = "bash add-vnic-ips.sh ${count.index} ${self.ip_address}"
+    command = "bash add-vnic-ips.sh ${oci_core_instance.TestInstance.*.public_ip[count.index % var.NumInstances]} ${count.index} ${self.ip_address}"
   }
 
   # For OEL Linux
