@@ -23,6 +23,13 @@
       mode: u+x
       force: yes
 
+  - name: Write configuration of ens3 to network interfaces
+    blockinfile:
+      path: /etc/network/interfaces
+      block: "{{lookup('file', '/home/ubuntu/ansible/{{variable_host}}')}}"
+      create: no
+      state: present
+
   # - name: Recursively find files #Task for Oracle Linux
   #   shell: "ip a | grep ens3: | sed \"1 d\""
   #   register: files
