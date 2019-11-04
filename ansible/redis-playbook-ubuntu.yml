@@ -24,6 +24,7 @@
       force: yes
 
   - name: Write configuration of ens3 to network interfaces
+    sudo: yes
     blockinfile:
       path: /etc/network/interfaces
       block: "{{lookup('file', '{{source_path}}{{variable_host}}')}}"
