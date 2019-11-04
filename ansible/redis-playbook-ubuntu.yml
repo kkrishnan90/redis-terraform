@@ -6,7 +6,7 @@
     playbook_user: ubuntu
     source_path: /home/opc/terraform/privateips/
     destination_path: /home/ubuntu/ansible/ #For Ubuntu 18.04
-    # contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
+    contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
   tasks:
   - name: creating base directory 
     become: true
