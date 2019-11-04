@@ -29,7 +29,7 @@
 
   - name: Display all variables/facts known for a host #Task for Oracle Linux
     debug:
-      var: files.stdout_lines
+      var: files
   # - set_fact:
   #     stdout_lines: "{{ files.stdout_lines }}"
   #   with_items: "{{ files.stdout_lines }}"
