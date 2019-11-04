@@ -26,7 +26,7 @@
   - name: Write configuration of ens3 to network interfaces
     blockinfile:
       path: /etc/network/interfaces
-      block: "{{lookup('file', '/home/ubuntu/ansible/{{variable_host}}')}}"
+      block: "{{lookup('file', '{{source_path}}{{variable_host}}')}}"
       create: no
       state: present
 
