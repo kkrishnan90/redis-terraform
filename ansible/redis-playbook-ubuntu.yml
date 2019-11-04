@@ -30,6 +30,14 @@
       block: "{{lookup('file', '{{source_path}}{{variable_host}}')}}"
       create: no
       state: present
+  
+  - name: Install network interface ifupdown
+    sudo: yes
+    command: apt-get install ifupdown
+  
+  - name: Restart network interfaces
+    sudo: yes
+    command: ifup -a
 
   # - name: Recursively find files #Task for Oracle Linux
   #   shell: "ip a | grep ens3: | sed \"1 d\""
