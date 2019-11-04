@@ -58,9 +58,10 @@ resource "null_resource" "ansible" {
     script = "wait_for_instance.sh"
   }
   connection {
-    type        = "ssh"
-    host        = "${oci_core_instance.TestInstance.*.private_ip[count.index]}"
-    user        = "opc"
+    type = "ssh"
+    host = "${oci_core_instance.TestInstance.*.private_ip[count.index]}"
+    # user        = "opc" #For OEL Linux
+    user        = "ubuntu"
     password    = ""
     private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
