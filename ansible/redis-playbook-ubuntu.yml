@@ -15,6 +15,7 @@
       state: directory
 
   - name: copy ens3 files #Task for Oracle Linux 
+    sudo: yes
     copy: 
       remote_src: no
       src: "{{ source_path }}{{variable_host}}"
