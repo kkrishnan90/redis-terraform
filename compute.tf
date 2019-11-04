@@ -43,7 +43,7 @@ resource "oci_core_private_ip" "private_ip" {
 
   #For Ubuntu 18.04
   provisioner "local-exec" {
-    command = "touch privateips/interfaces\nbash add-vnic-ips.sh ${count.index} ${self.ip_address}"
+    command = "bash add-vnic-ips.sh ${count.index} ${self.ip_address}"
   }
 
   # For OEL Linux
@@ -57,6 +57,7 @@ resource "null_resource" "ansible" {
   provisioner "remote-exec" {
     script = "wait_for_instance.sh"
   }
+  #For Ubuntu 18.04 Only
   provisioner "remote-exec" {
     script = "startupscript.sh"
   }
@@ -64,7 +65,7 @@ resource "null_resource" "ansible" {
     type = "ssh"
     host = "${oci_core_instance.TestInstance.*.private_ip[count.index]}"
     # user        = "opc" #For OEL Linux
-    user        = "ubuntu"
+    user        = "ubuntu" #For Ubuntu 18.04
     password    = ""
     private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
