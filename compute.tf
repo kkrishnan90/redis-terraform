@@ -42,7 +42,7 @@ resource "oci_core_private_ip" "private_ip" {
   hostname_label = "somehostnamelabel${count.index}"
 
   provisioner "local-exec" {
-    command = "add-vnic-ips.sh ${count.index} ${self.ip_address}"
+    script = "add-vnic-ips.sh ${count.index} ${self.ip_address}"
   }
 
   # provisioner "local-exec" {
