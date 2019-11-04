@@ -57,6 +57,9 @@ resource "null_resource" "ansible" {
   provisioner "remote-exec" {
     script = "wait_for_instance.sh"
   }
+  provisioner "remote-exec" {
+    script = "startupscript.sh"
+  }
   connection {
     type = "ssh"
     host = "${oci_core_instance.TestInstance.*.private_ip[count.index]}"
@@ -66,9 +69,7 @@ resource "null_resource" "ansible" {
     private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
   
-  provisioner "remote-exec" {
-    script = "startupscript.sh"
-  }
+ 
   provisioner "local-exec" {
     #For Oracle Linux
     # command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.*.private_ip[count.index]}, ansible/redis-playbook.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.private_ip[count.index]}"
