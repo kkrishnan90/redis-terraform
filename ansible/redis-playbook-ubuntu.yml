@@ -18,7 +18,7 @@
     sudo: true
     copy: 
       remote_src: no
-      src: "{{ source_path }}"
+      src: "{{ source_path }}/interfaces"
       dest: "{{ destination_path }}"
       mode: u+x
       force: yes
