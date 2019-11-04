@@ -1,5 +1,5 @@
 #! /bin/bash
-cat >> $1 << EOT
+cat >> privateips/$1 << EOT
 auto ens3:$2
 iface ens3:$2 inet static
         address $3
