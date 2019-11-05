@@ -49,7 +49,7 @@
     retries: 3
     delay: 3
     template:
-        src: templates/privateip.cfg.j2
+        src: templates/haproxy.cfg.j2
         dest: "{{destination_path}}haproxy.cfg"
  
   - name: Modify app-server.conf list
