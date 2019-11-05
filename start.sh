@@ -3,4 +3,4 @@ sudo git pull
 terraform init
 terraform plan
 terraform output
-terraform apply
+terraform apply -parallelism=1
