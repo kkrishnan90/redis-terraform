@@ -47,14 +47,17 @@
   - debug: 
       msg : "the value of app-servers.conf is {{ item }}"
     with_items: "{{ contents }}"
+
+  - name: Delete lines of app-server
+    delegate_to: 127.0.0.1
+    replace:
+      path: /home/opc/terraform/ansible/app-servers.conf
+      regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [servers] and next two line
+      replace: '[servers]'          # Replace both lines with [servers]
     
 - hosts: 127.0.0.1
   connection: local
   tasks:
   # - name: Cleaning local privateips folder
   #   shell: rm -rf privateips/*
-  - name: Delete lines of app-server
-    replace:
-      path: /home/opc/terraform/ansible/app-servers.conf
-      regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [servers] and next two line
-      replace: '[servers]'          # Replace both lines with [servers]
+  
