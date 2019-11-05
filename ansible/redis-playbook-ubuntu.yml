@@ -1,5 +1,6 @@
 # redis_playbook.yml
 - hosts: "{{variable_host}}" 
+  serial: 1
   remote_user: ubuntu
   vars:
     base_dir: /home/ubuntu
@@ -52,7 +53,7 @@
         src: templates/privateip.cfg.j2
         dest: "{{destination_path}}haproxy.cfg"
  
-  - name: Delete lines of app-server
+  - name: Modify app-server.conf list
     delegate_to: 127.0.0.1
     sudo: yes
     replace:
