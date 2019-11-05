@@ -73,9 +73,9 @@ resource "null_resource" "ansible" {
  
   provisioner "local-exec" {
     #For Oracle Linux
-    # command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.*.private_ip[count.index]}, ansible/haproxy-oel-linux.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.private_ip[count.index]}"
+    # command = "ansible-playbook -i ${oci_core_instance.TestInstance.*.private_ip[count.index]}, ansible/haproxy-oel-linux.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.private_ip[count.index]}"
     #For Ubuntu 18.04
-    command = "sudo ansible-playbook -i ${oci_core_instance.TestInstance.*.public_ip[count.index]}, ansible/haproxy-ubuntu.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.public_ip[count.index]} -vvv"
+    command = "ansible-playbook -i ${oci_core_instance.TestInstance.*.public_ip[count.index]}, ansible/haproxy-ubuntu.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.public_ip[count.index]} -vvv"
   }
 }
 
