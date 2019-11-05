@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo git pull
+git pull
 terraform init
 terraform plan
 terraform output
