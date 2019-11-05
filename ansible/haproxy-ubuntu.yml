@@ -9,6 +9,12 @@
     destination_path: /home/ubuntu/ansible/ #For Ubuntu 18.04
     contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
   tasks:
+  - name: create ip directory
+    delegate_to: 127.0.0.1
+    file:
+      path: /home/opc/terraform/privateips
+      state: directory
+
   - name: creating base directory 
     file:
       path: "{{ base_dir }}/ansible"

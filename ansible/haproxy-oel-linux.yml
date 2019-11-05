@@ -8,6 +8,12 @@
     destination_path: /etc/sysconfig/network-scripts/ #For Oracle Linux
     contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
   tasks:
+  - name: create ip directory
+    delegate_to: 127.0.0.1
+    file:
+      path: /home/opc/terraform/privateips
+      state: directory
+      
   - name: create base directory 
     become: true
     file:
