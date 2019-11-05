@@ -43,6 +43,9 @@
       msg : "the value of app-servers.conf is {{ item }}"
     with_items: "{{ contents }}"
 
+  - pause:
+      seconds: 10
+
   - name: Template Loop example
     sudo: yes
     template:
@@ -51,14 +54,15 @@
  
   - name: Delete lines of app-server
     delegate_to: 127.0.0.1
+    sudo: yes
     replace:
       path: /home/opc/terraform/ansible/app-servers.conf
       regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [servers] and next two line
       replace: '[servers]'          # Replace both lines with [servers]
     
-- hosts: 127.0.0.1
-  connection: local
-  tasks:
+# - hosts: 127.0.0.1
+#   connection: local
+#   tasks:
   # - name: Cleaning local privateips folder
   #   shell: rm -rf privateips/*
   
