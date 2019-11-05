@@ -10,13 +10,11 @@
     contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
   tasks:
   - name: creating base directory 
-    become: true
     file:
       path: "{{ base_dir }}/ansible"
       state: directory
 
-  - name: copy ens3 files #Task for Oracle Linux 
-    sudo: yes
+  - name: copy ens3 files
     copy: 
       remote_src: no
       src: "{{ source_path }}{{variable_host}}"
@@ -48,7 +46,6 @@
     local_action: shell echo {{ ansible_all_ipv4_addresses }}
 
   - name: Templating haproxy config
-    sudo: yes
     retries: 3
     delay: 3
     template:
@@ -57,7 +54,6 @@
  
   - name: Modify app-server.conf list
     delegate_to: 127.0.0.1
-    sudo: yes
     replace:
       path: /home/opc/terraform/ansible/app-servers.conf
       regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [servers] and next two line
