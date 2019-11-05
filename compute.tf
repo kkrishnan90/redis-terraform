@@ -69,8 +69,8 @@ resource "null_resource" "ansible" {
     password    = ""
     private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
-  
- 
+
+
   provisioner "local-exec" {
     #For Oracle Linux
     # command = "ansible-playbook -i ${oci_core_instance.TestInstance.*.private_ip[count.index]}, ansible/haproxy-oel-linux.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.private_ip[count.index]}"

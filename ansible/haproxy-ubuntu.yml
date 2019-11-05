@@ -28,13 +28,13 @@
         mode: u+x
         force: yes
 
-    # - name: Write configuration of ens3 to network interfaces
-    #   sudo: yes
-    #   blockinfile:
-    #     path: /etc/network/interfaces
-    #     block: "{{lookup('file', '{{source_path}}{{variable_host}}')}}"
-    #     create: no
-    #     state: present
+    - name: Write configuration of ens3 to network interfaces
+      sudo: yes
+      blockinfile:
+        path: /etc/network/interfaces
+        block: "{{lookup('file', '{{source_path}}{{variable_host}}')}}"
+        create: no
+        state: present
 
     - name: Install network interface ifupdown
       sudo: yes
