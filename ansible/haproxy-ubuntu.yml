@@ -45,7 +45,7 @@
     command: ifup -a
   
   - debug: 
-      msg : "the value of app-servers.conf is {{ item }}"
+      msg : "the value of app-servers.conf is {{ item }} {{ansible_all_ipv4_address}}"
     with_items: "{{ contents }}"
 
   - name: get ip
