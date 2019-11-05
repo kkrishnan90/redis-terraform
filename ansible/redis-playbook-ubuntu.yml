@@ -39,15 +39,16 @@
     sudo: yes
     command: ifup -a
   
-  # - name: Template Loop example
-  #   sudo: yes
-  #   template:
-  #       src: templates/privateip.cfg.j2
-  #       dest: "{{destination_path}}haproxy.cfg"
   - debug: 
       msg : "the value of app-servers.conf is {{ item }}"
     with_items: "{{ contents }}"
 
+  - name: Template Loop example
+    sudo: yes
+    template:
+        src: templates/privateip.cfg.j2
+        dest: "{{destination_path}}haproxy.cfg"
+ 
   - name: Delete lines of app-server
     delegate_to: 127.0.0.1
     replace:
