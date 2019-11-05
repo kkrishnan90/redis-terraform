@@ -44,11 +44,10 @@
       msg : "the value of app-servers.conf is {{ item }}"
     with_items: "{{ contents }}"
 
-  - pause:
-      seconds: 10
-
-  - name: Template Loop example
+  - name: Templating haproxy config
     sudo: yes
+    retries: 3
+    delay: 3
     template:
         src: templates/privateip.cfg.j2
         dest: "{{destination_path}}haproxy.cfg"
