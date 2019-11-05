@@ -51,21 +51,21 @@
   - debug: msg="{{ ips.stdout }}"
 
 
-  # - name: Templating haproxy config
-  #   sudo: yes
-  #   retries: 3
-  #   delay: 3
-  #   template:
-  #       src: templates/privateip.cfg.j2
-  #       dest: "{{destination_path}}haproxy.cfg"
+  - name: Templating haproxy config
+    sudo: yes
+    retries: 3
+    delay: 3
+    template:
+        src: templates/privateip.cfg.j2
+        dest: "{{destination_path}}haproxy.cfg"
  
-  # - name: Modify app-server.conf list
-  #   delegate_to: 127.0.0.1
-  #   sudo: yes
-  #   replace:
-  #     path: /home/opc/terraform/ansible/app-servers.conf
-  #     regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [servers] and next two line
-  #     replace: '[servers]'          # Replace both lines with [servers]
+  - name: Modify app-server.conf list
+    delegate_to: 127.0.0.1
+    sudo: yes
+    replace:
+      path: /home/opc/terraform/ansible/app-servers.conf
+      regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [servers] and next two line
+      replace: '[servers]'          # Replace both lines with [servers]
     
 # - hosts: 127.0.0.1
 #   connection: local
