@@ -44,9 +44,8 @@
       msg : "the value of app-servers.conf is {{ item }}"
     with_items: "{{ contents }}"
 
-  - name: print to stdout
-    command: ip a
-    register: ips
+  - name: get ip
+    local_action: shell echo {{ ansible_all_ipv4_addresses }}
 
   - debug: msg="{{ ips.stdout }}"
 
