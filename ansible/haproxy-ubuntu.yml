@@ -58,7 +58,7 @@
       delay: 10
       template:
         src: templates/haproxy.cfg.j2
-        dest: "{{destination_path}}haproxy.cfg"
+        dest: "/etc/haproxy/haproxy.cfg"
       register: result
       until: "'failed' not in result and result.content.find('OK') != -1"
 
@@ -68,6 +68,8 @@
         path: /home/opc/terraform/ansible/app-servers.conf
         regexp: '\[servers\]\n[^\n]+\n[^\n]+' # Matches [servers] and next two line
         replace: "[servers]" # Replace both lines with [servers]
+    
+
 
 # - hosts: 127.0.0.1
 #   connection: local
