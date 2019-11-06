@@ -40,6 +40,7 @@ variable "instance_image_ocid" {
   default = {
     # See https://docs.us-phoenix-1.oraclecloud.com/images/
     # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
+    #Ubuntu 18.04 Blank Image
     ap-mumbai-1 = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaapkhghx7pslvwrarurrztge4f4a3vlfy3kt3jd7vtxz4przfkmfvq"
     # ca-toronto-1 = "ocid1.image.oc1.ca-toronto-1.aaaaaaaa7gb5qhlijlfon7mfoxkapsi2zvqtgrle3idy254wp3h3ddds3opa"
     us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
