@@ -67,7 +67,7 @@ resource "null_resource" "ansible" {
     # user        = "opc" #For OEL Linux
     user        = "ubuntu" #For Ubuntu 18.04
     password    = ""
-    private_key = "${file(var.ssh_private_key_path)}"
+    private_key = "${file("/home/opc/private_key_oci.pem")}"
   }
 
 
