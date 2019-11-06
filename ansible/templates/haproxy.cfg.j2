@@ -48,7 +48,7 @@ frontend public
 
 backend ws
     balance leastconn
-    {% if ansible_all_ipv4_addresses|length > 0 and contents|length>0 %}
+    {% if ansible_all_ipv4_addresses|length > 0 and contents|length>0 -%}
     {% set count = 1 -%}
     {% for n in range(ansible_all_ipv4_addresses|length) -%}
     {% if count == 1 -%}
@@ -63,7 +63,7 @@ backend ws
     {% set count = 2 -%}
     {% endif -%}
     {% endfor %}
-     {% endif %}
+     {% endif -%}
 
 backend www
     http-response set-header Access-Control-Allow-Credentials true
@@ -71,7 +71,6 @@ backend www
     reqrep ^([^\ ]*\ /)api[/]?(.*)     \1\2
     balance roundrobin
     fullconn 1000000
-    {% if ansible_all_ipv4_addresses|length > 0 and contents|length>0 %}
     {% set iter = 1 %}
     {% for n in range(ansible_all_ipv4_addresses|length) -%}
     {% if n < 5 -%}
@@ -87,4 +86,3 @@ backend www
     {% endif %}
     {% set iter = iter+1 -%}
     {% endfor -%}
-     {% endif %}

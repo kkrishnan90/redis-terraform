@@ -52,6 +52,7 @@
       local_action: shell echo {{ ansible_all_ipv4_addresses }}
 
     - name: Templating haproxy config
+      gather_facts: true
       sudo: yes
       retries: 3
       delay: 10
