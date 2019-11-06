@@ -2,7 +2,8 @@
 
 
 data "oci_identity_availability_domain" "ad" {
-  tenancy_ocid = "${var.tenancy_ocid}"
+  compartment_id = "${var.tenancy_ocid}"
+  ad_number      = 1
 }
 
 output "ad-names" {
