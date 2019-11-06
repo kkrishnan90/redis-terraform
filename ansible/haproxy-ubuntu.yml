@@ -60,6 +60,13 @@
       register: result
       until: "'failed' not in result and result.content.find('OK') != -1"
 
+    - name: Validate haproxy config
+      command: haproxy -c -f /etc/haproxy/haproxy.cfg
+      
+    - name: Restart haproxy service
+      sudo: yes
+      command: service restart haproxy
+
     - name: Modify app-server.conf list
       delegate_to: 127.0.0.1
       replace:
