@@ -58,9 +58,9 @@ resource "null_resource" "ansible" {
     script = "wait_for_instance.sh"
   }
   #For Ubuntu 18.04 Only
-  provisioner "remote-exec" {
-    script = "startupscript.sh"
-  }
+  # provisioner "remote-exec" {
+  #   script = "startupscript.sh"
+  # }
   connection {
     type = "ssh"
     host = "${oci_core_instance.TestInstance.*.private_ip[count.index]}"
