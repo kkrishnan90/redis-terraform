@@ -62,15 +62,15 @@
       sudo: yes
       command: apt-get install haproxy
 
-    # - name: Templating haproxy config
-    #   sudo: yes
-    #   retries: 3
-    #   delay: 10
-    #   template:
-    #     src: templates/haproxy.cfg.j2
-    #     dest: "/etc/haproxy/haproxy.cfg"
-    #   register: result
-    #   until: "'failed' not in result and result.content.find('OK') != -1"
+    - name: Templating haproxy config
+      sudo: yes
+      retries: 3
+      delay: 10
+      template:
+        src: templates/haproxy.cfg.j2
+        dest: "/etc/haproxy/haproxy.cfg"
+      register: result
+      until: "'failed' not in result and result.content.find('OK') != -1"
 
     - name: Modify app-server.conf list
       delegate_to: 127.0.0.1

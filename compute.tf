@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-resource "oci_core_instance" "TestInstance" {
+resource "oci_core_instance" "HAPInstance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   count               = "${var.hap_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
@@ -26,7 +26,7 @@ data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
   count               = "${var.hap_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
+  instance_id         = "${oci_core_instance.HAPInstance.*.id[count.index]}"
 }
 
 data "oci_core_vnic" "instance_vnic" {
@@ -36,7 +36,7 @@ data "oci_core_vnic" "instance_vnic" {
 
 resource "oci_core_private_ip" "private_ip" {
   count          = "${var.hap_ip_count * var.hap_instance_count}"
-  depends_on     = ["oci_core_instance.TestInstance"]
+  depends_on     = ["oci_core_instance.HAPInstance"]
   vnic_id        = "${lookup(element(data.oci_core_vnic.instance_vnic, count.index % var.hap_instance_count), "vnic_id")}"
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
@@ -63,7 +63,7 @@ resource "null_resource" "ansible" {
   # }
   connection {
     type = "ssh"
-    host = "${oci_core_instance.TestInstance.*.private_ip[count.index]}"
+    host = "${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
     # user        = "opc" #For OEL Linux
     user        = "ubuntu" #For Ubuntu 18.04
     password    = ""
@@ -71,12 +71,12 @@ resource "null_resource" "ansible" {
   }
 
 
-  # provisioner "local-exec" {
-  #   #For Oracle Linux
-  #   # command = "ansible-playbook -i ${oci_core_instance.TestInstance.*.private_ip[count.index]}, ansible/haproxy-oel-linux.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.private_ip[count.index]}"
-  #   For Ubuntu 18.04
-  #   command = "ansible-playbook -i ${oci_core_instance.TestInstance.*.public_ip[count.index]}, ansible/haproxy-ubuntu.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.public_ip[count.index]} -e 'ansible_python_interpreter=/usr/bin/python3' -vvv"
-  # }
+  provisioner "local-exec" {
+    #For Oracle Linux
+    # command = "ansible-playbook -i ${oci_core_instance.HAPInstance.*.private_ip[count.index]}, ansible/haproxy-oel-linux.yml --extra-vars variable_host=${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
+    #For Ubuntu 18.04
+    command = "ansible-playbook -i ${oci_core_instance.HAPInstance.*.public_ip[count.index]}, ansible/haproxy-ubuntu.yml --extra-vars variable_host=${oci_core_instance.HAPInstance.*.public_ip[count.index]} -e 'ansible_python_interpreter=/usr/bin/python3' -vvv"
+  }
 }
 
 
