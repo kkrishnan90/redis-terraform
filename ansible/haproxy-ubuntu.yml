@@ -55,7 +55,7 @@
       delay: 10
       template:
         src: templates/haproxy.cfg.j2
-        dest: "/etc/haproxy/haproxy.cfg"
+        dest: "{{destination_path}}haproxy.cfg"
       register: result
       until: "'failed' not in result and result.content.find('OK') != -1"
 
