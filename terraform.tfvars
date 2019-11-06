@@ -7,9 +7,9 @@ region           = "ca-toronto-1"
 ad_number        = "1"
 
 # ---- Instances
-ssh_public_key_path  = "/home/opc/pub_key.pem"         //for created instance
+ssh_public_key_path  = "/home/opc/public_key_oci.pub"         //for created instance
 ssh_private_key_path = "/home/opc/private_key_oci.pem" //for created instances
-api_private_key_path = "/home/opc/oci_api_key.pem"     //for oci cli setup
+api_private_key_path = "/home/opc/private_key_oci.pem"     //for oci cli setup
 
 instance_shape = "VM.Standard2.2"
 subnet_ocid    = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaapxrvrqrettfjowbaom475bwqr5xm6l5npmkl7vgoldhlq2uctukq"
