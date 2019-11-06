@@ -12,7 +12,7 @@ ssh_private_key_path = "/home/opc/private_key_oci.pem" //for created instances
 api_private_key_path = "/home/opc/private_key_oci.pem"     //for oci cli setup
 
 instance_shape = "VM.Standard2.2"
-subnet_ocid    = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaapxrvrqrettfjowbaom475bwqr5xm6l5npmkl7vgoldhlq2uctukq"
+subnet_ocid    = "ocid1.subnet.oc1.ca-toronto-1.aaaaaaaamf3maogeseomaj4lingdu3a5hx7icu5r6dku4pcdm6ncfbtvb4oa"
 
 
 # ---- App related configurationn

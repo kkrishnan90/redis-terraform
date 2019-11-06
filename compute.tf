@@ -22,6 +22,11 @@ resource "oci_core_instance" "TestInstance" {
   }
 }
 
+data "oci_core_instance" "hap_instances" {
+    #Required
+    instance_id = "${oci_core_instance.TestInstance.*.instance_id}"
+}
+
 data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
   count               = "${var.hap_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
@@ -43,7 +48,7 @@ resource "oci_core_private_ip" "private_ip" {
 
   #For Ubuntu 18.04
   provisioner "local-exec" {
-    command = "bash add-vnic-ips.sh ${oci_core_instance.TestInstance.*.public_ip[count.index % var.hap_instance_count]} ${count.index} ${self.ip_address}"
+    command = "bash add-vnic-ips.sh ${data.oci_core_vnic.instance_vnic.*.private_ip_address[count.index % var.hap_instance_count]} ${count.index} ${self.ip_address}"
   }
 
   # For OEL Linux
@@ -75,7 +80,7 @@ resource "null_resource" "ansible" {
     #For Oracle Linux
     # command = "ansible-playbook -i ${oci_core_instance.TestInstance.*.private_ip[count.index]}, ansible/haproxy-oel-linux.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.private_ip[count.index]}"
     #For Ubuntu 18.04
-    command = "ansible-playbook -i ${oci_core_instance.TestInstance.*.public_ip[count.index]}, ansible/haproxy-ubuntu.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.public_ip[count.index]} -e 'ansible_python_interpreter=/usr/bin/python3' -vvv"
+    # command = "ansible-playbook -i ${oci_core_instance.TestInstance.*.public_ip[count.index]}, ansible/haproxy-ubuntu.yml --extra-vars variable_host=${oci_core_instance.TestInstance.*.public_ip[count.index]} -e 'ansible_python_interpreter=/usr/bin/python3' -vvv"
   }
 }
 
