@@ -2,11 +2,11 @@
 
 resource "oci_core_instance" "TestInstance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
-  count               = "${var.NumInstances}"
+  count               = "${var.hap_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "HAP-Instance-${count.index}"
   shape               = "${var.instance_shape}"
-  image               = "${var.instance_image_ocid[var.region]}"
+  image               = "${var.hap_instance_image_ocid}"
   create_vnic_details {
     subnet_id        = "${var.subnet_ocid}"
     display_name     = "primaryvnic"
@@ -23,27 +23,27 @@ resource "oci_core_instance" "TestInstance" {
 }
 
 data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
-  count               = "${var.NumInstances}"
+  count               = "${var.hap_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   instance_id         = "${oci_core_instance.TestInstance.*.id[count.index]}"
 }
 
 data "oci_core_vnic" "instance_vnic" {
-  count   = "${var.NumInstances}"
+  count   = "${var.hap_instance_count}"
   vnic_id = "${lookup(element(data.oci_core_vnic_attachments.get_vnicid_by_instance_id.*.vnic_attachments[count.index], 0), "vnic_id")}"
 }
 
 resource "oci_core_private_ip" "private_ip" {
-  count          = "${var.hap_ip_count * var.NumInstances}"
+  count          = "${var.hap_ip_count * var.hap_instance_count}"
   depends_on     = ["oci_core_instance.TestInstance"]
-  vnic_id        = "${lookup(element(data.oci_core_vnic.instance_vnic, count.index % var.NumInstances), "vnic_id")}"
+  vnic_id        = "${lookup(element(data.oci_core_vnic.instance_vnic, count.index % var.hap_instance_count), "vnic_id")}"
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
 
   #For Ubuntu 18.04
   provisioner "local-exec" {
-    command = "bash add-vnic-ips.sh ${oci_core_instance.TestInstance.*.public_ip[count.index % var.NumInstances]} ${count.index} ${self.ip_address}"
+    command = "bash add-vnic-ips.sh ${oci_core_instance.TestInstance.*.public_ip[count.index % var.hap_instance_count]} ${count.index} ${self.ip_address}"
   }
 
   # For OEL Linux
@@ -53,7 +53,7 @@ resource "oci_core_private_ip" "private_ip" {
 }
 
 resource "null_resource" "ansible" {
-  count = "${var.NumInstances}"
+  count = "${var.hap_instance_count}"
   provisioner "remote-exec" {
     script = "wait_for_instance.sh"
   }
