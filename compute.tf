@@ -22,11 +22,6 @@ resource "oci_core_instance" "TestInstance" {
   }
 }
 
-data "oci_core_instance" "hap_instances" {
-    #Required
-    instance_id = "${oci_core_instance.TestInstance.*.instance_id}"
-}
-
 data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
   count               = "${var.hap_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
