@@ -7,7 +7,7 @@ region           = "ca-toronto-1"
 ad_number        = "1"
 
 # ---- Instances
-ssh_public_key_path  = "/home/opc/pub_key.pem"         //for created instance
+ssh_public_key_path  = "/home/opc/public_key_oci.pub"         //for created instance
 ssh_private_key_path = "/home/opc/private_key_oci.pem" //for created instances
 api_private_key_path = "/home/opc/private_key_oci.pem" //for oci cli setup
 
