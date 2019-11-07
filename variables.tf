@@ -43,7 +43,14 @@ variable "app_instance_shape" {}
 
 variable "app_instance_image_ocid" {}
 
-variable "app_subnet_ocid"{}
+variable "app_subnet_ocid" {}
+
+#### Load Balancer Variables
+variable "load_balancer_count" {}
+
+variable "load_balancer_shape" {}
+
+variable "load_balancer_subnet_ocid" {}
 
 
 

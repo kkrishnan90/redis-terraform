@@ -22,7 +22,16 @@ hap_ip_count            = "10"
 hap_instance_image_ocid = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaapkhghx7pslvwrarurrztge4f4a3vlfy3kt3jd7vtxz4przfkmfvq"
 
 # ---- APP related configuration
-app_instance_count = "1"
-app_instance_shape = "VM.Standard2.2"
+app_instance_count      = "1"
+app_instance_shape      = "VM.Standard2.2"
 app_instance_image_ocid = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaapkhghx7pslvwrarurrztge4f4a3vlfy3kt3jd7vtxz4przfkmfvq"
-app_subnet_ocid = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgcknienmoz6zbypxkgxnzz7oyyurjlatgxkdj5q"
+app_subnet_ocid         = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgcknienmoz6zbypxkgxnzz7oyyurjlatgxkdj5q"
+
+# ---- Load Balancer related configuration
+load_balancer_count       = "1"
+load_balancer_shape       = "100Mbps"
+load_balancer_subnet_ocid = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgcknienmoz6zbypxkgxnzz7oyyurjlatgxkdj5q"
+lb_ca_certificate_path = ""
+lb_private_key_path  = ""
+lb_public_key_path = ""
+
