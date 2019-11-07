@@ -92,85 +92,85 @@ output "AppInstance-ips" {
 
 
 ############# LOAD BALANCER ###############
-resource "oci_load_balancer" "lb1" {
-  count          = "${var.load_balancer_count}"
-  shape          = "${var.load_balancer_shape}"
-  compartment_id = "${var.compartment_ocid}"
+# resource "oci_load_balancer" "lb1" {
+#   count          = "${var.load_balancer_count}"
+#   shape          = "${var.load_balancer_shape}"
+#   compartment_id = "${var.compartment_ocid}"
 
-  subnet_ids = [
-    "${var.load_balancer_subnet_ocid}"
-  ]
+#   subnet_ids = [
+#     "${var.load_balancer_subnet_ocid}"
+#   ]
 
-  display_name = "lb${count.index}"
-}
+#   display_name = "lb${count.index}"
+# }
 
-# resource "oci_load_balancer_certificate" "lb-cert1" {
-#   load_balancer_id   = "${oci_load_balancer.lb1.*.id[count.index]}"
-#   ca_certificate     = "${file(var.lb_ca_certificate_path)}"
-#   certificate_name   = "certificate1"
-#   private_key        = "${file(var.lb_private_key_path)}"
-#   public_certificate = "${file(var.lb_public_key_path)}"
+# # resource "oci_load_balancer_certificate" "lb-cert1" {
+# #   load_balancer_id   = "${oci_load_balancer.lb1.*.id[count.index]}"
+# #   ca_certificate     = "${file(var.lb_ca_certificate_path)}"
+# #   certificate_name   = "certificate1"
+# #   private_key        = "${file(var.lb_private_key_path)}"
+# #   public_certificate = "${file(var.lb_public_key_path)}"
 
-#   lifecycle {
-#     create_before_destroy = true
+# #   lifecycle {
+# #     create_before_destroy = true
+# #   }
+# # }
+
+# resource "oci_load_balancer_backend_set" "lb-http-backendset" {
+#   count            = "${var.load_balancer_count}"
+#   name             = "lb-http-backendset"
+#   load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
+#   policy           = "ROUND_ROBIN"
+
+#   health_checker {
+#     retries             = "3"
+#     timeout_in_millis   = "3000"
+#     interval_ms         = "10000"
+#     port                = "80"
+#     protocol            = "HTTP"
+#     response_body_regex = ".*"
+#     url_path            = "/"
 #   }
 # }
 
-resource "oci_load_balancer_backend_set" "lb-http-backendset" {
-  count            = "${var.load_balancer_count}"
-  name             = "lb-http-backendset"
-  load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
-  policy           = "ROUND_ROBIN"
+# resource "oci_load_balancer_backend_set" "lb-ws-backendset" {
+#   count            = "${var.load_balancer_count}"
+#   name             = "lb-ws-beackendset"
+#   load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
+#   policy           = "ROUND_ROBIN"
 
-  health_checker {
-    retries             = "3"
-    timeout_in_millis   = "3000"
-    interval_ms         = "10000"
-    port                = "80"
-    protocol            = "HTTP"
-    response_body_regex = ".*"
-    url_path            = "/"
-  }
-}
+#   health_checker {
+#     retries             = "3"
+#     timeout_in_millis   = "3000"
+#     interval_ms         = "10000"
+#     port                = "80"
+#     protocol            = "HTTP"
+#     response_body_regex = ".*"
+#     url_path            = "/"
+#   }
+# }
 
-resource "oci_load_balancer_backend_set" "lb-ws-backendset" {
-  count            = "${var.load_balancer_count}"
-  name             = "lb-ws-beackendset"
-  load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
-  policy           = "ROUND_ROBIN"
+# resource "oci_load_balancer_backend" "lb_backend1" {
+#   count = "${var.app_instance_count * var.load_balancer_count}"
+#   #Required
+#   backendset_name  = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[count.index % var.load_balancer_count]}"
+#   ip_address       = "${oci_core_instance.AppInstance.*.private_ip[count.index]}"
+#   load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index % var.load_balancer_count]}"
+#   port             = "80"
+# }
 
-  health_checker {
-    retries             = "3"
-    timeout_in_millis   = "3000"
-    interval_ms         = "10000"
-    port                = "80"
-    protocol            = "HTTP"
-    response_body_regex = ".*"
-    url_path            = "/"
-  }
-}
+# resource "oci_load_balancer_backend" "lb_backend2" {
+#   count = "${var.app_instance_count * var.load_balancer_count}"
+#   #Required
+#   backendset_name  = "${oci_load_balancer_backend_set.lb-ws-backendset.*.name[count.index % var.load_balancer_count]}"
+#   ip_address       = "${oci_core_instance.AppInstance.*.private_ip[count.index]}"
+#   load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index % var.load_balancer_count]}"
+#   port             = "80"
+# }
 
-resource "oci_load_balancer_backend" "lb_backend1" {
-  count = "${var.app_instance_count * var.load_balancer_count}"
-  #Required
-  backendset_name  = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[count.index % var.load_balancer_count]}"
-  ip_address       = "${oci_core_instance.AppInstance.*.private_ip[count.index]}"
-  load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index % var.load_balancer_count]}"
-  port             = "80"
-}
-
-resource "oci_load_balancer_backend" "lb_backend2" {
-  count = "${var.app_instance_count * var.load_balancer_count}"
-  #Required
-  backendset_name  = "${oci_load_balancer_backend_set.lb-ws-backendset.*.name[count.index % var.load_balancer_count]}"
-  ip_address       = "${oci_core_instance.AppInstance.*.private_ip[count.index]}"
-  load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index % var.load_balancer_count]}"
-  port             = "80"
-}
-
-output "LB-Backend1" {
-  value = "value"
-}
+# output "LB-Backend1" {
+#   value = "value"
+# }
 
 
 
