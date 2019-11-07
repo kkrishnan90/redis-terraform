@@ -59,7 +59,7 @@ output "HAP-IPs" {
 
 resource "null_resource" "ansible_inventory" {
   provisioner "local-exec"{
-    command  = "echo  ${oci_core_instance.HAPInstance.*.private_ip}>> hosts.yml"
+    command  = "echo  ${oci_core_instance.HAPInstance.*.private_ip} | cut -d \"|\" -f 2>> hosts.yml"
   }
 }
 
