@@ -169,7 +169,7 @@ resource "oci_load_balancer_backend" "lb_backend2" {
 }
 
 output "LB-Backend1" {
-  value = "value"
+  value = "${oci_load_balancer_backend.lb_backend1.*.ip_address}"
 }
 
 
