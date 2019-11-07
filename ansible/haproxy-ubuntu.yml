@@ -1,4 +1,4 @@
-- hosts: "haproxy"
+- hosts: all
   gather_facts: yes
   remote_user: ubuntu
   vars:
