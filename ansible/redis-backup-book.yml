@@ -15,7 +15,7 @@
       delegate_to: 127.0.0.1
       fetch:
         remote_src: yes
-        src: "{{ source_path }}{{redis_rdb_filename}}"
+        src: "{{ base_dir }}/{{redis_rdb_filename}}"
         dest: "{{ backup_path }}"
 
 
