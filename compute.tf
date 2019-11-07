@@ -55,7 +55,7 @@ resource "oci_core_private_ip" "private_ip" {
 resource "local_file" "ansible_inventory" {
   count          = "${var.hap_ip_count * var.hap_instance_count}"
   content = " ${data.oci_core_vnic.instance_vnic.*.private_ip_address[count.index % var.hap_instance_count]}"
-  filename = "../ansible/hosts.yml"
+  filename = "hosts.yml"
 }
 
 # resource "null_resource" "ansible" {
