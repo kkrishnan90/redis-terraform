@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: "{{variable_host}}"
   gather_facts: yes
   remote_user: ubuntu
   vars:
