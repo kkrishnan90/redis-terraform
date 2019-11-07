@@ -135,7 +135,7 @@ resource "oci_load_balancer_backend_set" "lb-http-backendset" {
 
 resource "oci_load_balancer_backend_set" "lb-ws-backendset" {
   count            = "${var.load_balancer_count}"
-  name             = "lb-ws-beackendset"
+  name             = "lb-ws-backendset"
   load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
   policy           = "ROUND_ROBIN"
 
@@ -182,11 +182,11 @@ output "LB-1" {
 }
 
 output "LB-BackendSet-1" {
-  value = "${oci_load_balancer_backend.lb_backendhttp.*.name}"
+  value = "${oci_load_balancer_backend_set.lb-http-backendset}"
 }
 
 output "LB-BackendSet-2" {
-  value = "${oci_load_balancer_backend.lb_backendws.*.name}"
+  value = "${oci_load_balancer_backend_set.lb-ws-backendset}"
 }
 
 
