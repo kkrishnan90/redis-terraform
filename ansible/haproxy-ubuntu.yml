@@ -1,4 +1,4 @@
-- hosts: "{{variable_host}}"
+- hosts: "haproxy"
   gather_facts: yes
   remote_user: ubuntu
   vars:
@@ -17,7 +17,7 @@
     - name: copy ens3 files
       copy:
         remote_src: no
-        src: "{{ source_path }}{{variable_host}}"
+        src: "{{ source_path }}{{ansible_default_ipv4.address}}"
         dest: "{{ destination_path }}"
         mode: u+x
         force: yes
@@ -26,7 +26,7 @@
       sudo: yes
       blockinfile:
         path: /etc/network/interfaces
-        block: "{{lookup('file', '{{source_path}}{{variable_host}}')}}"
+        block: "{{lookup('file', '{{source_path}}{{ansible_default_ipv4.address}}')}}"
         create: no
         state: present
 
@@ -62,7 +62,7 @@
 
     - name: Validate haproxy config
       command: haproxy -c -f /etc/haproxy/haproxy.cfg
-      
+
     - name: Restart haproxy service
       sudo: yes
       command: service restart haproxy
