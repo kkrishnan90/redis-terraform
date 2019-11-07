@@ -12,9 +12,7 @@
 
   tasks:
     - name: Copy to host
-      delegate_to: 127.0.0.1
       fetch:
-        remote_src: yes
         src: "{{ base_dir }}/{{redis_rdb_filename}}"
         dest: "{{ backup_path }}"
 
