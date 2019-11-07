@@ -48,6 +48,7 @@
         msg: "the value of app-servers.conf is {{ item }} {{contents[1]}} {{ansible_all_ipv4_addresses}}"
       with_items: "{{ contents }}"
 
+    - debug: var=ansible_all_ipv4_addresses
     - name: get ip
       local_action: shell echo {{ ansible_all_ipv4_addresses }}
 
@@ -61,7 +62,9 @@
       command: apt-get install -y haproxy
       run_once: true
 
-    - debug: var=ansible_facts
+    - debug: 
+        var= ansible_facts
+
 
     - name: Templating haproxy config
       sudo: yes
