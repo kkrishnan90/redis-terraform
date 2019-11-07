@@ -20,7 +20,7 @@
     - name: Renaming rdb from node
       delegate_to: 127.0.0.1
       command: mv {{backup_path}}{{redis_rdb_filename}} {{backup_path}}dump-{{ansible_default_ipv4.address}}.rdb
-      
+
     - name: Backup sending to Object Storage
       delegate_to: 127.0.0.1
-      command: os object put -ns {{tenancy_name}} -bn redis-backup --name {{ source_path }}dump-{{ansible_default_ipv4.address}}-{{ansible_data_time.iso8601}}.rdb --file dump-{{ansible_default_ipv4.address}}.rdb
+      command: os object put -ns {{tenancy_name}} -bn redis-backup --name {{ backup_path }}dump-{{ansible_default_ipv4.address}}-{{ansible_data_time.iso8601}}.rdb --file dump-{{ansible_default_ipv4.address}}.rdb
