@@ -17,7 +17,7 @@ if ! [[ "$hap_count" =~ ^[0-9]+$ ]] ;  then
     app_count=$(wc -l ansible/app-servers.conf | awk '{print $1}')
     sleep 1
     echo "App server count ${app_count}"
-    if (($app_count == 0 or $hap_count == 0 or $hap_count < $app_count))
+    if (( $app_count == 0 )) or (($hap_count == 0)) or (( $hap_count < $app_count ))
       then
         echo "Risk forseen !!!!! Your HAProxy counts are less than app server counts. Modify /terraform/ansible/app-servers.conf file (Add more app servers) !"
       else
