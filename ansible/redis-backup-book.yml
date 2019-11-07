@@ -21,7 +21,7 @@
       delegate_to: 127.0.0.1
       command: cp {{backup_path}}{{ansible_default_ipv4.address}}/{{redis_rdb_filename}} {{backup_path}}{{ansible_default_ipv4.address}}/{{dump_name}}
 
-      debug: var=ansible_data_time.iso8601
+    - debug: var=ansible_data_time.iso8601
 
     - name: Backup sending to Object Storage
       delegate_to: 127.0.0.1
