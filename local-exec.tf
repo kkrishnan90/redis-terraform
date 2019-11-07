@@ -13,10 +13,10 @@
 # #                         ))}"
 # # }
 
-resource "local_file" "ansible_inventory" {
-  content = "${indent(2,"haproxy:\nprivate_ip: %s",oci_core_instance.HAPInstance.*.private_ip[count.index])}"
-  filename = "../ansible/hosts.yml"
-}
+# resource "local_file" "ansible_inventory" {
+#   content = "${indent(2,"haproxy:\nprivate_ip: %s",oci_core_instance.HAPInstance.*.private_ip[count.index])}"
+#   filename = "../ansible/hosts.yml"
+# }
 
 # # resource "local_file" "ansible_inventory" {
 # #   count = "${var.NumInstances}"
