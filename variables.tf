@@ -1,75 +1,37 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-variable "tenancy_ocid" {
-}
-variable "user_ocid" {
-}
-variable "fingerprint" {
-}
-variable "region" {
-}
+variable "tenancy_ocid" {}
 
-variable "compartment_ocid" {
-}
+variable "user_ocid" {}
 
-variable "api_private_key_path" {
-}
+variable "fingerprint" {}
 
-variable "ssh_public_key_path" {
-}
+variable "region" {}
 
-variable "ssh_private_key_path" {
-}
+variable "compartment_ocid" {}
+
+variable "api_private_key_path" {}
+
+variable "ssh_public_key_path" {}
+
+variable "ssh_private_key_path" {}
+
+variable "subnet_ocid" {}
+
+variable "ad_number" {}
 
 # Defines the number of instances to deploy
 variable "hap_instance_count" {
-  default = "1"
+  default = "2"
 }
 
+variable "hap_instance_image_ocid" {}
+
+variable "hap_ip_count" {}
 
 variable "instance_shape" {
   default = "VM.Standard.E2.1"
 }
 
 
-variable "hap_instance_image_ocid" {
-
-}
-
-
-# variable "instance_image_ocid" {
-#   type = "map"
-
-#   default = {
-#     # See https://docs.us-phoenix-1.oraclecloud.com/images/
-#     # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-#     #Ubuntu 18.04 Blank Image
-#     ap-mumbai-1 = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaapkhghx7pslvwrarurrztge4f4a3vlfy3kt3jd7vtxz4przfkmfvq"
-#     # ca-toronto-1 = "ocid1.image.oc1.ca-toronto-1.aaaaaaaa7gb5qhlijlfon7mfoxkapsi2zvqtgrle3idy254wp3h3ddds3opa"
-#     us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
-#     us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
-#     eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
-#     uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
-#   }
-
-# }
-
-variable "BootStrapFile" {
-  default = "./userdata/bootstrap.sh"
-}
-
-variable "subnet_ocid" {
-}
-
-variable "private_ip_count" {
-  default = "1"
-}
-
-variable "ad_number" {
-
-}
-
-variable "hap_ip_count" {
-
-}
 

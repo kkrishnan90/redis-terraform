@@ -10,7 +10,7 @@ resource "oci_core_instance" "HAPInstance" {
   create_vnic_details {
     subnet_id        = "${var.subnet_ocid}"
     display_name     = "primaryvnic"
-    assign_public_ip = false #Change during production to false
+    assign_public_ip = false
     hostname_label   = "HAP-Instance-VNiC${count.index}"
   }
 
@@ -45,11 +45,6 @@ resource "oci_core_private_ip" "private_ip" {
   provisioner "local-exec" {
     command = "bash add-vnic-ips.sh ${data.oci_core_vnic.instance_vnic.*.private_ip_address[count.index % var.hap_instance_count]} ${count.index} ${self.ip_address}"
   }
-
-  # For OEL Linux
-  # provisioner "local-exec" {
-  #   command = "touch privateips/ifcfg-ens3:${count.index}\necho DEVICE='\"ens3:${count.index}\"' >> privateips/ifcfg-ens3:${count.index}\necho BOOTPROTO=static >> privateips/ifcfg-ens3:${count.index}\necho IPADDR=${self.ip_address} >> privateips/ifcfg-ens3:${count.index}\necho NETMASK=255.255.255.0 >> privateips/ifcfg-ens3:${count.index}\necho ONBOOT=yes >> privateips/ifcfg-ens3:${count.index}"
-  # }
 }
 
 output "HAP-IPs" {
@@ -59,27 +54,8 @@ output "HAP-IPs" {
 
 resource "null_resource" "ansible_inventory" {
   count = "${var.hap_instance_count}"
-  provisioner "local-exec"{
-    command  = "bash create-host-ips.sh ${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
+  provisioner "local-exec" {
+    command = "bash create-host-ips.sh ${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
   }
 }
-
-# resource "null_resource" "ansible" {
-#   count = "${var.hap_instance_count}"
-#   provisioner "remote-exec" {
-#     script = "wait_for_instance.sh"
-#   }
-#   #For Ubuntu 18.04 Only
-#   provisioner "remote-exec" {
-#     script = "startupscript.sh"
-#   }
-
-#   connection {
-#     type = "ssh"
-#     host = "${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
-#     # user        = "opc" #For OEL Linux
-#     user        = "ubuntu" #For Ubuntu 18.04
-#     password    = ""
-#     private_key = "${file(var.ssh_private_key_path)}"
-#   }
 

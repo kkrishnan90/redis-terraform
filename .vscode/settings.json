@@ -1,0 +1,6 @@
+{
+    "terraform.languageServer": {
+        "enabled": false,
+        "args": []
+    }
+}
