@@ -61,7 +61,6 @@ resource "null_resource" "ansible_inventory" {
   count = "${var.hap_instance_count}"
   provisioner "local-exec"{
     command  = "bash create-host-ips.sh ${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
-    # echo  ${oci_core_instance.HAPInstance.*.private_ip} | cut -d \"|\" -f 2>> hosts.yml
   }
 }
 
