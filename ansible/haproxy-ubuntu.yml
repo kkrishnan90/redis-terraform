@@ -15,7 +15,6 @@
       file:
         path: "{{ base_dir }}/ansible"
         state: directory
-        run_once: true
 
     - name: copy ens3 files
       copy:
