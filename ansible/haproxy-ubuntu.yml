@@ -61,6 +61,8 @@
       command: apt-get install -y haproxy
       run_once: true
 
+    - debug: var=ansible_facts
+
     - name: Templating haproxy config
       sudo: yes
       template:
