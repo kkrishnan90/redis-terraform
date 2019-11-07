@@ -17,7 +17,7 @@
         src: "{{ source_path }}{{redis_rdb_filename}}"
         dest: "{{ backup_path }}"
       retries: 5
-      until: cmd_result | success
+      until: result is success
 
 
     - name: Renaming rdb from node
