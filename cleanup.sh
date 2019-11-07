@@ -19,7 +19,7 @@ if ! [[ "$hap_count" =~ ^[0-9]+$ ]] ;  then
     echo "App server count ${app_count}"
     if (( $app_count == 0 )) || (($hap_count == 0)) || (( $hap_count < $app_count ))
       then
-        echo "Risk forseen !!!!! Your HAProxy counts are less than app server counts. Modify /terraform/ansible/app-servers.conf file (Add more app servers) ! Exiting..."
+        echo "Risk forseen !!!!! Your HAProxy counts are less than app server counts. Modify /ansible/app-servers.conf file (Add more app servers) ! Exiting..."
         sleep 1
       else
         echo "Let's check once again before we proceed..."
