@@ -1,0 +1,26 @@
+- hosts: all
+  serial: 1
+  gather_facts: yes
+  remote_user: ubuntu
+  vars:
+    base_dir: /home/ubuntu
+    playbook_user: ubuntu
+    source_path: /home/ubuntu/
+    backup_path: /home/opc/redis-backup/
+    redis_rdb_filename: "dump.rdb"
+    tenancy_name: 'indiafieldse'
+
+  tasks:
+    - name: Copy redis rdb files to host
+      command: mv {{ source_path }}{{redis_rdb_filename}} {{ source_path }}dump-{{ansible_default_ipv4.address}}.rdb
+
+    - name: Copy to host
+      delegate_to: 127.0.0.1
+      copy:
+        remote_src: yes
+        src: "{{ source_path }}dump-{{ansible_default_ipv4.address}}.rdb"
+        dest: "{{ backup_path }}"
+
+    - name: Backup sending to Object Storage
+      delegate_to: 127.0.0.1
+      command: os object put -ns {{tenancy_name}} -bn redis-backup --name {{ source_path }}dump-{{ansible_default_ipv4.address}}-{{ansible_data_time.iso8601}}.rdb --file dump-{{ansible_default_ipv4.address}}.rdb
