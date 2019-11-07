@@ -22,6 +22,28 @@ resource "oci_core_instance" "HAPInstance" {
   }
 }
 
+resource "oci_core_instance" "AppInstance" {
+  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+  count               = "${var.app_instance_count}"
+  compartment_id      = "${var.compartment_ocid}"
+  display_name        = "App-Instance-${count.index}"
+  shape               = "${var.app_instance_shape}"
+  image               = "${var.app_instance_image_ocid}"
+  create_vnic_details {
+    subnet_id        = "${var.app_subnet_ocid}"
+    display_name     = "primaryvnic"
+    assign_public_ip = false
+    hostname_label   = "APP-Instance-VNiC${count.index}"
+  }
+
+  metadata = {
+    ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
+  }
+  timeouts {
+    create = "60m"
+  }
+}
+
 data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
   count               = "${var.hap_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
