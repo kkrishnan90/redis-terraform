@@ -30,7 +30,7 @@ app_subnet_ocid         = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgck
 # ---- Load Balancer related configuration
 load_balancer_count       = "2"
 load_balancer_shape       = "100Mbps"
-load_balancer_subnet_ocid = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgcknienmoz6zbypxkgxnzz7oyyurjlatgxkdj5q"
+load_balancer_subnet_ocid = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaarv67fmf74tpqxprgaqtrjfpyd7k4p7nxutnk4ppsqlejleaouv4q"
 # lb_ca_certificate_path = ""
 # lb_private_key_path  = ""
 # lb_public_key_path = ""
