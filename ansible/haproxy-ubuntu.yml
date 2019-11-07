@@ -63,7 +63,6 @@
 
     - name: Templating haproxy config
       sudo: yes
-      debugger: always
       template:
         src: templates/haproxy.cfg.j2
         dest: "/etc/haproxy/haproxy.cfg"
