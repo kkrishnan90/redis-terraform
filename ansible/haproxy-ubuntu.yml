@@ -61,8 +61,7 @@
         src: templates/haproxy.cfg.j2
         dest: "/etc/haproxy/haproxy.cfg"
         force: yes
-      register: result
-
+        
     - name: Validate haproxy config
       command: haproxy -c -f /etc/haproxy/haproxy.cfg
 
