@@ -1,2 +1,2 @@
 #!/bin/bash
-echo -n $1, >> hosts.yml
+echo -n $1, >> ansible/hosts.yml
