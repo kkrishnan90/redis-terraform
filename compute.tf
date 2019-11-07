@@ -53,7 +53,7 @@ resource "oci_core_private_ip" "private_ip" {
 }
 
 resource "local_file" "ansible_inventory" {
-  content = "${indent(2,"haproxy:\nprivate_ip: %s",oci_core_instance.HAPInstance.*.private_ip)}"
+  content = "${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
   filename = "../ansible/hosts.yml"
 }
 
