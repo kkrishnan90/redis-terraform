@@ -14,7 +14,9 @@
   tasks:
     - name: Create redis-backup if it doesn't exist
       delegate_to: 127.0.0.1
-      command: mkdir /home/opc/redis-backup/
+      file:
+      path: "{{ backup_path }}"
+      state: directory
 
     - name: Copy to host
       fetch:
