@@ -52,10 +52,14 @@ resource "oci_core_private_ip" "private_ip" {
   # }
 }
 
+output "HAP-IPs" {
+  value = "${oci_core_instance.HAPInstance.*.private_ip}"
+}
+
+
 resource "null_resource" "ansible_inventory" {
-  count    = "${var.hap_instance_count}"
   provisioner "local-exec"{
-    command  = "echo  ${oci_core_instance.HAPInstance.*.private_ip[count.index]}>> hosts.yml"
+    command  = "echo  ${oci_core_instance.HAPInstance.*.private_ip}>> hosts.yml"
   }
 }
 
