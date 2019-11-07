@@ -51,8 +51,9 @@
     - debug: var=ansible_all_ipv4_addresses
     - name: get ip
       local_action: shell echo {{ ansible_all_ipv4_addresses }}
+      
     - name: Get all private ipv4 ips ens3
-      command: ip -4 addr show ens3 | grep -oP "(?<=inet ).*(?=/)"
+      shell: ip -4 addr show ens3 | grep -oP "(?<=inet ).*(?=/)"
       register: result
 
     # - name: Install apt-get updates
