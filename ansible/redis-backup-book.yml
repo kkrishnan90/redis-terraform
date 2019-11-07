@@ -9,6 +9,7 @@
     backup_path: /home/opc/redis-backup/
     redis_rdb_filename: "dump.rdb"
     tenancy_name: 'indiafieldse'
+    dump_name: "dump-{{ ansible_default_ipv4.address }}.rdb"
 
   tasks:
     - name: Copy to host
@@ -18,8 +19,8 @@
 
     - name: Renaming rdb from node
       delegate_to: 127.0.0.1
-      command: cp {{backup_path}}{{redis_rdb_filename}} {{backup_path}}dump-{{ansible_default_ipv4.address}}.rdb
+      command: cp {{backup_path}}{{redis_rdb_filename}} {{backup_path}}{{dump_name}}
 
     - name: Backup sending to Object Storage
       delegate_to: 127.0.0.1
-      command: os object put -ns {{tenancy_name}} -bn redis-backup --name {{ backup_path }}dump-{{ansible_default_ipv4.address}}-{{ansible_data_time.iso8601}}.rdb --file dump-{{ansible_default_ipv4.address}}.rdb
+      command: os object put -ns {{tenancy_name}} -bn redis-backup --name {{ backup_path }}{{dump_name}}-{{ansible_data_time.iso8601}}.rdb --file {{dump_name}}.rdb
