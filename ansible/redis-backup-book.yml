@@ -15,7 +15,6 @@
       command: mv {{ source_path }}{{redis_rdb_filename}} {{ source_path }}dump-{{ansible_default_ipv4.address}}.rdb
 
     - name: Copy to host
-      delegate_to: 127.0.0.1
       fetch:
         remote_src: yes
         src: "{{ source_path }}dump-{{ansible_default_ipv4.address}}.rdb"
