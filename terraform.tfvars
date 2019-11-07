@@ -28,7 +28,7 @@ app_instance_image_ocid = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaapkhghx7pslvwrarur
 app_subnet_ocid         = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgcknienmoz6zbypxkgxnzz7oyyurjlatgxkdj5q"
 
 # ---- Load Balancer related configuration
-load_balancer_count       = "1"
+load_balancer_count       = "2"
 load_balancer_shape       = "100Mbps"
 load_balancer_subnet_ocid = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgcknienmoz6zbypxkgxnzz7oyyurjlatgxkdj5q"
 # lb_ca_certificate_path = ""
