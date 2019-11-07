@@ -14,7 +14,7 @@
   tasks:
     - name: Copy to host
       fetch:
-        src: "{{ base_dir }}/{{redis_rdb_filename}}"
+        src: "{{redis_rdb_filename}}"
         dest: "{{ backup_path }}"
 
     - name: Renaming rdb from node
