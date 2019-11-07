@@ -168,8 +168,12 @@ resource "oci_load_balancer_backend" "lb_backend2" {
   port             = "80"
 }
 
-output "LB-Backend1" {
+output "LB-BackendSet-1" {
   value = "${oci_load_balancer_backend.lb_backend1.*.name}"
+}
+
+output "LB-BackendSet-2" {
+  value = "${oci_load_balancer_backend.lb_backend2.*.name}"
 }
 
 
