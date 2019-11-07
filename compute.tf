@@ -52,32 +52,32 @@ resource "oci_core_private_ip" "private_ip" {
   # }
 }
 
-# resource "null_resource" "ansible" {
-#   count = "${var.hap_instance_count}"
-#   provisioner "remote-exec" {
-#     script = "wait_for_instance.sh"
-#   }
-#   #For Ubuntu 18.04 Only
-#   provisioner "remote-exec" {
-#     script = "startupscript.sh"
-#   }
+resource "null_resource" "ansible" {
+  count = "${var.hap_instance_count}"
+  provisioner "remote-exec" {
+    script = "wait_for_instance.sh"
+  }
+  #For Ubuntu 18.04 Only
+  provisioner "remote-exec" {
+    script = "startupscript.sh"
+  }
 
-#   connection {
-#     type = "ssh"
-#     host = "${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
-#     # user        = "opc" #For OEL Linux
-#     user        = "ubuntu" #For Ubuntu 18.04
-#     password    = ""
-#     private_key = "${file(var.ssh_private_key_path)}"
-#   }
+  connection {
+    type = "ssh"
+    host = "${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
+    # user        = "opc" #For OEL Linux
+    user        = "ubuntu" #For Ubuntu 18.04
+    password    = ""
+    private_key = "${file(var.ssh_private_key_path)}"
+  }
 
 
-#   provisioner "local-exec" {
-#     #For Oracle Linux
-#     # command = "ansible-playbook -i ${oci_core_instance.HAPInstance.*.private_ip[count.index]}, ansible/haproxy-oel-linux.yml --extra-vars variable_host=${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
-#     #For Ubuntu 18.04
-#     command = "ansible-playbook -i ${oci_core_instance.HAPInstance.*.private_ip[count.index]}, ansible/haproxy-ubuntu.yml --extra-vars variable_host=${oci_core_instance.HAPInstance.*.private_ip[count.index]} -vvv"
-#   }
-# }
+  provisioner "local-exec" {
+    #For Oracle Linux
+    # command = "ansible-playbook -i ${oci_core_instance.HAPInstance.*.private_ip[count.index]}, ansible/haproxy-oel-linux.yml --extra-vars variable_host=${oci_core_instance.HAPInstance.*.private_ip[count.index]}"
+    #For Ubuntu 18.04
+    command = "ansible-playbook -i ${oci_core_instance.HAPInstance.*.private_ip[count.index]}, ansible/haproxy-ubuntu.yml --extra-vars variable_host=${oci_core_instance.HAPInstance.*.private_ip[count.index]} -vvv"
+  }
+}
 
 

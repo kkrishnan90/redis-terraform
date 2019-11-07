@@ -66,7 +66,7 @@
 
     - name: Restart haproxy service
       sudo: yes
-      command: service restart haproxy
+      command: service haproxy restart
 
     - name: Modify app-server.conf list
       delegate_to: 127.0.0.1
