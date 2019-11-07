@@ -71,6 +71,7 @@
       command: service haproxy restart
     
     - name: Modify app-server.conf list
+      delegate_to: 127.0.0.1
       command: sed -i -e '1,2d' {{ app_conf_path }}app-servers.conf
     # - name: Modify app-server.conf list
     #   delegate_to: 127.0.0.1
