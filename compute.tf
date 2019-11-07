@@ -84,6 +84,12 @@ resource "oci_core_instance" "AppInstance" {
   }
 }
 
+output "AppInstance IPs" {
+  value = "${oci_core_instance.AppInstance.*.private_ip}"
+}
+
+
+
 
 ############# LOAD BALANCER ###############
 resource "oci_load_balancer" "lb1" {
