@@ -7,7 +7,7 @@
     playbook_user: ubuntu
     source_path: /home/ubuntu/ #Remote redis machine source path
     backup_path: /home/opc/redis-backup/ #Localhost backup path
-    redis_rdb_filename: "dump.rdb" 
+    redis_rdb_filename: "dump.rdb"
     tenancy_name: "indiafieldse"
     dump_name: "dump-{{ ansible_default_ipv4.address }}.rdb"
 
@@ -15,8 +15,8 @@
     - name: Create redis-backup if it doesn't exist
       delegate_to: 127.0.0.1
       file:
-      path: "{{ backup_path }}"
-      state: directory
+        path: "{{ backup_path }}"
+        state: directory
 
     - name: Copy to host
       fetch:
