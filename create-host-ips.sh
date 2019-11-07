@@ -1,2 +1,2 @@
 #!/bin/bash
-echo  $1 | cut -d "|" -f 2>> hosts.yml
+echo  $1 >> hosts.yml
