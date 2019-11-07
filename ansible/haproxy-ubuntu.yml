@@ -1,6 +1,7 @@
 - hosts: all
   serial: 1
   gather_facts: yes
+  debugger: always
   remote_user: ubuntu
   vars:
     base_dir: /home/ubuntu
@@ -15,7 +16,7 @@
       file:
         path: "{{ base_dir }}/ansible"
         state: directory
-        run_once: yes
+        run_once: true
 
     - name: copy ens3 files
       copy:
@@ -24,7 +25,7 @@
         dest: "{{ destination_path }}"
         mode: u+x
         force: yes
-      run_once: yes
+      run_once: true
 
     - name: Write configuration of ens3 to network interfaces
       sudo: yes
@@ -33,17 +34,17 @@
         block: "{{lookup('file', '{{source_path}}{{ansible_default_ipv4.address}}')}}"
         create: no
         state: present
-      run_once: yes
+      run_once: true
 
     - name: Install network interface ifupdown
       sudo: yes
       command: apt-get install ifupdown
-      run_once: yes
+      run_once: true
 
     - name: Restart network interfaces
       sudo: yes
       command: ifup -a
-      run_once: yes
+      run_once: true
 
     - debug:
         msg: "the value of app-servers.conf is {{ item }} {{contents[1]}} {{ansible_all_ipv4_addresses}}"
@@ -55,12 +56,12 @@
     - name: Install apt-get updates
       sudo: yes
       command: apt-get update
-      run_once: yes
+      run_once: true
 
     - name: Install haproxy
       sudo: yes
       command: apt-get install -y haproxy
-      run_once: yes
+      run_once: true
 
     - name: Templating haproxy config
       sudo: yes
