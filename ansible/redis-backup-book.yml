@@ -12,12 +12,11 @@
 
   tasks:
     - name: Copy to host
+      delegate_to: 127.0.0.1
       fetch:
         remote_src: yes
         src: "{{ source_path }}{{redis_rdb_filename}}"
         dest: "{{ backup_path }}"
-      retries: 5
-      until: result is success
 
 
     - name: Renaming rdb from node
