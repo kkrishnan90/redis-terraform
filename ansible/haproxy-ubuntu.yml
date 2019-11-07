@@ -55,14 +55,11 @@
 
     - name: Templating haproxy config
       sudo: yes
-      retries: 3
-      delay: 10
       template:
         src: templates/haproxy.cfg.j2
-        dest: "{{destination_path}}haproxy.cfg"
+        dest: "{{ destination_path }}haproxy.cfg"
         force: yes
       register: result
-      until: "'failed' not in result and result.content.find('OK') != -1"
 
     # - name: Validate haproxy config
     #   command: haproxy -c -f /etc/haproxy/haproxy.cfg
