@@ -63,8 +63,7 @@
       command: apt-get install -y haproxy
       run_once: true
 
-    - debug: 
-        var= ansible_all_ipv4_addresses
+    - debug: var=ansible_all_ipv4_addresses
 
 
     - name: Templating haproxy config
