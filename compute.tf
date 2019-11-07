@@ -85,7 +85,7 @@ resource "oci_core_instance" "AppInstance" {
 }
 
 output "AppInstance-ips" {
-  value = "${oci_core_instance.AppInstance.*.private_ip}"
+  value = "${oci_core_instance.AppInstance}"
 }
 
 
