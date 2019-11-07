@@ -13,21 +13,10 @@
 # #                         ))}"
 # # }
 
-# resource "local_file" "ansible_inventory" {
-#   content = "${indent(2,"redis:\nobject_storage_url: %s${indent(3,"\nhosts:${indent(4,"\n${join("\n",formatlist(
-#                         indent(
-#                             5,"%s:\n redis_version: %s\n private_ip: %s \n master: %s \n redis_port: %s \n cluster_port: %s"
-#                             ),
-#                         "",
-#                         oci_core_instance.TestInstance.*.public_ip,
-#                         "1",
-#                         oci_core_instance.TestInstance.*.private_ip,
-#                         false,
-#                         "",
-#                         ""
-#                         ))}")}")}")}"
-#   filename = "../ansible/hosts.yml"
-# }
+resource "local_file" "ansible_inventory" {
+  content = "${indent(2,"haproxy:\nprivate_ip: %s",oci_core_instance.HAPInstance.*.private_ip[count.index])}"
+  filename = "../ansible/hosts.yml"
+}
 
 # # resource "local_file" "ansible_inventory" {
 # #   count = "${var.NumInstances}"
