@@ -53,7 +53,7 @@ resource "oci_core_private_ip" "private_ip" {
 }
 
 output "HAP-IPs" {
-  value = "${oci_core_instance.HAPInstance.*.private_ip}"
+  value = "${oci_core_instance.HAPInstance.*.private_ip[*]}"
 }
 
 
