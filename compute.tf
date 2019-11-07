@@ -1,6 +1,6 @@
 // Copyright (c) 2017, 2019, Oracle and/or its affiliates. All rights reserved.
 
-resource "oci_core_instance" "HAPInstance" {
+resource "oci_core_instance" "HAPInstance${count.index}" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   count               = "${var.hap_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
