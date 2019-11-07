@@ -16,9 +16,13 @@
         remote_src: yes
         src: "{{ source_path }}{{redis_rdb_filename}}"
         dest: "{{ backup_path }}"
+      retries: 5
+      until: cmd_result | success
+
 
     - name: Renaming rdb from node
       delegate_to: 127.0.0.1
+      force: yes
       command: mv {{backup_path}}{{redis_rdb_filename}} {{backup_path}}dump-{{ansible_default_ipv4.address}}.rdb
 
     - name: Backup sending to Object Storage
