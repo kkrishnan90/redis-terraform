@@ -9,7 +9,7 @@ sleep 1
 reg='^[0-9]{8}$'
 echo "How many(count) HAProxy do you want to provision ?"
 read hap_count
-if [[ -n ${hap_count//[0-9]/} ]]; then
+if ! [[ "$hap_count" =~ ^[0-9]+$ ]] ;  then
   echo "Contains letters!"
   else
     echo "Checking app server count matches with HAProxy..."
