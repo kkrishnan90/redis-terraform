@@ -45,6 +45,10 @@
     - name: get ip
       local_action: shell echo {{ ansible_all_ipv4_addresses }}
 
+    - name: Install apt-get updates
+      sudo: yes
+      command: apt-get update
+
     - name: Install haproxy
       sudo: yes
       command: apt-get install -y haproxy
