@@ -19,11 +19,9 @@
 
     - name: Renaming rdb from node
       delegate_to: 127.0.0.1
-      command: cp {{backup_path}}{{ansible_default_ipv4.address}}/{{redis_rdb_filename}} {{backup_path}}{{ansible_default_ipv4.address}}/{{dump_name}}
-
-    - debug: var=ansible_data_time.iso8601
+      command: cp {{backup_path}}{{ansible_default_ipv4.address}}/{{redis_rdb_filename}} {{backup_path}}{{dump_name}}
 
     - name: Backup sending to Object Storage
       delegate_to: 127.0.0.1
       delegate_facts: true
-      shell: oci os object put -ns {{tenancy_name}} -bn redis-backup --name krishna.pub --file /home/opc/public_key_oci.pub 
+      shell: oci os object put -ns {{tenancy_name}} -bn redis-backup --name redis-{{ansible_default_ipv4.address}}-{{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}.rdb --file {{backup_path}}{{dump_name}}
