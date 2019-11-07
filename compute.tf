@@ -53,7 +53,7 @@ resource "oci_core_private_ip" "private_ip" {
 }
 
 resource "local_file" "ansible_inventory" {
-  content = " ${data.oci_core_vnic.instance_vnic.*.private_ip_address}"
+  content = "${data.oci_core_vnic.instance_vnic.*.private_ip_address}"
   filename = "hosts.yml"
 }
 
