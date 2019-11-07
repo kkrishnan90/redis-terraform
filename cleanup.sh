@@ -6,8 +6,11 @@ sleep 1
 echo "Emptying contents of privateips generated templates..."
 rm -rf privateips/*
 sleep 1
-echo "How many HAProxy do you want to provision ?"
-read hap_count
+hap_count=""
+while [[ ! $hap_count =~ ^[0-9]{8} ]]; do
+  echo "How many HAProxy do you want to provision ?"
+  read $hap_count
+done
 echo "Checking app server count matches with HAProxy..."
 app_count=$(wc -l ansible/app-servers.conf | awk '{print $1}')
 sleep 1
