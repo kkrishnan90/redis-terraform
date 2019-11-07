@@ -16,10 +16,9 @@
         src: "{{ base_dir }}/{{redis_rdb_filename}}"
         dest: "{{ backup_path }}"
 
-
     - name: Renaming rdb from node
       delegate_to: 127.0.0.1
-      command: mv {{backup_path}}{{redis_rdb_filename}} {{backup_path}}dump-{{ansible_default_ipv4.address}}.rdb
+      command: cp {{backup_path}}{{redis_rdb_filename}} {{backup_path}}dump-{{ansible_default_ipv4.address}}.rdb
 
     - name: Backup sending to Object Storage
       delegate_to: 127.0.0.1
