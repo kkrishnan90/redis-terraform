@@ -23,4 +23,5 @@
 
     - name: Backup sending to Object Storage
       delegate_to: 127.0.0.1
+      delegate_facts: true
       command: os object put -ns {{tenancy_name}} -bn redis-backup --name {{ backup_path }}{{ansible_default_ipv4.address}}/{{dump_name}}-{{ansible_data_time.iso8601}}.rdb --file {{backup_path}}{{ansible_default_ipv4.address}}/{{dump_name}}
