@@ -16,7 +16,7 @@
 
     - name: Copy to host
       delegate_to: 127.0.0.1
-      copy:
+      fetch:
         remote_src: yes
         src: "{{ source_path }}dump-{{ansible_default_ipv4.address}}.rdb"
         dest: "{{ backup_path }}"
