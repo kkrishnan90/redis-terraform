@@ -10,7 +10,8 @@ reg='^[0-9]{8}$'
 echo "How many(count) HAProxy do you want to provision ?"
 read hap_count
 if ! [[ "$hap_count" =~ ^[0-9]+$ ]] ;  then
-  echo "Contains letters!"
+  echo "HAP server counts cannot contains letters! Exiting..."
+  sleep 1
   else
     echo "Checking app server count matches with HAProxy..."
     app_count=$(wc -l ansible/app-servers.conf | awk '{print $1}')
