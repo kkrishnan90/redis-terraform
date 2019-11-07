@@ -154,7 +154,7 @@ resource "oci_load_balancer_backend" "lb_backendhttp" {
   count = "${var.app_instance_count * var.load_balancer_count * 2}"
   #Required
   backendset_name  = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[0]}"
-  ip_address       = "${lookup(element(oci_core_instance.AppInstance, count.index),"private_ip")}"
+  ip_address       = "${lookup(element(oci_core_instance.AppInstance, count.index % var.load_balancer_count),"private_ip")}"
   load_balancer_id = "${lookup(element(oci_load_balancer.lb1, count.index % var.load_balancer_count),"id")}"
   port             = "80"
 }
@@ -163,7 +163,7 @@ resource "oci_load_balancer_backend" "lb_backendws" {
   count = "${var.app_instance_count * var.load_balancer_count * 2}"
   #Required
   backendset_name  = "${oci_load_balancer_backend_set.lb-ws-backendset.*.name[1]}"
-  ip_address       = "${lookup(element(oci_core_instance.AppInstance, count.index),"private_ip")}"
+  ip_address       = "${lookup(element(oci_core_instance.AppInstance, count.index % var.load_balancer_count),"private_ip")}"
   load_balancer_id = "${lookup(element(oci_load_balancer.lb1, count.index % var.load_balancer_count),"id")}"
   port             = "80"
 }
