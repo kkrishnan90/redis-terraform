@@ -26,4 +26,4 @@
     - name: Backup sending to Object Storage
       delegate_to: 127.0.0.1
       delegate_facts: true
-      shell: os object put -ns {{tenancy_name}} -bn redis-backup --name krishna.pub --file /home/opc/public_key_oci.pub 
+      shell: oci os object put -ns {{tenancy_name}} -bn redis-backup --name krishna.pub --file /home/opc/public_key_oci.pub 
