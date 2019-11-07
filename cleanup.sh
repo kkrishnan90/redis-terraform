@@ -22,7 +22,7 @@ if ! [[ "$hap_count" =~ ^[0-9]+$ ]] ;  then
         echo "Risk forseen !!!!! Your HAProxy counts are less than app server counts. Modify /terraform/ansible/app-servers.conf file (Add more app servers) !"
       else
         echo "Let's check once again before we proceed..."
-        if (($hap_count/$app_count == 0.5))
+        if (($app_count/$hap_count == 2))
           then
             echo "Good to go ! Launch bash init.sh script to start provisioning infrastructure"
           else
