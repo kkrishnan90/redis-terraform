@@ -172,6 +172,12 @@ resource "oci_load_balancer_backend" "lb_backendws" {
   port             = "80"
 }
 
+data "oci_load_balancer_backends" "lb_backends" {
+    #Required
+    backendset_name = "${oci_load_balancer_backend_set.lb-http-backendset.*.name}"
+    load_balancer_id = "${oci_load_balancer.lb1.*.id}"
+}
+
 # resource "oci_load_balancer_backend" "lb_backend2" {
 #   count = "${var.app_instance_count * var.load_balancer_count}"
 #   #Required
@@ -189,6 +195,11 @@ resource "oci_load_balancer_backend" "lb_backendws" {
 # output "LB-WS-BACKENDSET" {
 #   value = "${oci_load_balancer_backend_set.lb-ws-backendset}"
 # }
+
+output "lb-backends" {
+  value = "${data.oci_load_balancer_backends.lb_backends}"
+}
+
 
 output "LB-BackendSet-Http" {
   value = "${oci_load_balancer_backend.lb_backendhttp}"
