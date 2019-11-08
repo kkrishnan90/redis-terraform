@@ -154,7 +154,7 @@ resource "oci_load_balancer_backend" "lb_backendhttp" {
   count = "${var.hap_instance_count * var.load_balancer_count}"
   #Required
   backendset_name = "lb-http-backendset"
-  ip_address       = "${lookup(element(oci_core_instance.HAPInstance, count.index  % var.load_balancer_count),"private_ip")}"
+  ip_address       = "${lookup(element(oci_core_instance.HAPInstance, count.index  % 3),"private_ip")}"
   load_balancer_id = "${lookup(element(oci_load_balancer.lb1, count.index),"id")}"
   port             = "80"
 }
