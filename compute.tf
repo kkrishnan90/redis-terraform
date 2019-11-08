@@ -179,22 +179,22 @@ resource "oci_load_balancer_backend" "lb_backendws" {
 #   port             = "80"
 # }
 
-output "LB-HTTP-BACKENDSET" {
-  value = "${oci_load_balancer_backend_set.lb-http-backendset}"
-}
+# output "LB-HTTP-BACKENDSET" {
+#   value = "${oci_load_balancer_backend_set.lb-http-backendset}"
+# }
 
 
-output "LB-WS-BACKENDSET" {
-  value = "${oci_load_balancer_backend_set.lb-ws-backendset}"
-}
+# output "LB-WS-BACKENDSET" {
+#   value = "${oci_load_balancer_backend_set.lb-ws-backendset}"
+# }
 
 output "LB-BackendSet-1" {
   value = "${oci_load_balancer_backend.lb_backendhttp}"
 }
 
-# output "LB-BackendSet-2" {
-#   value = "${oci_load_balancer_backend.lb_backendws}"
-# }
+output "LB-BackendSet-2" {
+  value = "${oci_load_balancer_backend.lb_backendws}"
+}
 
 
 
