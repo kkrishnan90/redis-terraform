@@ -181,6 +181,15 @@ output "LB-1" {
   value = "${oci_load_balancer.lb1.*.id}"
 }
 
+output "LB-HTTP-BACKENDSET" {
+  value = "${oci_load_balancer_backend_set.lb-http-backendset}"
+}
+
+
+output "LB-WS-BACKENDSET" {
+  value = "${oci_load_balancer_backend_set.lb-ws-backendset}"
+}
+
 output "LB-BackendSet-1" {
   value = "${oci_load_balancer_backend.lb_backendhttp}"
 }
