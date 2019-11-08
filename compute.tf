@@ -173,9 +173,10 @@ resource "oci_load_balancer_backend" "lb_backendws" {
 }
 
 data "oci_load_balancer_backends" "lb_backends" {
+    count = "${var.hap_instance_count * var.load_balancer_count}" 
     #Required
-    backendset_name = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[*]}"
-    load_balancer_id = "${oci_load_balancer.lb1.*.id[*]}"
+    backendset_name = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[count.index % var.load_balancer_count]}"
+    load_balancer_id = "${lookup(element(oci_load_balancer.lb1, count.index),"id")}"
 }
 
 # resource "oci_load_balancer_backend" "lb_backend2" {
