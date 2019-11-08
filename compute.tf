@@ -155,7 +155,8 @@ resource "oci_load_balancer_backend" "lb_backendhttp" {
   #Required
   # backendset_name = "${lookup(element(oci_load_balancer_backend_set.lb-http-backendset,count.index % var.load_balancer_count),"name")}"
   backendset_name  = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[count.index % var.load_balancer_count]}"
-  ip_address       = "${lookup(element(oci_core_instance.HAPInstance, count.index),"private_ip")}"
+  # ip_address       = "${lookup(element(oci_core_instance.HAPInstance, count.index),"private_ip")}"
+  ip_address = "${oci_core_instance.HAPInstance.*.private_ip[count.index % var.load_balancer_count]}"
   load_balancer_id = "${lookup(element(oci_load_balancer.lb1, count.index % var.load_balancer_count),"id")}"
   port             = "80"
 }
@@ -165,7 +166,8 @@ resource "oci_load_balancer_backend" "lb_backendws" {
   # backendset_name = "${lookup(element(oci_load_balancer_backend_set.lb-ws-backendset,count.index % var.load_balancer_count),"name")}"
   #Required
   backendset_name  = "${oci_load_balancer_backend_set.lb-ws-backendset.*.name[count.index % var.load_balancer_count]}"
-  ip_address       = "${lookup(element(oci_core_instance.HAPInstance, count.index),"private_ip")}"
+  # ip_address       = "${lookup(element(oci_core_instance.HAPInstance, count.index),"private_ip")}"
+  ip_address = "${oci_core_instance.HAPInstance.*.private_ip[count.index % var.load_balancer_count]}"
   load_balancer_id = "${lookup(element(oci_load_balancer.lb1, count.index % var.load_balancer_count),"id")}"
   port             = "80"
 }
