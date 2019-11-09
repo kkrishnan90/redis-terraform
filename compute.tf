@@ -184,7 +184,7 @@ output "bs-names" {
 resource "oci_load_balancer_listener" "tcp_listener" {
     count = "${var.load_balancer_count}"
     #Required
-    default_backend_set_name = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[count.index]}"
+    default_backend_set_name = "${oci_load_balancer_backend_set.lb-ws-backendset.*.name[count.index]}"
     load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
     name = "TCPSSL"
     port = "80"
@@ -202,23 +202,23 @@ resource "oci_load_balancer_listener" "tcp_listener" {
     # }
 }
 
-# resource "oci_load_balancer_listener" "https_listener" {
-#     count = "${var.load_balancer_count}"
-#     #Required
-#     default_backend_set_name = ""
-#     load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
-#     name = "HTTPS"
-#     port = "443"
-#     protocol = "HTTP"
+resource "oci_load_balancer_listener" "https_listener" {
+    count = "${var.load_balancer_count}"
+    #Required
+    default_backend_set_name = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[count.index]}"
+    load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
+    name = "HTTPS"
+    port = "443"
+    protocol = "HTTP"
 
-#     #Optional
-#     connection_configuration {
-#         #Required
-#         idle_timeout_in_seconds = "300"
-#     }
+    #Optional
+    connection_configuration {
+        #Required
+        idle_timeout_in_seconds = "300"
+    }
     
-#     # ssl_configuration {
-#     #     #Required
-#     #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
-#     # }
-# }
+    # ssl_configuration {
+    #     #Required
+    #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
+    # }
+}
