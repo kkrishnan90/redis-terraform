@@ -180,7 +180,7 @@ resource "oci_load_balancer_backend" "lb_backendhttp" {
 
 resource "oci_load_balancer_backend" "lb_backendws" {
   count = "${var.hap_instance_count * 2}"
-  backendset_name = "lb-ws-backendset"
+  backendset_name = "lb-ws-beackendset"
   ip_address       = "${local.product[count.index][0]}"
   load_balancer_id = "${local.product[count.index][1]}"
   port             = "80"
