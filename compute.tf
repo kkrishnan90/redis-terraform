@@ -214,7 +214,7 @@ resource "oci_load_balancer_listener" "https_listener" {
     #Optional
     connection_configuration {
         #Required
-        idle_timeout_in_seconds = "300"
+        idle_timeout_in_seconds = "60"
     }
     
     # ssl_configuration {
