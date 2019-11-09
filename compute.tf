@@ -176,7 +176,7 @@ resource "oci_load_balancer_backend" "lb_backendws" {
 }
 
 output "bs-names" {
-  value = "${oci_load_balancer_backend_set.lb_backendhttp}"
+  value = "${oci_load_balancer_backend_set}"
 }
 
 
