@@ -116,6 +116,8 @@ resource "oci_load_balancer" "lb1" {
 #   }
 # }
 
+
+############# CREATE BACKEND SET FOR LOAD BALANCER (HTTP + WEBSOCKET BACKENDSET) ###############
 resource "oci_load_balancer_backend_set" "lb-http-backendset" {
   count            = "${var.load_balancer_count}"
   name             = "lb-http-backendset"
@@ -135,7 +137,7 @@ resource "oci_load_balancer_backend_set" "lb-http-backendset" {
 
 resource "oci_load_balancer_backend_set" "lb-ws-backendset" {
   count            = "${var.load_balancer_count}"
-  name             = "lb-ws-beackendset"
+  name             = "lb-ws-backendset"
   load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
   policy           = "ROUND_ROBIN"
 
@@ -154,21 +156,8 @@ locals {
   product= setproduct(oci_core_instance.HAPInstance.*.private_ip, oci_load_balancer.lb1.*.id)
 }
 
-output "lbs" {
-  value = "${oci_load_balancer.lb1.*.id}"
-}
 
-output "lb-backends" {
-  value = "${oci_core_instance.HAPInstance.*.private_ip}"
-}
-
-output "products" {
-  value = "${local.product[0][0]}"
-}
-
-
-
-
+############# ADD HAPROXY BACKEND IP TO LOAD BALANCER BACKENDSET FOR BOTH HTTP & WEBSOCKET BACKENDSET ###############
 resource "oci_load_balancer_backend" "lb_backendhttp" {
   count = "${var.hap_instance_count * var.load_balancer_count}"
   #Required
@@ -180,40 +169,51 @@ resource "oci_load_balancer_backend" "lb_backendhttp" {
 
 resource "oci_load_balancer_backend" "lb_backendws" {
   count = "${var.hap_instance_count * 2}"
-  backendset_name = "lb-ws-beackendset"
+  backendset_name = "lb-ws-backendset"
   ip_address       = "${local.product[count.index][0]}"
   load_balancer_id = "${local.product[count.index][1]}"
   port             = "80"
 }
 
 
+resource "oci_load_balancer_listener" "tcp_listener" {
+    count = "${var.load_balancer_count}"
+    #Required
+    default_backend_set_name = "lb-ws-backendset"
+    load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
+    name = "TCPSSL"
+    port = "80"
+    protocol = "TCP"
 
-# resource "oci_load_balancer_backend" "lb_backend2" {
-#   count = "${var.app_instance_count * var.load_balancer_count}"
-#   #Required
-#   backendset_name  = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[1]}"
-#   ip_address       = "${lookup(element(oci_core_instance.AppInstance, count.index),"private_ip")}"
-#   load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index % var.load_balancer_count]}"
-#   port             = "80"
-# }
+    #Optional
+    connection_configuration {
+        #Required
+        idle_timeout_in_seconds = "300"
+    }
+    
+    # ssl_configuration {
+    #     #Required
+    #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
+    # }
+}
 
-# output "LB-HTTP-BACKENDSET" {
-#   value = "${oci_load_balancer_backend_set.lb-http-backendset}"
-# }
+resource "oci_load_balancer_listener" "https_listener" {
+    count = "${var.load_balancer_count}"
+    #Required
+    default_backend_set_name = "lb-http-backendset"
+    load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
+    name = "HTTPS"
+    port = "443"
+    protocol = "HTTP"
 
-
-# output "LB-WS-BACKENDSET" {
-#   value = "${oci_load_balancer_backend_set.lb-ws-backendset}"
-# }
-
-# output "LB-BackendSet-Http" {
-#   value = "${oci_load_balancer_backend.lb_backendhttp}"
-# }
-
-# output "LB-BackendSet-ws" {
-#   value = "${oci_load_balancer_backend.lb_backendws}"
-# }
-
-
-
-
+    #Optional
+    connection_configuration {
+        #Required
+        idle_timeout_in_seconds = "300"
+    }
+    
+    # ssl_configuration {
+    #     #Required
+    #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
+    # }
+}
