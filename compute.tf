@@ -163,7 +163,7 @@ output "lb-backends" {
 }
 
 output "products" {
-  value = "${local.product}"
+  value = "${local.product[0]}"
 }
 
 
@@ -173,7 +173,7 @@ output "products" {
 #   count = "${var.hap_instance_count * var.load_balancer_count}"
 #   #Required
 #   backendset_name = "lb-http-backendset"
-#   ip_address       = "${lookup(element(oci_core_instance.HAPInstance, count.index),"private_ip")}"
+#   ip_address       = "${local.product[count.index])}"
 #   load_balancer_id = "${lookup(element(oci_load_balancer.lb1, count.index % 3),"id")}"
 #   port             = "80"
 # }
