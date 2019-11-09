@@ -150,6 +150,20 @@ resource "oci_load_balancer_backend_set" "lb-ws-backendset" {
   }
 }
 
+# locals {
+#   product= setproduct(oci_core_instance.HAPInstance.*.private_ip, oci_load_balancer.lb1.*.id)
+# }
+
+output "lbs" {
+  value = "${oci_load_balancer.lb1.*.id}"
+}
+
+output "lb-backends" {
+  value = "${oci_core_instance.HAPInstance.*.private_ip}"
+}
+
+
+
 # resource "oci_load_balancer_backend" "lb_backendhttp" {
 #   count = "${var.hap_instance_count * var.load_balancer_count}"
 #   #Required
