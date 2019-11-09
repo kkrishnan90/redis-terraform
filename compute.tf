@@ -175,45 +175,50 @@ resource "oci_load_balancer_backend" "lb_backendws" {
   port             = "80"
 }
 
-
-resource "oci_load_balancer_listener" "tcp_listener" {
-    count = "${var.load_balancer_count}"
-    #Required
-    default_backend_set_name = "lb-ws-backendset"
-    load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
-    name = "TCPSSL"
-    port = "80"
-    protocol = "TCP"
-
-    #Optional
-    connection_configuration {
-        #Required
-        idle_timeout_in_seconds = "300"
-    }
-    
-    # ssl_configuration {
-    #     #Required
-    #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
-    # }
+output "bs-names" {
+  value = "${oci_load_balancer_backend_set.lb_backendhttp}"
 }
 
-resource "oci_load_balancer_listener" "https_listener" {
-    count = "${var.load_balancer_count}"
-    #Required
-    default_backend_set_name = "lb-http-backendset"
-    load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
-    name = "HTTPS"
-    port = "443"
-    protocol = "HTTP"
 
-    #Optional
-    connection_configuration {
-        #Required
-        idle_timeout_in_seconds = "300"
-    }
+
+# resource "oci_load_balancer_listener" "tcp_listener" {
+#     count = "${var.load_balancer_count}"
+#     #Required
+#     default_backend_set_name = ""
+#     load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
+#     name = "TCPSSL"
+#     port = "80"
+#     protocol = "TCP"
+
+#     #Optional
+#     connection_configuration {
+#         #Required
+#         idle_timeout_in_seconds = "300"
+#     }
     
-    # ssl_configuration {
-    #     #Required
-    #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
-    # }
-}
+#     # ssl_configuration {
+#     #     #Required
+#     #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
+#     # }
+# }
+
+# resource "oci_load_balancer_listener" "https_listener" {
+#     count = "${var.load_balancer_count}"
+#     #Required
+#     default_backend_set_name = ""
+#     load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
+#     name = "HTTPS"
+#     port = "443"
+#     protocol = "HTTP"
+
+#     #Optional
+#     connection_configuration {
+#         #Required
+#         idle_timeout_in_seconds = "300"
+#     }
+    
+#     # ssl_configuration {
+#     #     #Required
+#     #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
+#     # }
+# }
