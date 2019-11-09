@@ -184,7 +184,7 @@ output "bs-names" {
 resource "oci_load_balancer_listener" "tcp_listener" {
     count = "${var.load_balancer_count}"
     #Required
-    default_backend_set_name = "${oci_load_balancer_backend_set.lb-http-backendset.name}"
+    default_backend_set_name = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[count.index]}"
     load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
     name = "TCPSSL"
     port = "80"
