@@ -169,22 +169,22 @@ output "products" {
 
 
 
-# resource "oci_load_balancer_backend" "lb_backendhttp" {
-#   count = "${var.hap_instance_count * var.load_balancer_count}"
-#   #Required
-#   backendset_name = "lb-http-backendset"
-#   ip_address       = "${local.product[count.index][0])}"
-#   load_balancer_id = "${local.product[count.index][1]}"
-#   port             = "80"
-# }
+resource "oci_load_balancer_backend" "lb_backendhttp" {
+  count = "${var.hap_instance_count * var.load_balancer_count}"
+  #Required
+  backendset_name = "lb-http-backendset"
+  ip_address       = "${local.product[count.index][0]}"
+  load_balancer_id = "${local.product[count.index][1]}"
+  port             = "80"
+}
 
-# resource "oci_load_balancer_backend" "lb_backendws" {
-#   count = "${var.hap_instance_count * 2}"
-#   backendset_name = "lb-ws-backendset"
-#   ip_address       = "${local.product[count.index][0]}"
-#   load_balancer_id = "${local.product[count.index][1]}"
-#   port             = "80"
-# }
+resource "oci_load_balancer_backend" "lb_backendws" {
+  count = "${var.hap_instance_count * 2}"
+  backendset_name = "lb-ws-backendset"
+  ip_address       = "${local.product[count.index][0]}"
+  load_balancer_id = "${local.product[count.index][1]}"
+  port             = "80"
+}
 
 
 
