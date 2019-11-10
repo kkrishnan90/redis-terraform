@@ -5,7 +5,7 @@ resource "oci_core_instance" "HAPInstance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   count               = "${var.hap_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "HAP-Instance-${count.index}"
+  display_name        = "${var.haproxy_instance_name}${count.index}"
   shape               = "${var.instance_shape}"
   image               = "${var.hap_instance_image_ocid}"
   create_vnic_details {
@@ -61,7 +61,7 @@ resource "oci_core_instance" "AppInstance" {
   availability_domain = "${data.oci_identity_availability_domain.ad.name}"
   count               = "${var.app_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
-  display_name        = "App-Instance-${count.index}"
+  display_name        = "${var.app_instance_name}${count.index}"
   shape               = "${var.app_instance_shape}"
   image               = "${var.app_instance_image_ocid}"
   create_vnic_details {
@@ -77,6 +77,10 @@ resource "oci_core_instance" "AppInstance" {
   timeouts {
     create = "60m"
   }
+
+  provisioner "local-exec"{
+    command = "echo ${oci_core_instance.AppInstance.*.private_ip[count.index]}>>ansible/app-servers.conf"
+  }
 }
 
 
@@ -91,7 +95,7 @@ resource "oci_load_balancer" "lb1" {
     "${var.load_balancer_subnet_ocid}"
   ]
 
-  display_name = "lb${count.index}"
+  display_name = "${var.load_balancer_name}${count.index}"
 }
 
 # resource "oci_load_balancer_certificate" "lb-cert1" {
@@ -158,7 +162,7 @@ resource "oci_load_balancer_backend" "lb_backendhttp" {
 }
 
 resource "oci_load_balancer_backend" "lb_backendws" {
-  count            = "${var.hap_instance_count * 2}"
+  count            = "${var.hap_instance_count * var.load_balancer_count}"
   backendset_name  = "lb-ws-backendset"
   ip_address       = "${local.product[count.index][0]}"
   load_balancer_id = "${local.product[count.index][1]}"
@@ -211,5 +215,9 @@ resource "oci_load_balancer_listener" "https_listener" {
 resource "null_resource" "tfstate-backup" {
   provisioner "local-exec" {
     command = "oci os object put -ns ${var.tenancy_name} -bn tfstate-backup --name tfstate-backup.tfstate --file terraform.tfstate"
+  }
+
+  provisioner "local-exec"{
+    command = "bash run-playbook1.sh"
   }
 }

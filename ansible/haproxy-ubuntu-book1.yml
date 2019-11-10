@@ -43,3 +43,7 @@
       sudo: yes
       command: ifup -a
       run_once: true
+
+    - name: Run playbook to configure haproxy
+      command: bash run-playbook2.sh
+      run_once: true

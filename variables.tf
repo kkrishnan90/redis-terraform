@@ -27,6 +27,9 @@ variable "hap_instance_count" {
   default = "2"
 }
 
+variable "haproxy_instance_name" {}
+
+
 variable "hap_instance_image_ocid" {}
 
 variable "hap_ip_count" {}
@@ -39,6 +42,8 @@ variable "instance_shape" {
 
 variable "app_instance_count" {}
 
+variable "app_instance_name" {}
+
 variable "app_instance_shape" {}
 
 variable "app_instance_image_ocid" {}
@@ -47,6 +52,8 @@ variable "app_subnet_ocid" {}
 
 #### Load Balancer Variables
 variable "load_balancer_count" {}
+
+variable "load_balancer_name" {}
 
 variable "load_balancer_shape" {}
 
