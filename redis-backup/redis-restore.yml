@@ -8,8 +8,8 @@
     restore_path: /home/ubuntu/ #Remote redis machine source path
     source_path: /home/opc/redis-backup/ #Localhost backup path
     redis_rdb_filename: "dump.rdb"
-    dump_name: "log.txt"
-    backup_redis_filename: "log.txt"
+    dump_name: "dump.rdb"
+    backup_redis_filename: "redis-backup-10.0.1.172-2019-11-10-18:10:12.rdb" #Name as per RDB backup in object storage
 
   tasks:
     - name: Create redis-backup if it doesn't exist
@@ -28,4 +28,4 @@
         dest: "{{ restore_path }}"
 
     - name: Rename rdb
-      command: mv {{ restore_path }}{{ backup_redis_filename }} dump.rdb
+      command: mv {{ restore_path }}{{ backup_redis_filename }} {{dump_name}}
