@@ -47,3 +47,51 @@
     - name: Run playbook to configure haproxy
       command: bash run-playbook2.sh
       run_once: true
+
+    - name: Gathering facts again for new network
+      gather_facts: yes
+      delegate_facts: True
+
+    - debug:
+        msg: "the value of app-servers.conf is {{ item }} {{contents[1]}} {{ansible_all_ipv4_addresses}}"
+      with_items: "{{ contents }}"
+
+    - debug: var=ansible_all_ipv4_addresses
+    - name: get ip
+      local_action: shell echo {{ ansible_all_ipv4_addresses }}
+      until: "{{ ansible_all_ipv4_addresses | length > 1}}"
+
+    - name: Get all private ipv4 ips ens3
+      shell: ip -4 addr show ens3 | grep -oP "(?<=inet ).*(?=/)"
+      register: result.stdout_lines
+
+    - name: Install apt-get updates
+      sudo: yes
+      command: apt-get update
+      run_once: true
+
+    - name: Install haproxy
+      sudo: yes
+      command: apt-get install -y haproxy
+      run_once: true
+
+    - debug: var=ansible_all_ipv4_addresses
+
+    - name: Templating haproxy config
+      sudo: yes
+      template:
+        src: templates/haproxy.cfg.j2
+        dest: "/etc/haproxy/haproxy.cfg"
+        force: yes
+
+    - name: Validate haproxy config
+      command: haproxy -c -f /etc/haproxy/haproxy.cfg
+
+    - name: Restart haproxy service
+      sudo: yes
+      command: service haproxy restart
+
+    - name: Modify app-server.conf list
+      delegate_to: 127.0.0.1
+      command: sed -i -e '1,2d' {{ app_conf_path }}app-servers.conf
+
