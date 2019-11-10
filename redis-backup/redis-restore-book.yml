@@ -24,6 +24,7 @@
 
     - name: Copying rdb to redis node
       copy:
+        remote_src: false
         src: "{{ source_path }}{{backup_redis_filename}}"
         dest: "{{ restore_path }}"
 
