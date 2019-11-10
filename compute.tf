@@ -80,6 +80,7 @@ resource "oci_core_instance" "AppInstance" {
 }
 
 resource "null_resource" "write-app-instance-ips" {
+  count = "${var.app_instance_count}"
   provisioner "local-exec" {
     command = "echo ${oci_core_instance.AppInstance.*.private_ip[count.index]}>>ansible/app-servers.conf"
   }
