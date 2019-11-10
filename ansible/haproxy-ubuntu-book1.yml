@@ -44,10 +44,6 @@
       command: ifup -a
       run_once: true
 
-    - name: Run playbook to configure haproxy
-      command: bash run-playbook2.sh
-      run_once: true
-
     - name: Gathering facts again for new network
       setup:
       gather_facts: yes
