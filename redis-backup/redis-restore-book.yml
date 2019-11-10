@@ -6,6 +6,7 @@
     base_dir: /home/ubuntu
     playbook_user: ubuntu
     restore_path: /home/ubuntu/ #Remote redis machine source path
+    redis_backup_folder_root: /home/opc/terraform/redis-backup/
     source_path: /home/opc/terraform/redis-backup/redis-restore-data/ #Localhost backup path
     redis_rdb_filename: "dump.rdb"
     dump_name: "dump.rdb"
@@ -21,6 +22,10 @@
     - name: Download backup from object storage
       delegate_to: 127.0.0.1
       shell: oci os object get -bn redis-backup --name {{backup_redis_filename}} --file {{backup_redis_filename}}
+
+    - name: Moving data dump to redis-restore-data
+      delegate_to: 127.0.0.1
+      command: mv {{ redis_backup_folder_root }}{{backup_redis_filename}} {{ source_path }}
 
     - name: Copying rdb to redis node
       copy:
