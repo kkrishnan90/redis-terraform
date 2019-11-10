@@ -1,0 +1,31 @@
+- hosts: all
+  serial: 1
+  gather_facts: true
+  remote_user: ubuntu
+  vars:
+    base_dir: /home/ubuntu
+    playbook_user: ubuntu
+    restore_path: /home/ubuntu/ #Remote redis machine source path
+    source_path: /home/opc/redis-backup/ #Localhost backup path
+    redis_rdb_filename: "dump.rdb"
+    dump_name: "log.txt"
+    backup_redis_filename: "log.txt"
+
+  tasks:
+    - name: Create redis-backup if it doesn't exist
+      delegate_to: 127.0.0.1
+      file:
+        path: "{{ source_path }}"
+        state: directory
+
+    - name: Download backup from object storage
+      delegate_to: 127.0.0.1
+      shell: oci os object get -bn redis-backup --name {{backup_redis_filename}} --file {{backup_redis_filename}}
+
+    - name: Copying rdb to redis node
+      copy:
+        src: "{{ source_path }}{{backup_redis_filename}}"
+        dest: "{{ restore_path }}"
+
+    - name: Rename rdb
+      command: mv {{ restore_path }}{{ backup_redis_filename }} dump.rdb

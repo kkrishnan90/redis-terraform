@@ -1,4 +1,0 @@
-{{ ansible_facts['ansible_all_ipv4_addresses'] }}
-{% for n in range(ansible_all_ipv4_addresses|length) -%}
-{{ ansible_facts['ansible_all_ipv4_addresses[n]'] }}
-{% endfor %}
