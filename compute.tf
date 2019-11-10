@@ -153,7 +153,7 @@ resource "oci_load_balancer_backend_set" "lb-ws-backendset" {
 }
 
 locals {
-  product= setproduct(oci_core_instance.HAPInstance.*.private_ip, oci_load_balancer.lb1.*.id)
+  product = setproduct(oci_core_instance.HAPInstance.*.private_ip, oci_load_balancer.lb1.*.id)
 }
 
 
@@ -161,15 +161,15 @@ locals {
 resource "oci_load_balancer_backend" "lb_backendhttp" {
   count = "${var.hap_instance_count * var.load_balancer_count}"
   #Required
-  backendset_name = "lb-http-backendset"
+  backendset_name  = "lb-http-backendset"
   ip_address       = "${local.product[count.index][0]}"
   load_balancer_id = "${local.product[count.index][1]}"
   port             = "80"
 }
 
 resource "oci_load_balancer_backend" "lb_backendws" {
-  count = "${var.hap_instance_count * 2}"
-  backendset_name = "lb-ws-backendset"
+  count            = "${var.hap_instance_count * 2}"
+  backendset_name  = "lb-ws-backendset"
   ip_address       = "${local.product[count.index][0]}"
   load_balancer_id = "${local.product[count.index][1]}"
   port             = "80"
@@ -182,43 +182,50 @@ output "bs-names" {
 
 
 resource "oci_load_balancer_listener" "tcp_listener" {
-    count = "${var.load_balancer_count}"
-    #Required
-    default_backend_set_name = "${oci_load_balancer_backend_set.lb-ws-backendset.*.name[count.index]}"
-    load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
-    name = "TCPSSL"
-    port = "80"
-    protocol = "TCP"
+  count = "${var.load_balancer_count}"
+  #Required
+  default_backend_set_name = "${oci_load_balancer_backend_set.lb-ws-backendset.*.name[count.index]}"
+  load_balancer_id         = "${oci_load_balancer.lb1.*.id[count.index]}"
+  name                     = "TCPSSL"
+  port                     = "80"
+  protocol                 = "TCP"
 
-    #Optional
-    connection_configuration {
-        #Required
-        idle_timeout_in_seconds = "300"
-    }
-    
-    # ssl_configuration {
-    #     #Required
-    #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
-    # }
+  #Optional
+  connection_configuration {
+    #Required
+    idle_timeout_in_seconds = "300"
+  }
+
+  # ssl_configuration {
+  #     #Required
+  #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
+  # }
 }
 
 resource "oci_load_balancer_listener" "https_listener" {
-    count = "${var.load_balancer_count}"
-    #Required
-    default_backend_set_name = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[count.index]}"
-    load_balancer_id = "${oci_load_balancer.lb1.*.id[count.index]}"
-    name = "HTTPS"
-    port = "443"
-    protocol = "HTTP"
+  count = "${var.load_balancer_count}"
+  #Required
+  default_backend_set_name = "${oci_load_balancer_backend_set.lb-http-backendset.*.name[count.index]}"
+  load_balancer_id         = "${oci_load_balancer.lb1.*.id[count.index]}"
+  name                     = "HTTPS"
+  port                     = "443"
+  protocol                 = "HTTP"
 
-    #Optional
-    connection_configuration {
-        #Required
-        idle_timeout_in_seconds = "60"
-    }
-    
-    # ssl_configuration {
-    #     #Required
-    #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
-    # }
+  #Optional
+  connection_configuration {
+    #Required
+    idle_timeout_in_seconds = "60"
+  }
+
+  # ssl_configuration {
+  #     #Required
+  #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
+  # }
+}
+
+####### BACKUP TFSTATE FILE TO OBJECT STORAGE #######
+resource "null_resource" "tfstate-backup" {
+  provisioner "local-exec" {
+    command = "oci os bucket create --compartment-id ${var.compartment_ocid} --name tfstate-backup\nooci os object put -ns ${var.tenancy_name} -bn tfstate-backup --name tfstate-backup-date"+%Y%m%d-%H%M%S".tfstate --file terraform.tfstate"
+  }
 }

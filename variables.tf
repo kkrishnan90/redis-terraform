@@ -52,6 +52,9 @@ variable "load_balancer_shape" {}
 
 variable "load_balancer_subnet_ocid" {}
 
+variable "tenancy_name" {}
+
+
 
 
 

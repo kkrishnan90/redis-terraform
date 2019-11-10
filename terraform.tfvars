@@ -5,6 +5,7 @@ fingerprint      = "fe:4b:33:a4:11:2f:a1:dc:b8:6f:5d:70:31:61:d7:5c"
 compartment_ocid = "ocid1.compartment.oc1..aaaaaaaaizyvwydcbr37ym7fkioxl6xrujljf4zdoapnadqwlihugd2olrqa"
 region           = "ap-mumbai-1"
 ad_number        = "1"
+tenancy_name     = "indiafieldse"
 
 # ---- Instances
 ssh_public_key_path  = "/home/opc/public_key_oci.pem"  //for created instance
