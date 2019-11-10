@@ -218,9 +218,9 @@ resource "oci_load_balancer_listener" "https_listener" {
 ####### BACKUP TFSTATE FILE TO OBJECT STORAGE #######
 resource "null_resource" "tfstate-backup" {
   depends_on = ["oci_load_balancer_listener.https_listener"]
-  provisioner "local-exec" {
-    command = "oci os object put -ns ${var.tenancy_name} -bn tfstate-backup --name tfstate-backup.tfstate --file terraform.tfstate"
-  }
+  # provisioner "local-exec" {
+  #   command = "oci os object put -ns ${var.tenancy_name} -bn tfstate-backup --name tfstate-backup.tfstate --file terraform.tfstate"
+  # }
 
   provisioner "local-exec" {
     command = "bash run-playbook1.sh"
