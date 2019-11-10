@@ -50,7 +50,7 @@
   remote_user: ubuntu
   tasks:
     - debug:
-      msg: "the value of app-servers.conf is {{ item }} {{contents[1]}} {{ansible_all_ipv4_addresses}}"
+        msg: "the value of app-servers.conf is {{ item }} {{contents[1]}} {{ansible_all_ipv4_addresses}}"
       with_items: "{{ contents }}"
 
     - debug: var=ansible_all_ipv4_addresses
