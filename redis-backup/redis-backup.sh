@@ -1,4 +1,4 @@
 #! /bin/bash
-hosts=$(cat ansible/redis_hosts.yml)
+hosts=$(cat redis-hosts.conf)
 echo $hosts
-ansible-playbook -i $hosts ansible/redis-backup-book.yml
+ansible-playbook -i $hosts redis-backup-book.yml
