@@ -48,11 +48,6 @@ resource "oci_core_private_ip" "private_ip" {
   }
 }
 
-output "HAP-IPs" {
-  value = "${oci_core_instance.HAPInstance.*.private_ip}"
-}
-
-
 resource "null_resource" "ansible_inventory" {
   count = "${var.hap_instance_count}"
   provisioner "local-exec" {
@@ -83,11 +78,6 @@ resource "oci_core_instance" "AppInstance" {
     create = "60m"
   }
 }
-
-output "AppInstance-ips" {
-  value = "${oci_core_instance.AppInstance}"
-}
-
 
 
 
@@ -174,12 +164,6 @@ resource "oci_load_balancer_backend" "lb_backendws" {
   load_balancer_id = "${local.product[count.index][1]}"
   port             = "80"
 }
-
-output "bs-names" {
-  value = "${oci_load_balancer_backend_set.lb-http-backendset}"
-}
-
-
 
 resource "oci_load_balancer_listener" "tcp_listener" {
   count = "${var.load_balancer_count}"
