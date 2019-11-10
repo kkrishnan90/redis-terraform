@@ -49,6 +49,7 @@
       run_once: true
 
     - name: Gathering facts again for new network
+      setup:
       gather_facts: yes
       delegate_facts: True
 
