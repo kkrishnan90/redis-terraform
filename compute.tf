@@ -226,6 +226,6 @@ resource "oci_load_balancer_listener" "https_listener" {
 ####### BACKUP TFSTATE FILE TO OBJECT STORAGE #######
 resource "null_resource" "tfstate-backup" {
   provisioner "local-exec" {
-    command = "oci os bucket create --compartment-id ${var.compartment_ocid} --name tfstate-backup\nooci os object put -ns ${var.tenancy_name} -bn tfstate-backup --name tfstate-backup.tfstate --file terraform.tfstate"
+    command = "ooci os object put -ns ${var.tenancy_name} -bn tfstate-backup --name tfstate-backup.tfstate --file terraform.tfstate"
   }
 }
