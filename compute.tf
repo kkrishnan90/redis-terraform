@@ -77,11 +77,14 @@ resource "oci_core_instance" "AppInstance" {
   timeouts {
     create = "60m"
   }
+}
 
-  provisioner "local-exec"{
+resource "null_resource" "write-app-instance-ips" {
+  provisioner "local-exec" {
     command = "echo ${oci_core_instance.AppInstance.*.private_ip[count.index]}>>ansible/app-servers.conf"
   }
 }
+
 
 
 
@@ -217,7 +220,7 @@ resource "null_resource" "tfstate-backup" {
     command = "oci os object put -ns ${var.tenancy_name} -bn tfstate-backup --name tfstate-backup.tfstate --file terraform.tfstate"
   }
 
-  provisioner "local-exec"{
+  provisioner "local-exec" {
     command = "bash run-playbook1.sh"
   }
 }
