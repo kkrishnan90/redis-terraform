@@ -48,6 +48,13 @@
   serial: 1
   gather_facts: true
   remote_user: ubuntu
+  vars:
+    base_dir: /home/ubuntu
+    playbook_user: ubuntu
+    source_path: /home/opc/terraform/privateips/
+    app_conf_path: /home/opc/terraform/ansible/
+    destination_path: /home/ubuntu/ansible/
+    contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
   tasks:
     - debug:
         msg: "the value of app-servers.conf is {{ item }} {{contents[1]}} {{ansible_all_ipv4_addresses}}"
