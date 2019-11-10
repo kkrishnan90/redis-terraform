@@ -43,11 +43,14 @@
       sudo: yes
       command: ifup -a
       run_once: true
-
+      
+- hosts: all
+  tasks:
     - name: Gathering facts again for new network
       setup:
-      gather_facts: yes
-      delegate_facts: True
+        gather_facts: yes
+        delegate_facts: True
+        delegate_to: localhost
 
     - debug:
         msg: "the value of app-servers.conf is {{ item }} {{contents[1]}} {{ansible_all_ipv4_addresses}}"
@@ -91,4 +94,3 @@
     - name: Modify app-server.conf list
       delegate_to: 127.0.0.1
       command: sed -i -e '1,2d' {{ app_conf_path }}app-servers.conf
-
