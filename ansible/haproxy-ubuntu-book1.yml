@@ -12,13 +12,9 @@
 
   tasks:
     - name: Reboot the server
-      tags: reboot
-      become: yes
-      become_user: root
-      shell: "sleep 5 && reboot"
-      async: 1
-      poll: 0
-
+      sudo: yes
+      shell: "reboot"
+      
     - name: Wait for server to restart
       wait_for:
         host: "{{ ansible_default_ipv4.address }}"
