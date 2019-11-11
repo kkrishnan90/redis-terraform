@@ -13,7 +13,6 @@
   tasks:
     - name: Reboot server
       sudo: yes
-      become: true
       reboot: 
         msg: "Reboot initiated by Ansible"
         connect_timeout: 5
