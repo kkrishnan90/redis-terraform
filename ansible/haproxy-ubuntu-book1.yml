@@ -84,16 +84,6 @@
       shell: ip -4 addr show ens3 | grep -oP "(?<=inet ).*(?=/)"
       register: result.stdout_lines
 
-    - name: Installing apt get updates
-      sudo: yes
-      command: apt-get update
-      run_once: true
-
-    - name: Installing HAProxy
-      sudo: yes
-      command: apt-get install -y haproxy
-      run_once: true
-
     - debug: var=ansible_all_ipv4_addresses
 
     - name: Templating HAProxy Config
