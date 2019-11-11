@@ -6,10 +6,10 @@ resource "oci_core_instance" "HAPInstance" {
   count               = "${var.hap_instance_count}"
   compartment_id      = "${var.compartment_ocid}"
   display_name        = "${var.haproxy_instance_name}${count.index}"
-  shape               = "${var.instance_shape}"
+  shape               = "${var.hap_instance_shape}"
   image               = "${var.hap_instance_image_ocid}"
   create_vnic_details {
-    subnet_id        = "${var.subnet_ocid}"
+    subnet_id        = "${var.hap_subnet_ocid}"
     display_name     = "primaryvnic"
     assign_public_ip = false
     hostname_label   = "HAP-Instance-VNiC${count.index}"
@@ -17,10 +17,12 @@ resource "oci_core_instance" "HAPInstance" {
 
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
+    user_data = "${base64encode(file("./bootscript.sh"))}"
   }
   timeouts {
     create = "60m"
   }
+
 }
 
 data "oci_core_vnic_attachments" "get_vnicid_by_instance_id" {
@@ -35,6 +37,7 @@ data "oci_core_vnic" "instance_vnic" {
   vnic_id = "${lookup(element(data.oci_core_vnic_attachments.get_vnicid_by_instance_id.*.vnic_attachments[count.index], 0), "vnic_id")}"
 }
 
+//Create additional primary vNic IPs for each HAProxy machine
 resource "oci_core_private_ip" "private_ip" {
   count          = "${var.hap_ip_count * var.hap_instance_count}"
   depends_on     = ["oci_core_instance.HAPInstance"]
@@ -42,7 +45,7 @@ resource "oci_core_private_ip" "private_ip" {
   display_name   = "someDisplayName${count.index}"
   hostname_label = "somehostnamelabel${count.index}"
 
-  #For Ubuntu 18.04
+  //Add newly created ips of each HAProxy machine create ansible
   provisioner "local-exec" {
     command = "bash add-vnic-ips.sh ${data.oci_core_vnic.instance_vnic.*.private_ip_address[count.index % var.hap_instance_count]} ${count.index} ${self.ip_address}"
   }
@@ -102,7 +105,8 @@ resource "oci_load_balancer" "lb1" {
   display_name = "${var.load_balancer_name}${count.index}"
 }
 
-# resource "oci_load_balancer_certificate" "lb-cert1" {
+//Add certificates to load balancer
+# resource "oci_load_balancer_certificate" "lb-certificate" {
 #   load_balancer_id   = "${oci_load_balancer.lb1.*.id[count.index]}"
 #   ca_certificate     = "${file(var.lb_ca_certificate_path)}"
 #   certificate_name   = "certificate1"
@@ -116,6 +120,7 @@ resource "oci_load_balancer" "lb1" {
 
 
 ############# CREATE BACKEND SET FOR LOAD BALANCER (HTTP + WEBSOCKET BACKENDSET) ###############
+
 resource "oci_load_balancer_backend_set" "lb-http-backendset" {
   count            = "${var.load_balancer_count}"
   name             = "lb-http-backendset"
@@ -190,8 +195,8 @@ resource "oci_load_balancer_listener" "tcp_listener" {
 
   # ssl_configuration {
   #     #Required
-  #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
-  # }
+  #     certificate_name = "${oci_load_balancer_certificate.lb-certificate.name}"
+  }
 }
 
 resource "oci_load_balancer_listener" "https_listener" {
@@ -211,17 +216,25 @@ resource "oci_load_balancer_listener" "https_listener" {
 
   # ssl_configuration {
   #     #Required
-  #     certificate_name = "${oci_load_balancer_certificate.test_certificate.name}"
+  #     certificate_name = "${oci_load_balancer_certificate.lb-certificate.name}"
   # }
 }
 
-####### BACKUP TFSTATE FILE TO OBJECT STORAGE #######
+####### BACKUP TFSTATE FILE TO OBJECT STORAGE OR START HAPROXY CONFIGURATION #######
 resource "null_resource" "tfstate-backup" {
   depends_on = ["oci_load_balancer_listener.https_listener"]
+  
+  /*If tfstate to be put in Object Storage backup.Uncomment the below code block [provisioner "local-exec"] and 
+  comment bash run-playbook1.sh provisioner code block.
+  CAUTION : Do not run terraform script with both the blocks uncommented !*/
+
+
+  //Creates a backup copy of terraform.tfstate file on Object Storage.
   # provisioner "local-exec" {
   #   command = "oci os object put -ns ${var.tenancy_name} -bn tfstate-backup --name tfstate-backup.tfstate --file terraform.tfstate"
   # }
 
+  //Starts Ansible Playbooks to configure HAProxy and App Servers
   provisioner "local-exec" {
     command = "bash run-playbook1.sh"
   }

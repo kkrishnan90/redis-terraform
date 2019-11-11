@@ -1,0 +1,1 @@
+All private ips of the HAProxy servers will be written here in this folder with additional 10 Private IPs.

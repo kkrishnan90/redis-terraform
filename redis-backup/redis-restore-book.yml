@@ -10,7 +10,7 @@
     source_path: /home/opc/terraform/redis-backup/redis-restore-data/ #Localhost backup path
     redis_rdb_filename: "dump.rdb"
     dump_name: "dump.rdb"
-    backup_redis_filename: "redis-backup-10.0.1.172-2019-11-10-18:10:12.rdb" #Name as per RDB backup in object storage
+    backup_redis_filename: "redis-backup-10.0.1.172-2019-11-10-18:10:12.rdb" #Name as per RDB backup in object storage which needs to be restored
 
   tasks:
     - name: Create redis-backup if it doesn't exist

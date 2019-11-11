@@ -12,30 +12,30 @@ ssh_public_key_path  = "/home/opc/public_key_oci.pem"  //for created instance
 ssh_private_key_path = "/home/opc/private_key_oci.pem" //for created instances
 api_private_key_path = "~/.oci/oci_api_key.pem"        //for oci cli setup
 
-instance_shape = "VM.Standard2.2"
-subnet_ocid    = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgcknienmoz6zbypxkgxnzz7oyyurjlatgxkdj5q"
 
 
 
 # ---- HAP related configuration
 haproxy_instance_name   = "HAP-Instance-"
-hap_instance_count      = "2"
+hap_instance_count      = "1"
+hap_instance_shape = "VM.Standard2.2"
 hap_ip_count            = "10"
 hap_instance_image_ocid = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaapkhghx7pslvwrarurrztge4f4a3vlfy3kt3jd7vtxz4przfkmfvq"
+hap_subnet_ocid    = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgcknienmoz6zbypxkgxnzz7oyyurjlatgxkdj5q"
 
 # ---- APP related configuration
 app_instance_name       = "App-Instance-"
-app_instance_count      = "4"
+app_instance_count      = "2"
 app_instance_shape      = "VM.Standard2.2"
 app_instance_image_ocid = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaapkhghx7pslvwrarurrztge4f4a3vlfy3kt3jd7vtxz4przfkmfvq"
 app_subnet_ocid         = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgcknienmoz6zbypxkgxnzz7oyyurjlatgxkdj5q"
 
 # ---- Load Balancer related configuration
 load_balancer_name        = "load_balancer-"
-load_balancer_count       = "2"
+load_balancer_count       = "1"
 load_balancer_shape       = "100Mbps"
 load_balancer_subnet_ocid = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaarv67fmf74tpqxprgaqtrjfpyd7k4p7nxutnk4ppsqlejleaouv4q"
-# lb_ca_certificate_path = ""
-# lb_private_key_path  = ""
-# lb_public_key_path = ""
+lb_ca_certificate_path = ""
+lb_private_key_path  = ""
+lb_public_key_path = ""
 
