@@ -196,7 +196,7 @@ resource "oci_load_balancer_listener" "tcp_listener" {
   # ssl_configuration {
   #     #Required
   #     certificate_name = "${oci_load_balancer_certificate.lb-certificate.name}"
-  }
+  #}
 }
 
 resource "oci_load_balancer_listener" "https_listener" {
