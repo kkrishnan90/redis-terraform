@@ -83,6 +83,16 @@
     - name: Get all private ipv4 ips ens3 for verification
       shell: ip -4 addr show ens3 | grep -oP "(?<=inet ).*(?=/)"
       register: result.stdout_lines
+    
+    - name: Install apt-get updates
+      sudo: yes
+      command: apt-get update
+      run_once: true
+
+    - name: Install haproxy
+      sudo: yes
+      command: apt-get install -y haproxy
+      run_once: true
 
     - debug: var=ansible_all_ipv4_addresses
 
