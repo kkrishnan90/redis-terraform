@@ -31,7 +31,7 @@ app_instance_image_ocid = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaapkhghx7pslvwrarur
 app_subnet_ocid         = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaas2shltexr77cxgcknienmoz6zbypxkgxnzz7oyyurjlatgxkdj5q"
 
 # ---- Load Balancer related configuration
-load_balancer_name        = "load_balancer-"
+load_balancer_name        = "Load-Balancer-"
 load_balancer_count       = "1"
 load_balancer_shape       = "100Mbps"
 load_balancer_subnet_ocid = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaarv67fmf74tpqxprgaqtrjfpyd7k4p7nxutnk4ppsqlejleaouv4q"
