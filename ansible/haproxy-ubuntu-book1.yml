@@ -11,9 +11,10 @@
     contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
 
   tasks:
+
     - name: Reboot the server
       sudo: yes
-      shell: "reboot"
+      command: reboot
       
     - name: Wait for server to restart
       wait_for:
