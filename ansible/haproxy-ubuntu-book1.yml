@@ -26,12 +26,12 @@
       local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 timeout=300
       notify: Reboot host and wait for it to restart
 
-    - name: creating base directory
+    - name: Creating base directory ansible
       file:
         path: "{{ base_dir }}/ansible"
         state: directory
 
-    - name: copy ens3 files
+    - name: Copying all network ens3 files
       copy:
         remote_src: no
         src: "{{ source_path }}{{ansible_default_ipv4.address}}"
@@ -40,7 +40,7 @@
         force: yes
       run_once: true
 
-    - name: Write configuration of ens3 to network interfaces
+    - name: Writing configuration of ens3 to network interfaces
       sudo: yes
       blockinfile:
         path: /etc/network/interfaces
@@ -80,36 +80,36 @@
       local_action: shell echo {{ ansible_all_ipv4_addresses }}
       until: "{{ ansible_all_ipv4_addresses | length > 1 }}"
 
-    - name: Get all private ipv4 ips ens3
+    - name: Get all private ipv4 ips ens3 for verification
       shell: ip -4 addr show ens3 | grep -oP "(?<=inet ).*(?=/)"
       register: result.stdout_lines
 
-    - name: Install apt-get updates
+    - name: Installing apt get updates
       sudo: yes
       command: apt-get update
       run_once: true
 
-    - name: Install haproxy
+    - name: Installing HAProxy
       sudo: yes
       command: apt-get install -y haproxy
       run_once: true
 
     - debug: var=ansible_all_ipv4_addresses
 
-    - name: Templating haproxy config
+    - name: Templating HAProxy Config
       sudo: yes
       template:
         src: templates/haproxy.cfg.j2
         dest: "/etc/haproxy/haproxy.cfg"
         force: yes
 
-    - name: Validate haproxy config
+    - name: Validate HAProxy Config
       command: haproxy -c -f /etc/haproxy/haproxy.cfg
 
-    - name: Restart haproxy service
+    - name: Restarting HAProxy service
       sudo: yes
       command: service haproxy restart
 
-    - name: Modify app-server.conf list
+    - name: Modifying ansible/app-server.conf list
       delegate_to: 127.0.0.1
       command: sed -i -e '1,2d' {{ app_conf_path }}app-servers.conf
