@@ -106,17 +106,17 @@ resource "oci_load_balancer" "lb1" {
 }
 
 //Add certificates to load balancer
-resource "oci_load_balancer_certificate" "lb-certificate" {
-  load_balancer_id   = "${oci_load_balancer.lb1.*.id[count.index]}"
-  ca_certificate     = "${file(var.lb_ca_certificate_path)}"
-  certificate_name   = "certificate1"
-  private_key        = "${file(var.lb_private_key_path)}"
-  public_certificate = "${file(var.lb_public_key_path)}"
+# resource "oci_load_balancer_certificate" "lb-certificate" {
+#   load_balancer_id   = "${oci_load_balancer.lb1.*.id[count.index]}"
+#   ca_certificate     = "${file(var.lb_ca_certificate_path)}"
+#   certificate_name   = "certificate1"
+#   private_key        = "${file(var.lb_private_key_path)}"
+#   public_certificate = "${file(var.lb_public_key_path)}"
 
-  lifecycle {
-    create_before_destroy = true
-  }
-}
+#   lifecycle {
+#     create_before_destroy = true
+#   }
+# }
 
 
 ############# CREATE BACKEND SET FOR LOAD BALANCER (HTTP + WEBSOCKET BACKENDSET) ###############
@@ -193,10 +193,10 @@ resource "oci_load_balancer_listener" "tcp_listener" {
     idle_timeout_in_seconds = "300"
   }
 
-  ssl_configuration {
-      #Required
-      certificate_name = "${oci_load_balancer_certificate.lb-certificate.name}"
-  }
+  # ssl_configuration {
+  #     #Required
+  #     certificate_name = "${oci_load_balancer_certificate.lb-certificate.name}"
+  # }
 }
 
 resource "oci_load_balancer_listener" "https_listener" {
@@ -214,10 +214,10 @@ resource "oci_load_balancer_listener" "https_listener" {
     idle_timeout_in_seconds = "60"
   }
 
-  ssl_configuration {
-      #Required
-      certificate_name = "${oci_load_balancer_certificate.lb-certificate.name}"
-  }
+  # ssl_configuration {
+  #     #Required
+  #     certificate_name = "${oci_load_balancer_certificate.lb-certificate.name}"
+  # }
 }
 
 ####### BACKUP TFSTATE FILE TO OBJECT STORAGE OR START HAPROXY CONFIGURATION #######
