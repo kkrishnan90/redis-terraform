@@ -221,21 +221,21 @@ resource "oci_load_balancer_listener" "https_listener" {
 }
 
 ####### BACKUP TFSTATE FILE TO OBJECT STORAGE OR START HAPROXY CONFIGURATION #######
-resource "null_resource" "tfstate-backup" {
-  depends_on = ["oci_load_balancer_listener.https_listener"]
+# resource "null_resource" "tfstate-backup" {
+#   depends_on = ["oci_load_balancer_listener.https_listener"]
   
-  /*If tfstate to be put in Object Storage backup.Uncomment the below code block [provisioner "local-exec"] and 
-  comment bash run-playbook1.sh provisioner code block.
-  CAUTION : Do not run terraform script with both the blocks uncommented !*/
+#   /*If tfstate to be put in Object Storage backup.Uncomment the below code block [provisioner "local-exec"] and 
+#   comment bash run-playbook1.sh provisioner code block.
+#   CAUTION : Do not run terraform script with both the blocks uncommented !*/
 
 
-  //Creates a backup copy of terraform.tfstate file on Object Storage.
-  # provisioner "local-exec" {
-  #   command = "oci os object put -ns ${var.tenancy_name} -bn tfstate-backup --name tfstate-backup.tfstate --file terraform.tfstate"
-  # }
+#   //Creates a backup copy of terraform.tfstate file on Object Storage.
+#   # provisioner "local-exec" {
+#   #   command = "oci os object put -ns ${var.tenancy_name} -bn tfstate-backup --name tfstate-backup.tfstate --file terraform.tfstate"
+#   # }
 
-  //Starts Ansible Playbooks to configure HAProxy and App Servers
-  provisioner "local-exec" {
-    command = "bash run-playbook1.sh"
-  }
-}
+#   //Starts Ansible Playbooks to configure HAProxy and App Servers
+#   provisioner "local-exec" {
+#     command = "bash run-playbook1.sh"
+#   }
+# }
