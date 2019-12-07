@@ -61,9 +61,9 @@ backend ws
     server app7 {{ contents[1] }}:8002 source {{ ansible_all_ipv4_addresses[n+6] }}
     server app8 {{ contents[1] }}:8003 source {{ ansible_all_ipv4_addresses[n+7] }}
     {% set count = 2 -%}
-    {% endif -%}
+    {% endif %}
     {% endfor %}
-     {% endif -%}
+    {% endif %}
 
 backend www
     http-response set-header Access-Control-Allow-Credentials true
