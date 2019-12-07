@@ -11,6 +11,10 @@
     contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
 
   tasks:
+    - name: Remove existing ips not necessary in network interfaces
+      sudo: yes
+      command: sed -i.bak -e '14,32d' /etc/network/interfaces
+
     - name: Reboot server
       sudo: yes
       reboot:
@@ -39,10 +43,6 @@
         mode: u+x
         force: yes
       run_once: true
-
-    - name: Remove existing ips not necessary in network interfaces
-      sudo: yes
-      command: sed -i.bak -e '14,32d' /etc/network/interfaces
 
     - name: Writing configuration of ens3 to network interfaces
       sudo: yes
