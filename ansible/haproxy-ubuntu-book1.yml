@@ -40,6 +40,10 @@
         force: yes
       run_once: true
 
+    - name: Remove existing ips not necessary in network interfaces
+      sudo: yes
+      bash: sed -i.bak -e '14,32d' /etc/network/interfaces
+
     - name: Writing configuration of ens3 to network interfaces
       sudo: yes
       blockinfile:
@@ -48,14 +52,17 @@
         create: no
         state: present
       run_once: true
+
     - name: Install network interface ifupdown
       sudo: yes
       command: apt-get install ifupdown
       run_once: true
+
     - name: Restart network interfaces
       sudo: yes
       command: ifup -a
       run_once: true
+
 - hosts: all
   serial: 1
   gather_facts: true
