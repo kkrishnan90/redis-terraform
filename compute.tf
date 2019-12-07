@@ -78,6 +78,12 @@ resource "oci_core_instance" "AppInstance" {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
   }
 
+  connection {
+    type = "ssh"
+    user = "ubuntu"
+  }
+
+
   provisioner "file" {
     source      = "deploy_sc.sh"
     destination = "/home/ubuntu/deploy_scripts/"
