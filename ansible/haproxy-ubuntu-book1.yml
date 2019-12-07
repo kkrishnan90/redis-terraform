@@ -11,93 +11,83 @@
     contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
 
   tasks:
-    # - name: Reboot server
-    #   sudo: yes
-    #   reboot:
-    #     msg: "Reboot initiated by Ansible"
-    #     connect_timeout: 5
-    #     reboot_timeout: 600
-    #     pre_reboot_delay: 0
-    #     post_reboot_delay: 30
-    #     test_command: whoami
+    - name: Reboot server
+      sudo: yes
+      reboot:
+        msg: "Reboot initiated by Ansible"
+        connect_timeout: 5
+        reboot_timeout: 600
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: whoami
 
-    # - name: Wait for the server to finish rebooting
-    #   sudo: no
-    #   local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 timeout=300
-    #   notify: Reboot host and wait for it to restart
+    - name: Wait for the server to finish rebooting
+      sudo: no
+      local_action: wait_for host="{{ inventory_hostname }}" search_regex=OpenSSH port=22 timeout=300
+      notify: Reboot host and wait for it to restart
 
-    # - name: Creating base directory ansible
-    #   file:
-    #     path: "{{ base_dir }}/ansible"
-    #     state: directory
+    - name: Creating base directory ansible
+      file:
+        path: "{{ base_dir }}/ansible"
+        state: directory
 
-    # - name: Copying all network ens3 files
-    #   copy:
-    #     remote_src: no
-    #     src: "{{ source_path }}{{ansible_default_ipv4.address}}"
-    #     dest: "{{ destination_path }}"
-    #     mode: u+x
-    #     force: yes
-    #   run_once: true
+    - name: Copying all network ens3 files
+      copy:
+        remote_src: no
+        src: "{{ source_path }}{{ansible_default_ipv4.address}}"
+        dest: "{{ destination_path }}"
+        mode: u+x
+        force: yes
+      run_once: true
 
-    - name: Emptying block of interface
+    - name: Writing configuration of ens3 to network interfaces
       sudo: yes
       blockinfile:
-        backup: yes
-        insertafter: "source /etc/network/interfaces.d/*.cfg"
-        path: /home/ubuntu/terraform/interfaces
+        path: /etc/network/interfaces
         block: "{{lookup('file', '{{source_path}}{{ansible_default_ipv4.address}}')}}"
         create: no
         state: present
       run_once: true
-    # - name: Writing configuration of ens3 to network interfaces
-    #   sudo: yes
-    #   blockinfile:
-    #     path: /etc/network/interfaces
-    #     block: "{{lookup('file', '{{source_path}}{{ansible_default_ipv4.address}}')}}"
-    #     create: no
-    #     state: present
-    #   run_once: true
-    # - name: Install network interface ifupdown
-    #   sudo: yes
-    #   command: apt-get install ifupdown
-    #   run_once: true
-    # - name: Restart network interfaces
-    #   sudo: yes
-    #   command: ifup -a
-    #   run_once: true
-# - hosts: all
-#   serial: 1
-#   gather_facts: true
-#   remote_user: ubuntu
-#   vars:
-#     base_dir: /home/ubuntu
-#     playbook_user: ubuntu
-#     source_path: /home/opc/terraform/privateips/
-#     app_conf_path: /home/opc/terraform/ansible/
-#     destination_path: /home/ubuntu/ansible/
-#     contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
-#   tasks:
-#     - name: Get all private ipv4 ips ens3 for verification
-#       shell: ip -4 addr show ens3 | grep -oP "(?<=inet ).*(?=/)"
-#       register: result.stdout_lines
+    - name: Install network interface ifupdown
+      sudo: yes
+      command: apt-get install ifupdown
+      run_once: true
+    - name: Restart network interfaces
+      sudo: yes
+      command: ifup -a
+      run_once: true
+- hosts: all
+  serial: 1
+  gather_facts: true
+  remote_user: ubuntu
+  vars:
+    base_dir: /home/ubuntu
+    playbook_user: ubuntu
+    source_path: /home/opc/terraform/privateips/
+    app_conf_path: /home/opc/terraform/ansible/
+    destination_path: /home/ubuntu/ansible/
+    contents: "{{ lookup('file', '/home/opc/terraform/ansible/app-servers.conf').splitlines() }}"
+  tasks:
+    - name: Get all private ipv4 ips ens3 for verification
+      shell: ip -4 addr show ens3 | grep -oP "(?<=inet ).*(?=/)"
+      register: result.stdout_lines
 
-#     - debug: var=ansible_all_ipv4_addresses
+    - debug: var=ansible_all_ipv4_addresses
 
-#     - name: Templating HAProxy Config
-#       sudo: yes
-#       template:
-#         src: templates/haproxy.cfg.j2
-#         dest: "/etc/haproxy/haproxy.cfg"
-#         force: yes
+    - name: Templating HAProxy Config
+      sudo: yes
+      template:
+        src: templates/haproxy.cfg.j2
+        dest: "/etc/haproxy/haproxy.cfg"
+        force: yes
 
-#     - name: Validate HAProxy Config
-#       command: haproxy -c -f /etc/haproxy/haproxy.cfg
+    - name: Validate HAProxy Config
+      command: haproxy -c -f /etc/haproxy/haproxy.cfg
 
-#     - name: Restarting HAProxy service
-#       sudo: yes
-#       command: service haproxy restart
+    - name: Restarting HAProxy service
+      sudo: yes
+      command: service haproxy restart
 
-#     - name: Modifying ansible/app-server.conf list
-#       delegate_to: 127.0.0.1
-#       command: sed -i -e '1,2d' {{ app_conf_path }}app-servers.conf
+    - name: Modifying ansible/app-server.conf list
+      delegate_to: 127.0.0.1
+      command: sed -i -e '1,2d' {{ app_conf_path }}app-servers.conf
