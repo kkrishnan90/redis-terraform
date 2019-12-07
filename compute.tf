@@ -42,8 +42,8 @@ resource "oci_core_private_ip" "private_ip" {
   count          = "${var.hap_ip_count * var.hap_instance_count}"
   depends_on     = ["oci_core_instance.HAPInstance"]
   vnic_id        = "${lookup(element(data.oci_core_vnic.instance_vnic, count.index % var.hap_instance_count), "vnic_id")}"
-  display_name   = "someDisplayName${count.index}"
-  hostname_label = "somehostnamelabel${count.index}"
+  display_name   = "private-ip-display-name-${count.index}"
+  hostname_label = "priv-ip-host-name${count.index}"
 
   //Add newly created ips of each HAProxy machine create ansible
   provisioner "local-exec" {
