@@ -17,7 +17,7 @@ resource "oci_core_instance" "HAPInstance" {
 
   metadata = {
     ssh_authorized_keys = "${file(var.ssh_public_key_path)}"
-    # user_data           = "${base64encode(file("./bootscript.sh"))}"
+    user_data           = "${base64encode(file("./bootscript.sh"))}"
   }
   timeouts {
     create = "60m"
@@ -87,6 +87,9 @@ resource "null_resource" "write-app-instance-ips" {
   count = "${var.app_instance_count}"
   provisioner "local-exec" {
     command = "echo ${oci_core_instance.AppInstance.*.private_ip[count.index]}>>ansible/app-servers.conf"
+  }
+  provisioner "local-exec" {
+    command = "echo ${oci_core_instance.AppInstance.*.private_ip[count.index]}>>ansible/app-hosts.yml"
   }
 }
 

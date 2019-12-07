@@ -1,0 +1,23 @@
+- hosts: all
+  serial: 1
+  gather_facts: yes
+  remote_user: ubuntu
+  vars:
+    base_dir: /home/ubuntu
+    playbook_user: ubuntu
+    source_path: /home/opc/terraform/ansible
+    destination_path: /home/ubuntu/deploy_scripts/
+
+  tasks:
+    - name: Copying deploy scripts
+      copy:
+        remote_src: no
+        src: "{{ source_path }}/deploy_sc.sh"
+        dest: "{{ destination_path }}"
+        mode: u+x
+        force: yes
+      run_once: true
+
+    - name: start deploy script
+      command: bash /home/ubuntu/deploy_scripts/deploy_sc.sh
+      run_once: true
