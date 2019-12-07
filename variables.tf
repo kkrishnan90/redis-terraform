@@ -56,6 +56,15 @@ variable "load_balancer_subnet_ocid" {}
 
 variable "tenancy_name" {}
 
+variable "lb_ca_certificate_path" {}
+
+variable "lb_private_key_path" {}
+
+variable "lb_public_key_path" {}
+
+
+
+
 
 
 
