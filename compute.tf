@@ -89,7 +89,7 @@ resource "null_resource" "write-app-instance-ips" {
     command = "echo ${oci_core_instance.AppInstance.*.private_ip[count.index]}>>ansible/app-servers.conf"
   }
   provisioner "local-exec" {
-    command = "echo -n ${oci_core_instance.AppInstance.*.private_ip[count.index]}, >>ansible/app-hosts.yml"
+    command = "echo -n ${oci_core_instance.AppInstance.*.private_ip[count.index]},>>ansible/app-hosts.yml"
   }
 }
 
