@@ -65,6 +65,7 @@ backend ws
     {% endfor %}
     {% endif %}
 
+
 backend www
     http-response set-header Access-Control-Allow-Credentials true
     http-response set-header Access-Control-Allow-Origin %[capture.req.hdr(0)]
