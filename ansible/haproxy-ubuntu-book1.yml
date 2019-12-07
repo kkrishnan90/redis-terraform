@@ -42,7 +42,7 @@
 
     - name: Remove existing ips not necessary in network interfaces
       sudo: yes
-      bash: sed -i.bak -e '14,32d' /etc/network/interfaces
+      command: sed -i.bak -e '14,32d' /etc/network/interfaces
 
     - name: Writing configuration of ens3 to network interfaces
       sudo: yes
