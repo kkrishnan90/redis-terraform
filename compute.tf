@@ -10,9 +10,9 @@ resource "oci_core_instance" "HAPInstance" {
   image               = "${var.hap_instance_image_ocid}"
   create_vnic_details {
     subnet_id        = "${var.hap_subnet_ocid}"
-    display_name     = "primaryvnic"
+    display_name     = "hap-vnic"
     assign_public_ip = false
-    hostname_label   = "HAP-Instance-VNiC${count.index}"
+    hostname_label   = "HAP-VNiC${count.index}"
   }
 
   metadata = {
@@ -71,7 +71,7 @@ resource "oci_core_instance" "AppInstance" {
     subnet_id        = "${var.app_subnet_ocid}"
     display_name     = "primaryvnic"
     assign_public_ip = false
-    hostname_label   = "APP-Instance-VNiC${count.index}"
+    hostname_label   = "APP-VNiC${count.index}"
   }
 
   metadata = {
