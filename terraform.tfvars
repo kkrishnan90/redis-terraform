@@ -16,7 +16,7 @@ api_private_key_path = "~/.oci/oci_api_key.pem"        //private key for oci cli
 
 
 # ---- HAP related configuration
-haproxy_instance_name   = "HAP-Instance-"                                                                             //HAProxy instance name to be displayed on oci console
+haproxy_instance_name   = "wc-hap-instance-"                                                                             //HAProxy instance name to be displayed on oci console
 hap_instance_count      = "1"                                                                                         // Number of HAProxy instances to create
 hap_instance_shape      = "VM.Standard2.2"                                                                            // Compute shape to use for HAProxy instance
 hap_ip_count            = "10"                                                                                        // Number of private IPs to add in the primary vnic of each HAProxy server
@@ -24,14 +24,14 @@ hap_instance_image_ocid = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaaqxnqfn3szq3s6jwlf
 hap_subnet_ocid         = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaacooozdzbulbm5jrqd2aoosz5xzw6llbkollh74lmwntj5qzsuo3a" // Subnet ocid to which the HAProxy machines should be provisioned - should be private subnet
 
 # ---- APP related configuration
-app_instance_name       = "App-Instance-"                                                                             //App instance name to be displayed on oci console
+app_instance_name       = "wc-app-instance-"                                                                             //App instance name to be displayed on oci console
 app_instance_count      = "2"                                                                                         // Number of app servers to be created
 app_instance_shape      = "VM.Standard2.2"                                                                            // Compute shape to use for app server
 app_instance_image_ocid = "ocid1.image.oc1.ap-mumbai-1.aaaaaaaa4mchel6qq2ns6lojaalq2xe3myqiugahxep654sffdkorwxbb6pq"  // Image ocid to use: you can use your app image ocid which you have already as custom image
 app_subnet_ocid         = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaasuyjrbuxdl2lkswb452ig5hzzvn6ze553irusspxkihhj7wkhxla" // Subnet ocid to which App server to be provisioned - should be private subnet
 
 # ---- Load Balancer related configuration
-load_balancer_name        = "Load-Balancer-"                                                                            // Name of the load balancer to be displayed on oci console
+load_balancer_name        = "wc-loadbalancer-"                                                                            // Name of the load balancer to be displayed on oci console
 load_balancer_count       = "1"                                                                                         // Number of load balancers required
 load_balancer_shape       = "400Mbps"                                                                                   // Shape of load balancer required - Ex. 100Mbps, 400 Mbps
 load_balancer_subnet_ocid = "ocid1.subnet.oc1.ap-mumbai-1.aaaaaaaasukismnxyb2adihacdso5kvtjbiczqnali2ni5mbcrdfsfoju57q" // Subnet ocid to which load balancer to be provisioned - should be public subnet
