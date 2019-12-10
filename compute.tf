@@ -139,7 +139,7 @@ resource "oci_load_balancer_backend_set" "lb-http-backendset" {
     port                = "80"
     protocol            = "HTTP"
     response_body_regex = ".*"
-    url_path            = "/"
+    url_path            = "/api/sync_time"
   }
 }
 
@@ -156,7 +156,7 @@ resource "oci_load_balancer_backend_set" "lb-ws-backendset" {
     port                = "80"
     protocol            = "HTTP"
     response_body_regex = ".*"
-    url_path            = "/"
+    url_path            = "/api/sync_time"
   }
 }
 

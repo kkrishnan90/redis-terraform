@@ -17,7 +17,6 @@
         mode: u+x
         force: yes
       run_once: true
-
-    - name: start deploy script
-      command: bash /home/ubuntu/deploy_scripts/deploy_sc.sh
-      run_once: true
+    # - name: start deploy script
+    #   command: bash /home/ubuntu/deploy_scripts/deploy_sc.sh
+    #   run_once: true
