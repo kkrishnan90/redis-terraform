@@ -117,10 +117,6 @@ resource "oci_load_balancer_certificate" "lb-certificate" {
   certificate_name   = "certificate1"
   private_key        = "${file(var.lb_private_key_path)}"
   public_certificate = "${file(var.lb_public_key_path)}"
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 
@@ -134,12 +130,16 @@ resource "oci_load_balancer_backend_set" "lb-http-backendset" {
 
   health_checker {
     retries             = "3"
-    timeout_in_millis   = "3000"
-    interval_ms         = "10000"
+    timeout_in_millis   = "10000"
+    interval_ms         = "6000"
     port                = "80"
     protocol            = "HTTP"
     response_body_regex = ".*"
     url_path            = "/api/sync_time"
+  }
+
+  ssl_configuration {
+    certificate_name = "${oci_load_balancer_certificate.lb-certificate.certificate_name}"
   }
 }
 
@@ -151,12 +151,16 @@ resource "oci_load_balancer_backend_set" "lb-ws-backendset" {
 
   health_checker {
     retries             = "3"
-    timeout_in_millis   = "3000"
-    interval_ms         = "10000"
+    timeout_in_millis   = "10000"
+    interval_ms         = "6000"
     port                = "80"
     protocol            = "HTTP"
     response_body_regex = ".*"
     url_path            = "/api/sync_time"
+  }
+
+  ssl_configuration {
+    certificate_name = "${oci_load_balancer_certificate.lb-certificate.certificate_name}"
   }
 }
 
